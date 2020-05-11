@@ -51,8 +51,17 @@ CREATE TABLE `customer` (
   `customer_id` int(11) NOT NULL AUTO_INCREMENT,
   `username` char(30) COLLATE utf8_unicode_ci NOT NULL,
   `hashed_password` char(70) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`customer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `identity_number` char(10) COLLATE utf8_unicode_ci NOT NULL,
+  `phone_number` char(10) COLLATE utf8_unicode_ci NOT NULL,
+  `firstname` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `lastname` char(50) COLLATE utf8_unicode_ci NOT NULL,
+  `date_of_birth` date NOT NULL,
+  `email_address` text COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`customer_id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `identity_number` (`identity_number`),
+  UNIQUE KEY `phone_number` (`phone_number`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -61,36 +70,8 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
+INSERT INTO `customer` VALUES (1,'demo','$2a$08$CrGj7fhUT5zcNWpYAgFbUO.31J/qSqafF8FF2/cwbG7feuW8m0faq','025895863','0704468256','LINH','NGUYEN VAN','1998-11-12','linh1612340@gmail.com');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `customer_info`
---
-
-DROP TABLE IF EXISTS `customer_info`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `customer_info` (
-  `customer_id` int(11) NOT NULL,
-  `firstname` char(20) COLLATE utf8_unicode_ci NOT NULL,
-  `lastname` char(50) COLLATE utf8_unicode_ci NOT NULL,
-  `date_of_birth` date NOT NULL,
-  `identity_number` char(10) COLLATE utf8_unicode_ci NOT NULL,
-  `phone_number` char(10) COLLATE utf8_unicode_ci NOT NULL,
-  `email_address` text COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`customer_id`),
-  CONSTRAINT `fk_customerinfo_customer` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `customer_info`
---
-
-LOCK TABLES `customer_info` WRITE;
-/*!40000 ALTER TABLE `customer_info` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -178,4 +159,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-11  2:48:29
+-- Dump completed on 2020-05-11  9:30:19
