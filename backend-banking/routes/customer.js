@@ -5,7 +5,7 @@ const randomString = require('randomstring');
 
 const router = express.Router();
 
-/* GET users listing. */
+/* POST add customer */
 router.post('/add', async (req, res, next) => {
   let result;
   try {
