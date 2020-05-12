@@ -5,7 +5,6 @@ const router = express.Router();
 
 /* POST request add partner_api to db */
 router.post('/add', async (req, res) => {
-  console.log('sadad')
   let result;
   try {
     result = await partnerModel.add(req.body);
