@@ -23,4 +23,5 @@ module.exports = {
   },
 
   searchByUserName: userName => db.load(`select * from customer where username = '${userName}'`),
+  searchByCustomerId: customerId => db.load(`select * from customer where customer_id = '${customerId}'`)
 };
