@@ -8,6 +8,8 @@ const customerRouter = require('./routes/customer');
 const partnerRouter = require('./routes/partner');
 const apiPublic = require('./routes/api-public');
 
+const verifySecretMiddleware = require('./middlewares/verify-secret');
+
 const app = express();
 
 // view engine setup
@@ -21,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/customer', customerRouter);
 app.use('/api/partner', partnerRouter);
-app.use('/api/public', apiPublic);
+app.use('/api/public', verifySecretMiddleware, apiPublic);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
