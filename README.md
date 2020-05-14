@@ -1,14 +1,71 @@
 # Internet Banking
+## Thuật toán
+- encode sử dụng **base64** cho chuỗi hash và signature
+- Signature sử dụng **rsa-sha256**, ví dụ chương trình tạo signature và verify bằng nodejs
+```js
+const crypto = require('crypto');
+const fs = require('fs');
+
+function RSASign(privateKey, data) {
+  const sign = crypto.createSign('RSA-SHA256')
+  const signature = sign.update(data).sign(privateKey, 'base64');
+  console.log(signature);
+  return signature;
+}
+
+function RSAVerify(publicKey, signature, data) {
+  const verify = crypto.createVerify('RSA-SHA256');
+  verify.update(data);
+  console.log(verify.verify(publicKey, signature, 'base64'));
+}
+
+const privateKey = fs.readFileSync('linh.private.key');
+const publicKey = fs.readFileSync('linh.public.key');
+
+var dataToSign = '1589375966kQYtFpj7pJfi5VVfoeGD{"credit_number":"565572661049","action":"query"}';
+var signature = RSASign(privateKey, dataToSign);
+RSAVerify(publicKey, signature, dataToSign);
+```
+
+```html
+OUTPUT
+VHK0y+eStXu6w2IgbmusOYxbRN27SzH6r1erVLaf7dr4PkBGgGPYGDkQ5PvAXaE+YhqiDhqz/eww8dJWwnZz3/Dn/j39kZs9CAUD0SwZ8Mv30Le5BgXGF/t8cK5LvesbxaU8bVjMpKGanqNgYKULXOdKx9etcXzM+0dVRxUnltg=
+truee
+```
+- Hash algo (cho **secret_text**) sử dụng **sha256**, ví dụ chương trình tạo chuỗi hash bằng nodejs
+```js
+const crypto = require('crypto');
+
+const dataToHash = '1589375966kQYtFpj7pJfi5VVfoeGD{"credit_number":"565572661049","action":"query"}';
+let hashString = crypto.createHash('sha256').update(dataToHash).digest('base64');
+console.log(hashString);
+```
+```html
+OUTPUT
+JZW8OACrtoaW6JQSqAEWLEcHpKgSlnOfZYtGhVg2giw=
+```
+
+- Ví dụ cách encode and decode base64 bằng nodejs
+```js
+console.log(Buffer.from("Hello World").toString('base64'));
+console.log(Buffer.from("SGVsbG8gV29ybGQ=", 'base64').toString('ascii'))
+```
+```html
+OUTPUT
+SGVsbG8gV29ybGQ=
+Hello World
+```
+
 ## Cách sử dụng api
 ### Api GET
 #### GET thông tin số dư tài khoản bằng số tài khoản tín dụng
 ```json
-GET /api/public/get-account-balance
+GET /api/public/customer/get-account-balance
 
 HEADER
-"timestamp": 1589368255
-"authen-hash": "f2984b222db03d291bf44a930157941e5864e1892d15e72478acc574e8301aa5"
 "partner-code": "linh"
+"timestamp": 1589368255
+"authen-hash": "8phLIi2wPSkb9EqTAVeUHlhk4YktFeckeKzFdOgwGqU="
 
 BODY
 {
@@ -16,9 +73,47 @@ BODY
     "action": "query"
 }
 ```
-- timestamp sử dụng unix utc second, có thể  xem ở https://www.epochconverter.com/, lưu ý timestamp **lớn hơn** hoặc nhỏ hơn quá **60**s so với thời gian thực
+- timestamp sử dụng unix utc second, có thể  xem ở https://www.epochconverter.com/, lưu ý timestamp không được **lớn hơn** hoặc nhỏ hơn quá **60**s so với thời gian thực
 - partner-code là chuỗi code để xác định partner nào đã đăng kí api
-- authen-hash là chuỗi hash sha256 của **timestamp+secret+body**, ví dụ nếu chuỗi secret là kQYtFpj7pJfi5VVfoeGD thì hash256("1589368255kQYtFpj7pJfi5VVfoeGD{"credit_number":"565572661049","action":"query"}")
+- authen-hash là chuỗi hash sha256 của **timestamp+secret+body**,sau đó được encode base64 lại và gửi đi, ví dụ ở trên
+- Không yêu cầu **authen-sig**
+
+#### POST thay đổi số dư tài khoản
+- authen-sig là chuỗi signature được tạo bởi thuật toán **RSA-SHA256** của chuỗi **timestamp+secret+body**, xem ví dụ ở trên
+- Deposit
+```js
+GET /api/public/customer/deposit
+
+HEADER
+"partner-code": "linh"
+"timestamp": 1589368255
+"authen-hash": "InTLIODx1Iee5MvZGaOlxbYEJ0Ke0yD40cv52iNNLC4="
+"authen-sig": "Wcp96NHVFGbkv15qwQ3Qum62huzcavIqdx70Tk41wY001Z4plxN7DylF4K8atZ+GQ1bASw1hGvHF4aMSnKd1rgVcqFypRrrX94yfrk/MExTN1Wg26Tl+9+Ald+8ptF52uVcWhkG6KFBkXG5aST8ZWWpDt4/CtfVcOkjew6gBlLs="
+
+BODY
+{
+    "credit_number": "565572661049",
+    "action": "deposit",
+    "amount": 200000
+}
+```
+- Witchdraw
+```js
+GET /api/public/customer/deposit
+
+HEADER
+"partner-code": "linh"
+"timestamp": 1589368255
+"authen-hash": "/uofr5Awgf2mXwfZZ24wyqEid1KrK3Z0Pu5h3eLPnKo="
+"authen-sig": "RQkDNwy8pjOd2wpzrp7Uk0OLt5psHDVRhdIYfx7ydOGiqE02dwIwLgPafvnZkcOirB3M2NiuXJmPD7y53EmbppctqHJf/ZGb6sw9s/G1DxgTB5qWEaZRaZQxY/8uizi2HoVYDbEUysf8uwQXj5bE9WVbuURsvDVqIRQx5xa0Exs="
+
+BODY
+{
+    "credit_number": "565572661049",
+    "action": "withdraw",
+    "amount": 100000
+}
+```
 
 ### Api POST
 #### POST thêm mới customer
@@ -49,7 +144,7 @@ BODY
 ```
 - Hệ thống sẽ tự động tạo 1 secret_text trả về
 
-## Thông tin mặc định được khởi tạo cùng với project, dùng để test api
+## Một số thông tin mặc định được khởi tạo cùng với project, dùng để test api
 - Thông tin khách hàng linh
 ```json
 {
@@ -135,3 +230,10 @@ taErsgyHhVrCqOKcuwJAWyuluw+LXjvwY/sFgPXLqCPMfEP4kBXhqM/+hHK7ZerR
 aLvYFAwzssSuUGlksRon0xjQ7M9P2+Bld3gcV6hUyg==
 -----END RSA PRIVATE KEY-----
 ```
+
+## Trang web hữu ích
+- Tạo signature https://8gwifi.org/rsasignverifyfunctions.jsp
+- utc timestamp https://www.epochconverter.com/
+- Hex to base64 https://base64.guru/converter/encode/hex
+- Beautify và minify json https://codebeautify.org/jsonviewer
+- Hash, encode decode https://emn178.github.io/online-tools/sha256.html

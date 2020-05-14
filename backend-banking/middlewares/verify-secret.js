@@ -19,12 +19,17 @@ const verifySecret = async (req, res, next) => {
   }
 
   let text = reqts + partner_info[0]["secret_text"] + JSON.stringify(req.body);
-  let hash = crypto.createHash("sha256").update(text).digest("hex");
+  let hash = crypto.createHash("sha256").update(text).digest("base64");
 
   if (hash !== authenHash) {  // check hash same or not
     res.status(400).json({ "err": "invalid request" })
     return;
   }
+
+  // pass this below info for next verify signature
+  req.headers["dataToSign"] = text; 
+  req.headers["partnerPubkeyBase64"] = partner_info[0]["public_key"];
+
   next()
 }
 
