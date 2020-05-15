@@ -11,17 +11,12 @@ services:
       MYSQL_ROOT_PASSWORD: "cantexitvim"
   nodejs:
     container_name: "nodejs"
-    build:
-      context: "./"
-      dockerfile: "./nodejs/Dockerfile"
+    build: "./nodejs"
     environment:
       - PORT=80
     ports:
       - "80:80"
       - "443:443"
-    volumes:
-      - "./backend-banking:/usr/src/backend-banking"
-      - "/usr/src/backend-banking/node_modules"
     working_dir: "/usr/src/backend-banking"
     depends_on:
       - "mariadb"
