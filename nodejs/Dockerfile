@@ -1,6 +1,5 @@
 FROM node:12-buster-slim
+COPY ./backend-banking /usr/src/backend-banking
 WORKDIR /usr/src/backend-banking
-COPY ./backend-banking/package*.json ./
 RUN npm install
-RUN npm install -g nodemon
-CMD ["nodemon", "start"]
+CMD ["npm", "start"]
