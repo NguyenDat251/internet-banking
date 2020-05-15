@@ -1,5 +1,6 @@
 const express = require('express');
 const creditAccount = require('../models/credit_account.model');
+const verifySignatureMiddleware = require('../middlewares/verify-signature');
 
 const router = express.Router();
 
@@ -15,6 +16,11 @@ router.get('/get-account-balance', async (req, res) => {
     console.log(error)
   }
   res.status(200).json(accountInfo[0]);
+})
+
+/* POST request change account balance */
+router.post('/customer/deposit', verifySignatureMiddleware, async (req, res) => {
+  res.status(200).json({ "ok": "ok" });
 })
 
 module.exports = router;
