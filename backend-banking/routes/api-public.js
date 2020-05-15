@@ -5,7 +5,7 @@ const verifySignatureMiddleware = require('../middlewares/verify-signature');
 const router = express.Router();
 
 /* GET request query account info using credit account number */
-router.get('/get-account-balance', async (req, res) => {
+router.get('/customer/get-account-balance', async (req, res) => {
   try {
     var accountInfo = await creditAccount.searchByAccountNumber(req.body["credit_number"]);
   if (accountInfo.length === 0) { // cant not find account
