@@ -6,11 +6,11 @@ const verifySecret = async (req, res, next) => {
   const partnerCode = req.headers["partner-code"];
   const authenHash = req.headers["authen-hash"];
 
-  let current = Math.floor(Date.now() / 1000)
-  if (current < reqts || current - reqts > 60) {  // req timestamp out of time > 1 minute
-    res.status(400).json({ "err": "request out of time" })
-    return;
-  }
+  // let current = Math.floor(Date.now() / 1000)
+  // if (current < reqts || current - reqts > 60) {  // req timestamp out of time > 1 minute
+  //   res.status(400).json({ "err": "request out of time" })
+  //   return;
+  // }
 
   const partner_info = await partnerModel.searchByPartnerCode(partnerCode);
   if (partner_info.length === 0) { // partner code not found
