@@ -237,3 +237,4 @@ aLvYFAwzssSuUGlksRon0xjQ7M9P2+Bld3gcV6hUyg==
 - Hex to base64 https://base64.guru/converter/encode/hex
 - Beautify và minify json https://codebeautify.org/jsonviewer
 - Hash, encode decode https://emn178.github.io/online-tools/sha256.html
+- Hash online https://quickhash.com/ 

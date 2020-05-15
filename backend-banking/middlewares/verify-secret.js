@@ -19,9 +19,9 @@ const verifySecret = async (req, res, next) => {
   }
 
   let text = reqts + partner_info[0]["secret_text"] + JSON.stringify(req.body);
-  let hash = crypto.createHash("sha256").update(text).digest("base64");
+  let hashBase64 = crypto.createHash("sha256").update(text).digest('base64');
 
-  if (hash !== authenHash) {  // check hash same or not
+  if (hashBase64 !== authenHash) {  // check hash same or not
     res.status(400).json({ "err": "invalid request" })
     return;
   }
