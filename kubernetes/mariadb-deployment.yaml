@@ -13,7 +13,8 @@ spec:
   selector:
     matchLabels:
       io.kompose.service: mariadb
-  strategy: {}
+  strategy:
+    type: Recreate
   template:
     metadata:
       annotations:
@@ -35,7 +36,13 @@ spec:
         ports:
         - containerPort: 3306
         resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: dbdata
       restartPolicy: Always
       serviceAccountName: ""
-      volumes: null
+      volumes:
+      - name: dbdata
+        persistentVolumeClaim:
+          claimName: dbdata
 status: {}
