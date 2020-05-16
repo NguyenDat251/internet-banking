@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: nodejs
+  name: nodejs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: nodejs
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: nodejs
+    spec:
+      containers:
+      - env:
+        - name: PORT
+          value: "80"
+        image: khuedoan/node-kubernetes
+        imagePullPolicy: ""
+        name: nodejs
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        resources: {}
+        workingDir: /usr/src/backend-banking
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}
