@@ -1,24 +1,26 @@
 const express = require('express');
-const partnerModel = require('../models/partner.model');
+const creditAccount = require('../models/credit_account.model');
+const verifySignatureMiddleware = require('../middlewares/verify-signature');
 
 const router = express.Router();
 
-/* POST request add partner_api to db */
-router.post('/add', async (req, res) => {
-  let result;
+/* GET request query account info using credit account number */
+router.get('/get-account-info', async (req, res) => {
   try {
-    result = await partnerModel.add(req.body);
-  } catch (err) {
-    console.log(err);
-    res.status(422).json({ "err": err.sqlMessage });
+    var accountInfo = await creditAccount.searchByAccountNumber(req.body["credit_number"]);
+  if (accountInfo.length === 0) { // cant not find account
+    res.status(204).json(); // return no content json
     return;
   }
-
-  const ret = {
-    partner_id: result["insertId"],
-    ...req.body
+  } catch (error) {
+    console.log(error)
   }
-  res.status(201).json(ret);
+  res.status(200).json(accountInfo[0]);
+})
+
+/* POST request change account balance */
+router.post('/deposit', verifySignatureMiddleware, async (req, res) => {
+  res.status(200).json({ "ok": "ok" });
 })
 
 module.exports = router;
