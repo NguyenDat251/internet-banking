@@ -1,7 +1,10 @@
 # Internet Banking
+
 ## Thuật toán
+
 - encode sử dụng **base64** cho chuỗi hash và signature
 - Signature sử dụng **rsa-sha256**, ví dụ chương trình tạo signature và verify bằng nodejs
+
 ```js
 const crypto = require('crypto');
 const fs = require('fs');
@@ -32,7 +35,9 @@ OUTPUT
 VHK0y+eStXu6w2IgbmusOYxbRN27SzH6r1erVLaf7dr4PkBGgGPYGDkQ5PvAXaE+YhqiDhqz/eww8dJWwnZz3/Dn/j39kZs9CAUD0SwZ8Mv30Le5BgXGF/t8cK5LvesbxaU8bVjMpKGanqNgYKULXOdKx9etcXzM+0dVRxUnltg=
 truee
 ```
+
 - Hash algo (cho **secret_text**) sử dụng **sha256**, ví dụ chương trình tạo chuỗi hash bằng nodejs
+
 ```js
 const crypto = require('crypto');
 
@@ -40,16 +45,19 @@ const dataToHash = '1589375966kQYtFpj7pJfi5VVfoeGD{"credit_number":"565572661049
 let hashString = crypto.createHash('sha256').update(dataToHash).digest('base64');
 console.log(hashString);
 ```
+
 ```html
 OUTPUT
 JZW8OACrtoaW6JQSqAEWLEcHpKgSlnOfZYtGhVg2giw=
 ```
 
 - Ví dụ cách encode and decode base64 bằng nodejs
+
 ```js
 console.log(Buffer.from("Hello World").toString('base64'));
 console.log(Buffer.from("SGVsbG8gV29ybGQ=", 'base64').toString('ascii'))
 ```
+
 ```html
 OUTPUT
 SGVsbG8gV29ybGQ=
@@ -57,8 +65,11 @@ Hello World
 ```
 
 ## Cách sử dụng api
+
 ### Api GET
+
 #### GET thông tin số dư tài khoản bằng số tài khoản tín dụng
+
 ```json
 GET /api/public/customer/get-account-balance
 
@@ -73,14 +84,17 @@ BODY
     "action": "query"
 }
 ```
+
 - timestamp sử dụng unix utc second, có thể  xem ở https://www.epochconverter.com/, lưu ý timestamp không được **lớn hơn** hoặc nhỏ hơn quá **60**s so với thời gian thực
 - partner-code là chuỗi code để xác định partner nào đã đăng kí api
 - authen-hash là chuỗi hash sha256 của **timestamp+secret+body**,sau đó được encode base64 lại và gửi đi, ví dụ ở trên
 - Không yêu cầu **authen-sig**
 
 #### POST thay đổi số dư tài khoản
+
 - authen-sig là chuỗi signature được tạo bởi thuật toán **RSA-SHA256** của chuỗi **timestamp+secret+body**, xem ví dụ ở trên
 - Deposit
+
 ```js
 GET /api/public/customer/deposit
 
@@ -97,7 +111,9 @@ BODY
     "amount": 200000
 }
 ```
+
 - Witchdraw
+
 ```js
 GET /api/public/customer/deposit
 
@@ -116,7 +132,9 @@ BODY
 ```
 
 ### Api POST
+
 #### POST thêm mới customer
+
 ```json
 POST /api/customer/add
 
@@ -132,7 +150,9 @@ BODY
     "email_address": "linh1612340@gmail.com"
 }
 ```
+
 #### POST thêm mới partner
+
 ```json
 POST /api/partner/add
 
@@ -142,10 +162,13 @@ BODY
     "public_key": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FDSmxRWi9tMStpTGZLL2xwWURtaWNsZTZ2MApsbExXdGRZaFNrSDZidWlPck5iYVhWSC8vWmNHOVRwT0xVMXZMK1BrdnByQ1ovTjFTdHF6MHhOcnpjZFQwekZJCnhRU3IzMWZCMXF6RDIrVDRuakJjR1JPU3R2MHV4aGFhcm1XVkp3akxpYTBybEw3Z3JSTDBheHc0ckVTTTluc04KYmU4WG5KR1ZLdEZ5OU1YSEJ3SURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQ=="
 }
 ```
+
 - Hệ thống sẽ tự động tạo 1 secret_text trả về
 
 ## Một số thông tin mặc định được khởi tạo cùng với project, dùng để test api
+
 - Thông tin khách hàng linh
+
 ```json
 {
     "customer_id": 1,
@@ -159,7 +182,9 @@ BODY
     "email_address": "linh1612340@gmail.com"
 }
 ```
+
 - credit account gắn liền với khách hàng
+
 ```json
 {
     "customer_id": 1,
@@ -167,7 +192,9 @@ BODY
     "balance": 100000
 }
 ```
+
 - Thông tin partner linh mặc định, public key ở dạng **base64**
+
 ```json
 {
     "partner_id": 1,
@@ -176,7 +203,9 @@ BODY
     "secret_text": "kQYtFpj7pJfi5VVfoeGD"
 }
 ```
+
 - partner linh public key
+
 ```
 -----BEGIN PUBLIC KEY-----
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCJlQZ/m1+iLfK/lpYDmicle6v0
@@ -185,7 +214,9 @@ xQSr31fB1qzD2+T4njBcGROStv0uxhaarmWVJwjLia0rlL7grRL0axw4rESM9nsN
 be8XnJGVKtFy9MXHBwIDAQAB
 -----END PUBLIC KEY-----
 ```
+
 - partner linh secret key
+
 ```
 -----BEGIN RSA PRIVATE KEY-----
 MIICWwIBAAKBgGFkPDYzYPPrWGryFdZXEXtjRFlBycKW/cAdiBLUCcNQMYgyB3Kc
@@ -203,7 +234,9 @@ qKcIgalOcSUcAbawsbx7ow3GPWp3VM9g0zqeQBN/wlgce2hEdGPMqwRjxvRykcW+
 gP78h6zdxHh1xq/oLavoZue7xpP6nFMQmRrqPek8+A==
 -----END RSA PRIVATE KEY-----
 ```
+
 - bank public key
+
 ```
 -----BEGIN PUBLIC KEY-----
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCJlQZ/m1+iLfK/lpYDmicle6v0
@@ -212,7 +245,9 @@ xQSr31fB1qzD2+T4njBcGROStv0uxhaarmWVJwjLia0rlL7grRL0axw4rESM9nsN
 be8XnJGVKtFy9MXHBwIDAQAB
 -----END PUBLIC KEY-----
 ```
+
 - bank secret key
+
 ```
 -----BEGIN RSA PRIVATE KEY-----
 MIICWwIBAAKBgQCJlQZ/m1+iLfK/lpYDmicle6v0llLWtdYhSkH6buiOrNbaXVH/
@@ -231,7 +266,56 @@ aLvYFAwzssSuUGlksRon0xjQ7M9P2+Bld3gcV6hUyg==
 -----END RSA PRIVATE KEY-----
 ```
 
+## Docker và Kubernetes
+
+### Môi trường lập trình local
+
+Cài đặt `docker` và `docker-compose`
+
+Chạy app bao gồm frontend, backend, database trong các container:
+
+```sh
+docker-compose up --build
+```
+
+Restore database bằng script có sẵn:
+
+```sh
+cd mariadb
+./restore.sh
+```
+
+### Deploy lên Kubernetes cluster trên Google Cloud
+
+Cài đặt `kubectl`
+
+Build image nodejs và push lên [Docker Hub](https://hub.docker.com/repository/docker/khuedoan/node-kubernetes):
+
+```sh
+docker login -u khuedoan
+docker build -t khuedoan/node-kubernetes .
+docker push khuedoan/node-kubernetes
+```
+
+Deploy lên Google Kubernetes Engine:
+
+```sh
+kubectl apply -f kubernetes/
+```
+
+Restore database bằng script có sẵn:
+
+```sh
+cd mariadb
+./restore-kubernetes.sh
+```
+
+### CI/CD
+
+TODO
+
 ## Trang web hữu ích
+
 - Tạo signature https://8gwifi.org/rsasignverifyfunctions.jsp
 - utc timestamp https://www.epochconverter.com/
 - Hex to base64 https://base64.guru/converter/encode/hex
