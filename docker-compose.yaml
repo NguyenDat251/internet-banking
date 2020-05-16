@@ -10,8 +10,8 @@ services:
       MYSQL_DATABASE: "banking"
       MYSQL_ROOT_PASSWORD: "cantexitvim"
   nodejs:
+    image: khuedoan/node-kubernetes
     container_name: "nodejs"
-    build: "./nodejs"
     environment:
       - PORT=80
     ports:
