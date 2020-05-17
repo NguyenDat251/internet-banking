@@ -1,8 +1,8 @@
--- MariaDB dump 10.17  Distrib 10.4.12-MariaDB, for debian-linux-gnu (x86_64)
+-- MariaDB dump 10.17  Distrib 10.4.13-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: banking
 -- ------------------------------------------------------
--- Server version	10.4.12-MariaDB-1:10.4.12+maria~bionic
+-- Server version	10.4.13-MariaDB-1:10.4.13+maria~bionic
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -26,6 +26,7 @@ CREATE TABLE `credit_account` (
   `customer_id` int(11) NOT NULL,
   `account_number` char(15) COLLATE utf8_unicode_ci NOT NULL,
   `balance` char(30) COLLATE utf8_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`customer_id`,`account_number`),
   CONSTRAINT `fk_creacc_customer` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -37,7 +38,7 @@ CREATE TABLE `credit_account` (
 
 LOCK TABLES `credit_account` WRITE;
 /*!40000 ALTER TABLE `credit_account` DISABLE KEYS */;
-INSERT INTO `credit_account` VALUES (1,'565572661049','100000');
+INSERT INTO `credit_account` VALUES (1,'565572661049','100000',1);
 /*!40000 ALTER TABLE `credit_account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -164,4 +165,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-13 13:56:52
+-- Dump completed on 2020-05-17  5:58:49
