@@ -27,7 +27,8 @@ CREATE TABLE `credit_account` (
   `account_number` char(15) COLLATE utf8_unicode_ci NOT NULL,
   `balance` char(30) COLLATE utf8_unicode_ci NOT NULL,
   `status` tinyint(1) NOT NULL,
-  PRIMARY KEY (`customer_id`,`account_number`),
+  PRIMARY KEY (`account_number`),
+  KEY `fk_creacc_customer` (`customer_id`),
   CONSTRAINT `fk_creacc_customer` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -141,7 +142,7 @@ CREATE TABLE `saving_account` (
   `account_number` char(15) COLLATE utf8_unicode_ci NOT NULL,
   `balance` char(30) COLLATE utf8_unicode_ci NOT NULL,
   `customer_id` int(11) NOT NULL,
-  PRIMARY KEY (`account_id`,`account_number`),
+  PRIMARY KEY (`account_id`),
   KEY `fk_saveacc_customer` (`customer_id`),
   CONSTRAINT `fk_saveacc_customer` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -165,4 +166,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-17  5:58:49
+-- Dump completed on 2020-05-17  6:18:56
