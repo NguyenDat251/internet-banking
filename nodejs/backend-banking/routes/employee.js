@@ -6,7 +6,7 @@ const randomString = require('randomstring');
 const router = express.Router();
 
 /* POST add customer */
-router.post('/add', async (req, res, next) => {
+router.post('/add-customer', async (req, res, next) => {
   let result;
   try {
     result = await customerModel.add(req.body);
