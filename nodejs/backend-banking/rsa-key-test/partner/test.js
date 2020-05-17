@@ -17,11 +17,11 @@ function RSAVerify(publicKey, signature, data) {
 const privateKey = fs.readFileSync('linh.private.key');
 const publicKey = fs.readFileSync('linh.public.key');
 
-var dataToSign = '1589375966kQYtFpj7pJfi5VVfoeGD{"credit_number":"565572661049","action":"query"}';
+var dataToSign = '1589520986kQYtFpj7pJfi5VVfoeGD{"credit_number":"565572661049","amount":200000}';
 var signature = RSASign(privateKey, dataToSign);
 RSAVerify(publicKey, signature, dataToSign);
 
-const dataToHash = '1589375966kQYtFpj7pJfi5VVfoeGD{"credit_number":"565572661049","action":"query"}';
+const dataToHash = '1589520986kQYtFpj7pJfi5VVfoeGD{"credit_number":"565572661049","amount":200000}';
 let hashString = crypto.createHash('sha256').update(dataToHash).digest('base64');
 console.log(hashString);
 
