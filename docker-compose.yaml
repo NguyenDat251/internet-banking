@@ -9,15 +9,22 @@ services:
     environment:
       MYSQL_DATABASE: "banking"
       MYSQL_ROOT_PASSWORD: "cantexitvim"
+    volumes:
+    - dbdata:/var/lib/mysql
   nodejs:
     image: khuedoan/node-kubernetes
     container_name: "nodejs"
-    restart: always
     environment:
       - PORT=80
     ports:
       - "80:80"
       - "443:443"
+    volumes:
+      - "./nodejs/backend-banking:/usr/src/backend-banking"
+      - "/usr/src/backend-banking/node_modules"
     working_dir: "/usr/src/backend-banking"
     depends_on:
       - "mariadb"
+
+volumes:
+  dbdata:
