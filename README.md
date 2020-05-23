@@ -199,7 +199,7 @@ BODY
 ```json
 {
     "customer_id": 1,
-    "account_number": "565572661049",
+    "credit_number": "565572661049",
     "balance": 100000
 }
 ```
@@ -278,13 +278,18 @@ aLvYFAwzssSuUGlksRon0xjQ7M9P2+Bld3gcV6hUyg==
 ```
 
 ## Danh sách các ngân hàng  liên  kết
-### Ngân hàng đại diện nhóm chẵn:
+
+### Ngân hàng đại diện nhóm chẵn
+
 - Tên ngân hàng:
-```
+
+```html
 NaniBank
 ```
+
 - Public key (RSA):
-```
+
+```html
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgsRrmYvqFeXGntLRa/84
 Zx7I5iJkDYNVlCXCxr2WVAoYKkiQWW/jlDD4OEhKCZCJgVVGT43XxUkQ3sv7+eVO
 1MO1iSbMql96VSBLwybIfPrFjMXnoXE4lgRy06lAmCSTmjvWZW6xrlGRwdkWNxIb
@@ -293,8 +298,10 @@ ktR6eRiI//ERKqhFM+XZ2ur/xTyv28hZhj8UInyHJogfPiX/cal1dr/7GKzqyqUp
 37lhuaRWB72hOpNFXFEUWXl408SMRyqbGPps/u+TEmstyo9qyUvdwWEbMg3GmE7M
 GQIDAQAB
 ```
+
 - Secret text:
-```
+
+```html
 himom
 ```
 
