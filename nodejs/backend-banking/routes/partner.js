@@ -4,11 +4,12 @@ const creditAccountModel = require('../models/credit_account.model');
 const transactionModel = require('../models/transaction.models');
 const verifySignatureMiddleware = require('../middlewares/verify-signature');
 const verifyCreditMiddleware = require('../middlewares/verify-credit');
+const verifySecretMiddleware = require('../middlewares/verify-secret');
 
 const router = express.Router();
 
 /* GET request query account info using credit account number */
-router.get('/get-account-info', verifyCreditMiddleware, async (req, res) => {
+router.get('/get-account-info', verifySecretMiddleware, verifyCreditMiddleware, async (req, res) => {
   const customer_id = req.headers["customer_id"];
   const customerInfo = await customerModel.searchByCustomerId(customer_id);
 
@@ -21,9 +22,10 @@ router.get('/get-account-info', verifyCreditMiddleware, async (req, res) => {
 })
 
 /* POST request deposit account balance */
-router.post('/deposit', verifySignatureMiddleware, verifyCreditMiddleware, async (req, res) => {
+router.post('/deposit', verifySecretMiddleware, verifySignatureMiddleware, verifyCreditMiddleware, async (req, res) => {
   const creditNumber = req.body["credit_number"];
   const amount = req.body["amount"];
+  const partnerCode = req.headers["partner-code"];
 
   try {
     await creditAccountModel.deposit(creditNumber, amount);
@@ -32,14 +34,15 @@ router.post('/deposit', verifySignatureMiddleware, verifyCreditMiddleware, async
     res.status(422).json({ "err": err.sqlMessage });
     return;
   }
-  transactionModel.add_deposit_history({ credit_number: creditNumber, amount: amount })
+  transactionModel.add_deposit_history({ credit_number: creditNumber, amount: amount, partner_code: partnerCode })
   res.status(201).json({ "msg": "deposit success" });
 })
 
 /* POST request withdraw account balance */
-router.post('/withdraw', verifySignatureMiddleware, verifyCreditMiddleware, async (req, res) => {
+router.post('/withdraw', verifySecretMiddleware, verifySignatureMiddleware, verifyCreditMiddleware, async (req, res) => {
   const creditNumber = req.body["credit_number"];
   const amount = req.body["amount"];
+  const partnerCode = req.headers["partner-code"];
 
   try {
     await creditAccountModel.withdraw(creditNumber, amount);
@@ -48,7 +51,7 @@ router.post('/withdraw', verifySignatureMiddleware, verifyCreditMiddleware, asyn
     res.status(422).json({ "err": err.sqlMessage });
     return;
   }
-  transactionModel.add_withdraw_history({ credit_number: creditNumber, amount: amount })
+  transactionModel.add_withdraw_history({ credit_number: creditNumber, amount: amount, partner_code: partnerCode })
   res.status(201).json({ "msg": "withdraw success" });
 })
 

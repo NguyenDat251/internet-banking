@@ -4,7 +4,8 @@ module.exports = {
   add_deposit_history: entity => {
     // entity = {
     //   account_number: "112233445566",
-    //   amount: 100000
+    //   amount: 100000,
+    //   partner_code: "abc"
     // }
 
     entity["ts"] = Date.now() / 1000
@@ -14,6 +15,7 @@ module.exports = {
     // entity = {
     //   account_number: "112233445566",
     //   amount: 100000
+    //   partner_code: "abc"
     // }
 
     entity["ts"] = Date.now() / 1000

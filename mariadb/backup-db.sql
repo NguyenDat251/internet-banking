@@ -39,7 +39,7 @@ CREATE TABLE `credit_account` (
 
 LOCK TABLES `credit_account` WRITE;
 /*!40000 ALTER TABLE `credit_account` DISABLE KEYS */;
-INSERT INTO `credit_account` VALUES (1,'565572661049','300000',1);
+INSERT INTO `credit_account` VALUES (1,'565572661049','500000',1);
 /*!40000 ALTER TABLE `credit_account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -89,10 +89,11 @@ CREATE TABLE `deposit_transaction_history` (
   `credit_number` char(15) COLLATE utf8_unicode_ci DEFAULT NULL,
   `amount` bigint(20) unsigned DEFAULT NULL,
   `ts` bigint(20) unsigned DEFAULT NULL,
+  `partner_code` char(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`transaction_id`),
   KEY `credit_number` (`credit_number`),
   CONSTRAINT `deposit_transaction_history_ibfk_1` FOREIGN KEY (`credit_number`) REFERENCES `credit_account` (`credit_number`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -172,7 +173,7 @@ CREATE TABLE `receive_from_transaction_history` (
   `from_credit_number` char(15) COLLATE utf8_unicode_ci DEFAULT NULL,
   `amount` bigint(20) unsigned DEFAULT NULL,
   `message` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `bankcode` char(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `partner_code` char(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `ts` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`transaction_id`),
   KEY `credit_number` (`credit_number`),
@@ -229,7 +230,7 @@ CREATE TABLE `sent_to_transaction_history` (
   `to_credit_number` char(15) COLLATE utf8_unicode_ci DEFAULT NULL,
   `amount` bigint(20) unsigned DEFAULT NULL,
   `message` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `bankcode` char(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `partner_code` char(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `ts` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`transaction_id`),
   KEY `credit_number` (`credit_number`),
@@ -258,10 +259,11 @@ CREATE TABLE `withdraw_transaction_history` (
   `credit_number` char(15) COLLATE utf8_unicode_ci DEFAULT NULL,
   `amount` bigint(20) unsigned DEFAULT NULL,
   `ts` bigint(20) unsigned DEFAULT NULL,
+  `partner_code` char(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`transaction_id`),
   KEY `credit_number` (`credit_number`),
   CONSTRAINT `withdraw_transaction_history_ibfk_1` FOREIGN KEY (`credit_number`) REFERENCES `credit_account` (`credit_number`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -347,4 +349,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-23  9:35:32
+-- Dump completed on 2020-05-23 11:00:56
