@@ -5,9 +5,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 
-const customerRouter = require('./routes/customer');
-const partnerRouter = require('./routes/partner');
-const apiPublic = require('./routes/api-public');
+const employeeApi = require('./routes/employee');
+const adminApi = require('./routes/admin');
+const partnerApi = require('./routes/partner');
 
 const verifySecretMiddleware = require('./middlewares/verify-secret');
 
@@ -23,9 +23,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/customer', customerRouter);
-app.use('/api/partner', partnerRouter);
-app.use('/api/public', verifySecretMiddleware, apiPublic);
+app.use('/api/employee', employeeApi);
+app.use('/api/admin', adminApi);
+app.use('/api/partner', verifySecretMiddleware, partnerApi);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -39,7 +39,6 @@ app.use(function (err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
   res.status(404).json({ "err": "invalid resource url" });
 });
 

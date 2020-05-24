@@ -1,8 +1,8 @@
--- MariaDB dump 10.17  Distrib 10.4.12-MariaDB, for debian-linux-gnu (x86_64)
+-- MariaDB dump 10.17  Distrib 10.4.13-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: banking
 -- ------------------------------------------------------
--- Server version	10.4.12-MariaDB-1:10.4.12+maria~bionic
+-- Server version	10.4.13-MariaDB-1:10.4.13+maria~bionic
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -26,7 +26,9 @@ CREATE TABLE `credit_account` (
   `customer_id` int(11) NOT NULL,
   `account_number` char(15) COLLATE utf8_unicode_ci NOT NULL,
   `balance` char(30) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`customer_id`,`account_number`),
+  `status` tinyint(1) NOT NULL,
+  PRIMARY KEY (`account_number`),
+  KEY `fk_creacc_customer` (`customer_id`),
   CONSTRAINT `fk_creacc_customer` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -37,7 +39,7 @@ CREATE TABLE `credit_account` (
 
 LOCK TABLES `credit_account` WRITE;
 /*!40000 ALTER TABLE `credit_account` DISABLE KEYS */;
-INSERT INTO `credit_account` VALUES (1,'565572661049','100000');
+INSERT INTO `credit_account` VALUES (1,'565572661049','100000',1);
 /*!40000 ALTER TABLE `credit_account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,7 +64,7 @@ CREATE TABLE `customer` (
   UNIQUE KEY `identity_number` (`identity_number`),
   UNIQUE KEY `phone_number` (`phone_number`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -140,7 +142,7 @@ CREATE TABLE `saving_account` (
   `account_number` char(15) COLLATE utf8_unicode_ci NOT NULL,
   `balance` char(30) COLLATE utf8_unicode_ci NOT NULL,
   `customer_id` int(11) NOT NULL,
-  PRIMARY KEY (`account_id`,`account_number`),
+  PRIMARY KEY (`account_id`),
   KEY `fk_saveacc_customer` (`customer_id`),
   CONSTRAINT `fk_saveacc_customer` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -154,6 +156,71 @@ LOCK TABLES `saving_account` WRITE;
 /*!40000 ALTER TABLE `saving_account` DISABLE KEYS */;
 /*!40000 ALTER TABLE `saving_account` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'banking'
+--
+/*!50003 DROP PROCEDURE IF EXISTS `deposit` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`%` PROCEDURE `deposit`(
+	IN accNum char(15),
+	IN amount int
+)
+BEGIN
+	DECLARE bl int;
+	START TRANSACTION;
+
+	SELECT balance INTO bl FROM banking.credit_account WHERE account_number = accNum FOR UPDATE;
+	UPDATE banking.credit_account SET balance = amount + bl WHERE account_number = accNum;
+
+	COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `withdraw` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`%` PROCEDURE `withdraw`(
+	IN accNum char(15),
+	IN amount int
+)
+BEGIN
+	DECLARE moneyLeft int;
+	DECLARE bl int;
+	START TRANSACTION;
+
+	SELECT balance INTO bl FROM banking.credit_account WHERE account_number = accNum FOR UPDATE;
+	SET moneyLeft = bl - amount;
+	IF moneyLeft < 50000 THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'account balance insufficient';
+	ELSE
+		UPDATE banking.credit_account SET balance = moneyLeft WHERE account_number = accNum;
+	END IF;
+	COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -164,4 +231,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-13 13:56:52
+-- Dump completed on 2020-05-17 11:09:18
