@@ -407,6 +407,32 @@ GQIDAQAB
 M0ec3lAqjHV82v66VYDb
 ```
 
+### Ngân hàng đại diện nhóm lẻ (RSA)
+
+- Tên ngân hàng:
+
+```html
+bankdbb
+```
+
+- Public key (RSA):
+
+```html
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCEUZJwvTYorustQY+F3iqhJe+M
++vk10V1gd+tXAT5eQ6Bfx/EOEEoFiwnH/I5KmRx3D3a2GHgWYILDnCVo5Kn6HH/R
+Iuvi11rlvK5C798WYRjvNkOlcfI3M6ixQf+fAJSnflOqCcoPp/RM0HgcywoTkNWK
+PQYpPpk9tno/qlOcwwIDAQAB
+-----END PUBLIC KEY-----
+
+```
+
+- Secret text:
+
+```html
+bankdbb
+```
+
 ## Docker và Kubernetes
 
 ### Môi trường lập trình local
