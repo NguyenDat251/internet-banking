@@ -24,17 +24,17 @@ router.post('/add-customer', async (req, res, next) => {
   res.status(201).json(ret);
 
   // add new credit account
-  let account_number;
+  let credit_number;
   do {
-    account_number = randomString.generate({  // generate new account number
+    credit_number = randomString.generate({  // generate new account number
       length: 12,
       charset: 'numeric'
     })
 
-    result = await creditAccountModel.searchByAccountNumber(account_number)
+    result = await creditAccountModel.searchByAccountNumber(credit_number)
   } while (result.length > 0);
 
-  creditAccountModel.add({ customer_id: ret["customer_id"], account_number: account_number })
+  creditAccountModel.add({ customer_id: ret["customer_id"], credit_number: credit_number })
 });
 
 module.exports = router;
