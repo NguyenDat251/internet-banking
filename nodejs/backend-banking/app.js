@@ -8,6 +8,7 @@ const cors = require('cors');
 const employeeApi = require('./routes/employee');
 const adminApi = require('./routes/admin');
 const partnerApi = require('./routes/partner');
+const customerApi = require('./routes/customer');
 
 const app = express();
 
@@ -24,6 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/employee', employeeApi);
 app.use('/api/admin', adminApi);
 app.use('/api/partner', partnerApi);
+app.use('/api/customer', customerApi);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
