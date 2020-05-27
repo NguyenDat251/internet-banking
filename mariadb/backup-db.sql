@@ -163,6 +163,37 @@ INSERT INTO `partner_api` VALUES (1,'linh','linhbank','LS0tLS1CRUdJTiBQVUJMSUMgS
 UNLOCK TABLES;
 
 --
+-- Table structure for table `pending_transaction_otp`
+--
+
+DROP TABLE IF EXISTS `pending_transaction_otp`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pending_transaction_otp` (
+  `transaction_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `from_credit_number` char(15) COLLATE utf8_unicode_ci NOT NULL,
+  `to_credit_number` char(15) COLLATE utf8_unicode_ci NOT NULL,
+  `amount` bigint(20) unsigned NOT NULL,
+  `otp` char(6) COLLATE utf8_unicode_ci NOT NULL,
+  `status` char(10) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`transaction_id`),
+  KEY `pending_transaction_otp_FK` (`from_credit_number`),
+  KEY `pending_transaction_otp_FK_1` (`to_credit_number`),
+  CONSTRAINT `pending_transaction_otp_FK` FOREIGN KEY (`from_credit_number`) REFERENCES `credit_account` (`credit_number`),
+  CONSTRAINT `pending_transaction_otp_FK_1` FOREIGN KEY (`to_credit_number`) REFERENCES `credit_account` (`credit_number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pending_transaction_otp`
+--
+
+LOCK TABLES `pending_transaction_otp` WRITE;
+/*!40000 ALTER TABLE `pending_transaction_otp` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pending_transaction_otp` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `receive_from_transaction_history`
 --
 
@@ -179,6 +210,8 @@ CREATE TABLE `receive_from_transaction_history` (
   `ts` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`transaction_id`),
   KEY `credit_number` (`credit_number`),
+  KEY `receive_from_transaction_history_FK` (`from_credit_number`),
+  CONSTRAINT `receive_from_transaction_history_FK` FOREIGN KEY (`from_credit_number`) REFERENCES `credit_account` (`credit_number`),
   CONSTRAINT `receive_from_transaction_history_ibfk_1` FOREIGN KEY (`credit_number`) REFERENCES `credit_account` (`credit_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -236,6 +269,8 @@ CREATE TABLE `sent_to_transaction_history` (
   `ts` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`transaction_id`),
   KEY `credit_number` (`credit_number`),
+  KEY `sent_to_transaction_history_FK` (`to_credit_number`),
+  CONSTRAINT `sent_to_transaction_history_FK` FOREIGN KEY (`to_credit_number`) REFERENCES `credit_account` (`credit_number`),
   CONSTRAINT `sent_to_transaction_history_ibfk_1` FOREIGN KEY (`credit_number`) REFERENCES `credit_account` (`credit_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -351,4 +386,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-27 13:55:24
+-- Dump completed on 2020-05-27 14:24:12
