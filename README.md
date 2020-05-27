@@ -312,7 +312,6 @@ VWZobgQAyvxrw3OVc3soHZtr31FgblZFIfLvIGvAUhzlHm7SGtkzQdd7UjLkG48a
 aEaRRTz9FcbxFYI+68GOPX29aAbw3CcLBFXzPwH72E9v4uah4BapGFEFHrv+Zq2A
 xrc92e45BI8C3nuBrgZEvZT9l5sGR9lcaCWq0NwmO1mQK53XX94=
 =S6eu
------END PGP PUBLIC KEY BLOCK-----
 ```
 
 - Bank PGP private key
@@ -405,6 +404,26 @@ GQIDAQAB
 
 ```html
 M0ec3lAqjHV82v66VYDb
+```
+
+### Ngân hàng đại diện nhóm lẻ (RSA):
+- Tên ngân hàng:
+```
+bankdbb
+```
+- Public key (RSA):
+```
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCEUZJwvTYorustQY+F3iqhJe+M
++vk10V1gd+tXAT5eQ6Bfx/EOEEoFiwnH/I5KmRx3D3a2GHgWYILDnCVo5Kn6HH/R
+Iuvi11rlvK5C798WYRjvNkOlcfI3M6ixQf+fAJSnflOqCcoPp/RM0HgcywoTkNWK
+PQYpPpk9tno/qlOcwwIDAQAB
+-----END PUBLIC KEY-----
+
+```
+- Secret text:
+```
+bankdbb
 ```
 
 ## Docker và Kubernetes
