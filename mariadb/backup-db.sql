@@ -39,7 +39,7 @@ CREATE TABLE `credit_account` (
 
 LOCK TABLES `credit_account` WRITE;
 /*!40000 ALTER TABLE `credit_account` DISABLE KEYS */;
-INSERT INTO `credit_account` VALUES (1,'565572661049','500000',1);
+INSERT INTO `credit_account` VALUES (3,'025917154505','100000',1),(1,'565572661049','500000',1);
 /*!40000 ALTER TABLE `credit_account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -65,7 +65,7 @@ CREATE TABLE `customer` (
   UNIQUE KEY `identity_number` (`identity_number`),
   UNIQUE KEY `phone_number` (`phone_number`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +74,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (1,'025895863','LINH','NGUYEN VAN','1998-11-12','0704468257','linh1612340@gmail.com','linh','$2a$08$gKlA.6Ie2HfU/IzgambPXOG.YinikOdf6pwaZxU6QBEB9ZWOyhinS','5FmWSukHG8PapSAcGrNS');
+INSERT INTO `customer` VALUES (1,'025895863','LINH','NGUYEN VAN','1998-11-12','0704468257','linh1612340@gmail.com','linh','$2a$08$gKlA.6Ie2HfU/IzgambPXOG.YinikOdf6pwaZxU6QBEB9ZWOyhinS','5FmWSukHG8PapSAcGrNS'),(3,'025895864','KHUE','DOAN','1998-11-12','0704468258','linh0903611@gmail.com','khue','$2a$08$YvaUktj.B6M4pBWWf6gqsujOcas03q3rIPZNI/8zW14rfS/WiN8P6','6sDwx1T5t8IMSPpsLmYS');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -351,4 +351,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-27 10:11:39
+-- Dump completed on 2020-05-27 13:55:24
