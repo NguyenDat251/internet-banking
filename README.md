@@ -278,7 +278,7 @@ aLvYFAwzssSuUGlksRon0xjQ7M9P2+Bld3gcV6hUyg==
 ```
 
 ## Danh sách các ngân hàng  liên  kết
-### Ngân hàng đại diện nhóm chẵn:
+### Ngân hàng đại diện nhóm chẵn (PGP):
 - Tên ngân hàng:
 ```
 NaniBank
@@ -298,6 +298,26 @@ GQIDAQAB
 - Secret text:
 ```
 himom
+```
+
+### Ngân hàng đại diện nhóm lẻ (RSA):
+- Tên ngân hàng:
+```
+bankdbb
+```
+- Public key (RSA):
+```
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCEUZJwvTYorustQY+F3iqhJe+M
++vk10V1gd+tXAT5eQ6Bfx/EOEEoFiwnH/I5KmRx3D3a2GHgWYILDnCVo5Kn6HH/R
+Iuvi11rlvK5C798WYRjvNkOlcfI3M6ixQf+fAJSnflOqCcoPp/RM0HgcywoTkNWK
+PQYpPpk9tno/qlOcwwIDAQAB
+-----END PUBLIC KEY-----
+
+```
+- Secret text:
+```
+bankdbb
 ```
 
 ## Docker và Kubernetes
