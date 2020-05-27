@@ -60,6 +60,7 @@ CREATE TABLE `customer` (
   `email_address` text COLLATE utf8_unicode_ci NOT NULL,
   `username` char(30) COLLATE utf8_unicode_ci NOT NULL,
   `hashed_password` char(70) COLLATE utf8_unicode_ci NOT NULL,
+  `secret` char(20) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`customer_id`),
   UNIQUE KEY `identity_number` (`identity_number`),
   UNIQUE KEY `phone_number` (`phone_number`),
@@ -73,7 +74,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (1,'025895863','LINH','NGUYEN VAN','1998-11-12','0704468257','linh1612340@gmail.com','linh','$2a$08$gKlA.6Ie2HfU/IzgambPXOG.YinikOdf6pwaZxU6QBEB9ZWOyhinS');
+INSERT INTO `customer` VALUES (1,'025895863','LINH','NGUYEN VAN','1998-11-12','0704468257','linh1612340@gmail.com','linh','$2a$08$gKlA.6Ie2HfU/IzgambPXOG.YinikOdf6pwaZxU6QBEB9ZWOyhinS','5FmWSukHG8PapSAcGrNS');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -349,4 +350,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-27  3:58:03
+-- Dump completed on 2020-05-27  7:39:53
