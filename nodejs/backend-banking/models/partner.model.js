@@ -7,7 +7,7 @@ module.exports = {
     //   "partner_code": "admin",
     //   "public_key": "xxx",
     // }
-    entity["secret_text"] = randomstring.generate(20);
+    entity["bank_secret"] = randomstring.generate(20);
     return db.add(entity, 'partner_api');
   },
 
