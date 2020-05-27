@@ -1,11 +1,14 @@
 import React from 'react'
-import HomePage from './pages/homePage/homePage.component'
-import { Switch, Route } from 'react-router-dom'
+import CustomerLoginPage from './pages/customer/loginPage/loginPage.component'
+import EmployeeLoginPage from './pages/employee/loginPage/loginPage.component'
+import { Switch, Route, Redirect } from 'react-router-dom'
 
 const Router = () => {
     return (
         <Switch>
-            <Route path="/" component={HomePage}/>
+            <Redirect exact from="/" to="/login"></Redirect>
+            <Route exact path="/login" component={CustomerLoginPage}/>
+            <Route exact path="/employee/login" name="empoyee" component={EmployeeLoginPage}/>
         </Switch>
     )
 }
