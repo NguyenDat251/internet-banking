@@ -6,7 +6,7 @@ const config = require('../utils/config');
 
 const router = express.Router();
 
-const authenCustomer = async (req, res, next) => {
+const authenLoginCustomer = async (req, res, next) => {
   const username = req.body["username"];
   const plain_password = req.body["password"];
   let customerInfo
@@ -27,8 +27,25 @@ const authenCustomer = async (req, res, next) => {
   next();
 }
 
+const authenJWT = async (req, res, next) => {
+  const accesstoken = req.headers["access_token"];
+  const secret_text = config["secret_text"];
+
+  let decoded;
+  try {
+    decoded = await jwt.verify(accesstoken, secret_text);
+  } catch (err) {
+    res.status(401).json({ "err": err });
+    return;
+  }
+
+  req.headers["customer_id"] = decoded["customer_id"];
+
+  next();
+}
+
 /* POST request login */
-router.post("/login", authenCustomer, async (req, res) => {
+router.post("/login", authenLoginCustomer, async (req, res) => {
   const secret_text = config["secret_text"];
   const accesstoken_exp = config["accesstoken_exp"];
   const refreshtoken_exp = config["refreshtoken_exp"];
@@ -41,7 +58,22 @@ router.post("/login", authenCustomer, async (req, res) => {
 
   const refreshtoken = jwt.sign({ customer_id: customer_id }, refresh_secret, { expiresIn: refreshtoken_exp });
 
-  res.status(200).json({ "access_token": accesstoken, "refresh_token": refreshtoken })
+  res.status(200).json({ "access_token": accesstoken, "refresh_token": refreshtoken });
+})
+
+/* POST request local transfer */
+router.post("/local-transfer", authenJWT, async (req, res) => {
+  const customer_id = req.headers["customer_id"];
+  let customerInfo;
+  try {
+    customerInfo = await customerModel.searchByCustomerId(customer_id);
+  } catch (err) {
+    res.status(401).json({ "err": err.sqlMessage });
+  }
+
+
+
+  res.status(200).json({ "msg": "otp created successfully" });
 })
 
 
