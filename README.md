@@ -13,6 +13,9 @@
     - [API dành cho admin](#api-d%c3%a0nh-cho-admin)
       - [Thêm thông tin partner vào hệ thống](#th%c3%aam-th%c3%b4ng-tin-partner-v%c3%a0o-h%e1%bb%87-th%e1%bb%91ng)
   - [Một số thông tin mặc định được khởi tạo cùng với project, dùng để test api](#m%e1%bb%99t-s%e1%bb%91-th%c3%b4ng-tin-m%e1%ba%b7c-%c4%91%e1%bb%8bnh-%c4%91%c6%b0%e1%bb%a3c-kh%e1%bb%9fi-t%e1%ba%a1o-c%c3%b9ng-v%e1%bb%9bi-project-d%c3%b9ng-%c4%91%e1%bb%83-test-api)
+  - [Danh sách ngân hàng liên kêt](#danh-sách-các-ngân-hàng-liên-kết)
+    - [Ngân hàng đại diện nhóm chẵn (PGP)](#ngân-hàng-đại-diện-nhóm-chẵn-pgp)
+    - [Ngân hàng đại diện nhóm lẻ (RSA)](#ngân-hàng-đại-diện-nhóm-lẻ-rsa)
   - [Docker và Kubernetes](#docker-v%c3%a0-kubernetes)
     - [Môi trường lập trình local](#m%c3%b4i-tr%c6%b0%e1%bb%9dng-l%e1%ba%adp-tr%c3%acnh-local)
     - [Deploy lên Kubernetes cluster trên Google Cloud](#deploy-l%c3%aan-kubernetes-cluster-tr%c3%aan-google-cloud)
@@ -169,12 +172,14 @@ POST /api/admin/add-partner
 
 BODY
 {
-    "partner_code": "linh",
-    "public_key": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FDSmxRWi9tMStpTGZLL2xwWURtaWNsZTZ2MApsbExXdGRZaFNrSDZidWlPck5iYVhWSC8vWmNHOVRwT0xVMXZMK1BrdnByQ1ovTjFTdHF6MHhOcnpjZFQwekZJCnhRU3IzMWZCMXF6RDIrVDRuakJjR1JPU3R2MHV4aGFhcm1XVkp3akxpYTBybEw3Z3JSTDBheHc0ckVTTTluc04KYmU4WG5KR1ZLdEZ5OU1YSEJ3SURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQ=="
+    "partner_code": "bankdbb",
+    "bankname": "bankdbb",
+    "public_key": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FDRVVaSnd2VFlvcnVzdFFZK0YzaXFoSmUrTQordmsxMFYxZ2QrdFhBVDVlUTZCZngvRU9FRW9GaXduSC9JNUttUngzRDNhMkdIZ1dZSUxEbkNWbzVLbjZISC9SCkl1dmkxMXJsdks1Qzc5OFdZUmp2TmtPbGNmSTNNNml4UWYrZkFKU25mbE9xQ2NvUHAvUk0wSGdjeXdvVGtOV0sKUFFZcFBwazl0bm8vcWxPY3d3SURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQ==",
+    "partner_secret": "bankdbb"
 }
 ```
 
-- Hệ thống sẽ tự động tạo 1 secret_text trả về
+- Hệ thống sẽ tự động tạo 1 bank_secret trả về
 
 ## Một số thông tin mặc định được khởi tạo cùng với project, dùng để test api
 
@@ -190,7 +195,8 @@ BODY
     "firstname": "LINH",
     "lastname": "NGUYEN VAN",
     "date_of_birth": "1998-11-12",
-    "email_address": "linh1612340@gmail.com"
+    "email_address": "linh1612340@gmail.com",
+    "refresh_secret": "5FmWSukHG8PapSAcGrNS"
 }
 ```
 
@@ -200,7 +206,8 @@ BODY
 {
     "customer_id": 1,
     "credit_number": "565572661049",
-    "balance": 100000
+    "balance": 100000,
+    "status": 1
 }
 ```
 
@@ -210,8 +217,10 @@ BODY
 {
     "partner_id": 1,
     "partner_code": "linh",
+    "bankname": "linhbank",
     "public_key": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FDSmxRWi9tMStpTGZLL2xwWURtaWNsZTZ2MApsbExXdGRZaFNrSDZidWlPck5iYVhWSC8vWmNHOVRwT0xVMXZMK1BrdnByQ1ovTjFTdHF6MHhOcnpjZFQwekZJCnhRU3IzMWZCMXF6RDIrVDRuakJjR1JPU3R2MHV4aGFhcm1XVkp3akxpYTBybEw3Z3JSTDBheHc0ckVTTTluc04KYmU4WG5KR1ZLdEZ5OU1YSEJ3SURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQ==",
-    "secret_text": "kQYtFpj7pJfi5VVfoeGD"
+    "bank_secret": "kQYtFpj7pJfi5VVfoeGD",
+    "partner_secret": "idk"
 }
 ```
 
@@ -379,7 +388,7 @@ l5sGR9lcaCWq0NwmO1mQK53XX94=
 
 ## Danh sách các ngân hàng  liên  kết
 
-### Ngân hàng đại diện nhóm chẵn
+### Ngân hàng đại diện nhóm chẵn (PGP)
 
 - Partner code:
 
@@ -401,7 +410,13 @@ GQIDAQAB
 -----END PUBLIC KEY-----
 ```
 
-- Secret text:
+- Secrettext of partner:
+
+```html
+hi mom
+```
+
+- Secrettext of bank:
 
 ```html
 M0ec3lAqjHV82v66VYDb
@@ -427,10 +442,16 @@ PQYpPpk9tno/qlOcwwIDAQAB
 
 ```
 
-- Secret text:
+- Secrettext of partner:
 
 ```html
 bankdbb
+```
+
+- Secrettext of bank:
+
+```html
+Tj0xYDEDiQF9f2GYCxSv
 ```
 
 ## Docker và Kubernetes
