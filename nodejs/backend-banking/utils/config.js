@@ -2,7 +2,7 @@ const config = {};
 
 config["secret_text"] = "cantexitvim";
 
-config["accesstoken_exp"] = 600;
+config["accesstoken_exp"] = 6000;
 config["refreshtoken_exp"] = "30d";
 config["otp_exp"] = 600;
 
