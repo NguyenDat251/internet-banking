@@ -39,7 +39,7 @@ CREATE TABLE `credit_account` (
 
 LOCK TABLES `credit_account` WRITE;
 /*!40000 ALTER TABLE `credit_account` DISABLE KEYS */;
-INSERT INTO `credit_account` VALUES (1,'565572661049','500000',1);
+INSERT INTO `credit_account` VALUES (3,'025917154505','100000',1),(1,'565572661049','500000',1);
 /*!40000 ALTER TABLE `credit_account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -60,12 +60,12 @@ CREATE TABLE `customer` (
   `email_address` text COLLATE utf8_unicode_ci NOT NULL,
   `username` char(30) COLLATE utf8_unicode_ci NOT NULL,
   `hashed_password` char(70) COLLATE utf8_unicode_ci NOT NULL,
-  `secret` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `refresh_secret` char(20) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`customer_id`),
   UNIQUE KEY `identity_number` (`identity_number`),
   UNIQUE KEY `phone_number` (`phone_number`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +74,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (1,'025895863','LINH','NGUYEN VAN','1998-11-12','0704468257','linh1612340@gmail.com','linh','$2a$08$gKlA.6Ie2HfU/IzgambPXOG.YinikOdf6pwaZxU6QBEB9ZWOyhinS','5FmWSukHG8PapSAcGrNS');
+INSERT INTO `customer` VALUES (1,'025895863','LINH','NGUYEN VAN','1998-11-12','0704468257','linh1612340@gmail.com','linh','$2a$08$gKlA.6Ie2HfU/IzgambPXOG.YinikOdf6pwaZxU6QBEB9ZWOyhinS','5FmWSukHG8PapSAcGrNS'),(3,'025895864','KHUE','DOAN','1998-11-12','0704468258','linh0903611@gmail.com','khue','$2a$08$YvaUktj.B6M4pBWWf6gqsujOcas03q3rIPZNI/8zW14rfS/WiN8P6','6sDwx1T5t8IMSPpsLmYS');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,12 +143,13 @@ CREATE TABLE `partner_api` (
   `partner_code` char(20) COLLATE utf8_unicode_ci NOT NULL,
   `bankname` char(255) COLLATE utf8_unicode_ci NOT NULL,
   `public_key` text COLLATE utf8_unicode_ci NOT NULL,
-  `secret_text` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `bank_secret` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `partner_secret` char(20) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`partner_id`),
   UNIQUE KEY `bankname` (`bankname`),
   UNIQUE KEY `partner_code` (`partner_code`),
   UNIQUE KEY `public_key` (`public_key`) USING HASH
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,8 +158,39 @@ CREATE TABLE `partner_api` (
 
 LOCK TABLES `partner_api` WRITE;
 /*!40000 ALTER TABLE `partner_api` DISABLE KEYS */;
-INSERT INTO `partner_api` VALUES (1,'linh','linhbank','LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FDSmxRWi9tMStpTGZLL2xwWURtaWNsZTZ2MApsbExXdGRZaFNrSDZidWlPck5iYVhWSC8vWmNHOVRwT0xVMXZMK1BrdnByQ1ovTjFTdHF6MHhOcnpjZFQwekZJCnhRU3IzMWZCMXF6RDIrVDRuakJjR1JPU3R2MHV4aGFhcm1XVkp3akxpYTBybEw3Z3JSTDBheHc0ckVTTTluc04KYmU4WG5KR1ZLdEZ5OU1YSEJ3SURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQ==','kQYtFpj7pJfi5VVfoeGD'),(2,'NaniBank','NaniBank','LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUFnc1JybVl2cUZlWEdudExSYS84NApaeDdJNWlKa0RZTlZsQ1hDeHIyV1ZBb1lLa2lRV1cvamxERDRPRWhLQ1pDSmdWVkdUNDNYeFVrUTNzdjcrZVZPCjFNTzFpU2JNcWw5NlZTQkx3eWJJZlByRmpNWG5vWEU0bGdSeTA2bEFtQ1NUbWp2V1pXNnhybEdSd2RrV054SWIKa3RSNmVSaUkvL0VSS3FoRk0rWFoydXIveFR5djI4aFpoajhVSW55SEpvZ2ZQaVgvY2FsMWRyLzdHS3pxeXFVcAovbVJudGEzMWhWWlpzWGIxTENRdHluWkk2cGZVS0xaN2pvazRMN0xtK1M5K0QzZGhjTXhCd0pEMTVJakNEdFFFCjM3bGh1YVJXQjcyaE9wTkZYRkVVV1hsNDA4U01SeXFiR1Bwcy91K1RFbXN0eW85cXlVdmR3V0ViTWczR21FN00KR1FJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0t','M0ec3lAqjHV82v66VYDb');
+INSERT INTO `partner_api` VALUES (1,'linh','linhbank','LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FDSmxRWi9tMStpTGZLL2xwWURtaWNsZTZ2MApsbExXdGRZaFNrSDZidWlPck5iYVhWSC8vWmNHOVRwT0xVMXZMK1BrdnByQ1ovTjFTdHF6MHhOcnpjZFQwekZJCnhRU3IzMWZCMXF6RDIrVDRuakJjR1JPU3R2MHV4aGFhcm1XVkp3akxpYTBybEw3Z3JSTDBheHc0ckVTTTluc04KYmU4WG5KR1ZLdEZ5OU1YSEJ3SURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQ==','kQYtFpj7pJfi5VVfoeGD','idk'),(2,'NaniBank','NaniBank','LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUFnc1JybVl2cUZlWEdudExSYS84NApaeDdJNWlKa0RZTlZsQ1hDeHIyV1ZBb1lLa2lRV1cvamxERDRPRWhLQ1pDSmdWVkdUNDNYeFVrUTNzdjcrZVZPCjFNTzFpU2JNcWw5NlZTQkx3eWJJZlByRmpNWG5vWEU0bGdSeTA2bEFtQ1NUbWp2V1pXNnhybEdSd2RrV054SWIKa3RSNmVSaUkvL0VSS3FoRk0rWFoydXIveFR5djI4aFpoajhVSW55SEpvZ2ZQaVgvY2FsMWRyLzdHS3pxeXFVcAovbVJudGEzMWhWWlpzWGIxTENRdHluWkk2cGZVS0xaN2pvazRMN0xtK1M5K0QzZGhjTXhCd0pEMTVJakNEdFFFCjM3bGh1YVJXQjcyaE9wTkZYRkVVV1hsNDA4U01SeXFiR1Bwcy91K1RFbXN0eW85cXlVdmR3V0ViTWczR21FN00KR1FJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0t','M0ec3lAqjHV82v66VYDb','hi mom'),(3,'bankdbb','bankdbb','LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FDRVVaSnd2VFlvcnVzdFFZK0YzaXFoSmUrTQordmsxMFYxZ2QrdFhBVDVlUTZCZngvRU9FRW9GaXduSC9JNUttUngzRDNhMkdIZ1dZSUxEbkNWbzVLbjZISC9SCkl1dmkxMXJsdks1Qzc5OFdZUmp2TmtPbGNmSTNNNml4UWYrZkFKU25mbE9xQ2NvUHAvUk0wSGdjeXdvVGtOV0sKUFFZcFBwazl0bm8vcWxPY3d3SURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQ==','Tj0xYDEDiQF9f2GYCxSv','bankdbb');
 /*!40000 ALTER TABLE `partner_api` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pending_transaction_otp`
+--
+
+DROP TABLE IF EXISTS `pending_transaction_otp`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pending_transaction_otp` (
+  `transaction_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `from_credit_number` char(15) COLLATE utf8_unicode_ci NOT NULL,
+  `to_credit_number` char(15) COLLATE utf8_unicode_ci NOT NULL,
+  `amount` bigint(20) unsigned NOT NULL,
+  `otp` char(6) COLLATE utf8_unicode_ci NOT NULL,
+  `status` char(10) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`transaction_id`),
+  KEY `pending_transaction_otp_FK` (`from_credit_number`),
+  KEY `pending_transaction_otp_FK_1` (`to_credit_number`),
+  CONSTRAINT `pending_transaction_otp_FK` FOREIGN KEY (`from_credit_number`) REFERENCES `credit_account` (`credit_number`),
+  CONSTRAINT `pending_transaction_otp_FK_1` FOREIGN KEY (`to_credit_number`) REFERENCES `credit_account` (`credit_number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pending_transaction_otp`
+--
+
+LOCK TABLES `pending_transaction_otp` WRITE;
+/*!40000 ALTER TABLE `pending_transaction_otp` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pending_transaction_otp` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -178,6 +210,8 @@ CREATE TABLE `receive_from_transaction_history` (
   `ts` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`transaction_id`),
   KEY `credit_number` (`credit_number`),
+  KEY `receive_from_transaction_history_FK` (`from_credit_number`),
+  CONSTRAINT `receive_from_transaction_history_FK` FOREIGN KEY (`from_credit_number`) REFERENCES `credit_account` (`credit_number`),
   CONSTRAINT `receive_from_transaction_history_ibfk_1` FOREIGN KEY (`credit_number`) REFERENCES `credit_account` (`credit_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -235,6 +269,8 @@ CREATE TABLE `sent_to_transaction_history` (
   `ts` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`transaction_id`),
   KEY `credit_number` (`credit_number`),
+  KEY `sent_to_transaction_history_FK` (`to_credit_number`),
+  CONSTRAINT `sent_to_transaction_history_FK` FOREIGN KEY (`to_credit_number`) REFERENCES `credit_account` (`credit_number`),
   CONSTRAINT `sent_to_transaction_history_ibfk_1` FOREIGN KEY (`credit_number`) REFERENCES `credit_account` (`credit_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -350,4 +386,5 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-27  7:39:53
+
+-- Dump completed on 2020-05-27 14:24:12

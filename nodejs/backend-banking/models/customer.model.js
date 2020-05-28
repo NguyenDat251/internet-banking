@@ -19,7 +19,8 @@ module.exports = {
 
     const hash = bcrypt.hashSync(entity.password, 8);
     entity["hashed_password"] = hash;
-    entity["secret"] = randomstring.generate(20);
+
+    entity["refresh_secret"] = randomstring.generate(20);
     delete entity["password"];
     return db.add(entity, 'customer');
   },
