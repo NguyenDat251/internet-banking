@@ -267,6 +267,7 @@ CREATE TABLE `transaction_otp` (
   `amount` bigint(20) unsigned NOT NULL,
   `otp` char(6) COLLATE utf8_unicode_ci NOT NULL,
   `status` char(10) COLLATE utf8_unicode_ci NOT NULL,
+  `ts` bigint(20) NOT NULL,
   PRIMARY KEY (`transaction_id`),
   KEY `pending_transaction_otp_FK` (`from_credit_number`),
   KEY `pending_transaction_otp_FK_1` (`to_credit_number`),
@@ -386,4 +387,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-28  6:23:12
+-- Dump completed on 2020-05-28  6:45:51
