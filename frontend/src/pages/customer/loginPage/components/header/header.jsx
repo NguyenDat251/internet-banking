@@ -6,7 +6,7 @@ function header() {
         <a className="navbar-brand font-weight-bold text-white" href="/">
           KIANTOBANK
         </a>
-        <a className="text-white mr-3">Hỗ trợ 24/7: 1900 1508</a>
+        <a className="text-white mr-3" href>Hỗ trợ 24/7: 1900 1508</a>
       </nav>
   );
 }
