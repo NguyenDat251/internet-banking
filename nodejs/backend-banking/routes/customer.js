@@ -1,9 +1,13 @@
 const express = require('express');
 const customerModel = require('../models/customer.model');
 const creditAccountModel = require('../models//credit_account.model');
+const otpModel = require('../models/transaction_otp.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../utils/config');
+const mustache = require('mustache');
+const fs = require('fs');
+const nodemailer = require('nodemailer');
 
 const router = express.Router();
 
@@ -42,20 +46,20 @@ const authenJWT = async (req, res, next) => {
     return;
   }
 
-  req.headers["customer_id"] = decoded["customer_id"];
+  req.body["customer_id"] = decoded["customer_id"];
 
   next();
 }
 
 /* GET list credit account */
 router.get("/list-credit-info", authenJWT, async (req, res) => {
-  const customer_id = req.headers["customer_id"];
+  const customer_id = req.body["customer_id"];
 
   let creditInfo;
   try {
     creditInfo = await creditAccountModel.searchByCustomerId(customer_id);
   } catch (err) {
-    res.status(401).json({ "err": err });
+    res.status(401).json({ "err": "invalid customer_id" });
     return;
   }
 
@@ -82,7 +86,7 @@ router.post("/login", authenLoginCustomer, async (req, res) => {
 /* POST request local transfer */
 router.post("/local-transfer", authenJWT, async (req, res) => {
   let result;
-  const customer_id = req.headers["customer_id"];
+  const customer_id = req.body["customer_id"];
 
   const from_credit_number = req.body["from_credit_number"];
   const to_credit_number = req.body["to_credit_number"];
@@ -126,7 +130,40 @@ router.post("/local-transfer", authenJWT, async (req, res) => {
     return;
   }
 
-  
+  try {
+    result = await otpModel.add(req.body);
+  } catch (err) {
+    res.status(401).json({ "err": "can not create otp" });
+    return;
+  }
+
+  result = await otpModel.searchTransactionByCustomerId(customer_id);
+  transactionInfo = result[0];
+  const otp = transactionInfo["otp"];
+  const template = fs.readFileSync('./template/email/otp.html', 'utf8');
+  const html = mustache.render(template, { otp: otp });
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: config["bankmail_address"],
+      pass: config["bankmail_password"]
+    }
+  });
+
+  const mailOptions = {
+    from: "no-reply <linh55909167@gmail.com>",
+    to: from_customer_info["email_address"],
+    subject: 'Email OTP verification !!!',
+    html: html
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+  } catch (err) {
+    console.log(err)
+    res.status(401).json({ "err": "send email otp failed" });
+    return;
+  }
 
   res.status(200).json({ "msg": "otp created successfully" });
 })
