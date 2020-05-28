@@ -15,6 +15,7 @@ module.exports = {
   },
 
   searchByAccountNumber: creNum => db.load(`select * from credit_account where credit_number = '${creNum}'`),
+  searchByCustomerId: customer_id => db.load(`select * from credit_account where customer_id = '${customer_id}'`),
   deposit: (creNum, amount) => db.load(`call deposit(${creNum}, ${amount})`),
   withdraw: (creNum, amount) => db.load(`call withdraw(${creNum}, ${amount})`)
 };

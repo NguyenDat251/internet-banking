@@ -1,5 +1,6 @@
 const express = require('express');
 const customerModel = require('../models/customer.model');
+const creditAccountModel = require('../models//credit_account.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../utils/config');
@@ -35,7 +36,7 @@ const authenJWT = async (req, res, next) => {
   try {
     decoded = await jwt.verify(accesstoken, secret_text);
   } catch (err) {
-    res.status(401).json({ "err": err });
+    res.status(401).json({ "err": err.sqlMessage });
     return;
   }
 
@@ -43,6 +44,21 @@ const authenJWT = async (req, res, next) => {
 
   next();
 }
+
+/* GET list credit account */
+router.get("/list-credit-info", authenJWT, async (req, res) => {
+  const customer_id = req.headers["customer_id"];
+
+  let creditInfo;
+  try {
+    creditInfo = await creditAccountModel.searchByCustomerId(customer_id);
+  } catch (err) {
+    res.status(401).json({ "err": err.sqlMessage });
+    return;
+  }
+
+  res.status(200).json({ "data": creditInfo });
+})
 
 /* POST request login */
 router.post("/login", authenLoginCustomer, async (req, res) => {
