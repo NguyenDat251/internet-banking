@@ -261,18 +261,21 @@ DROP TABLE IF EXISTS `transaction_otp`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `transaction_otp` (
-  `transaction_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `transaction_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
   `from_credit_number` char(15) COLLATE utf8_unicode_ci NOT NULL,
   `to_credit_number` char(15) COLLATE utf8_unicode_ci NOT NULL,
   `amount` bigint(20) unsigned NOT NULL,
   `otp` char(6) COLLATE utf8_unicode_ci NOT NULL,
+  `ts` bigint(20) unsigned NOT NULL,
   `status` char(10) COLLATE utf8_unicode_ci NOT NULL,
-  `ts` bigint(20) NOT NULL,
   PRIMARY KEY (`transaction_id`),
-  KEY `pending_transaction_otp_FK` (`from_credit_number`),
-  KEY `pending_transaction_otp_FK_1` (`to_credit_number`),
-  CONSTRAINT `pending_transaction_otp_FK` FOREIGN KEY (`from_credit_number`) REFERENCES `credit_account` (`credit_number`),
-  CONSTRAINT `pending_transaction_otp_FK_1` FOREIGN KEY (`to_credit_number`) REFERENCES `credit_account` (`credit_number`)
+  KEY `transaction_otp_FK_1` (`from_credit_number`),
+  KEY `transaction_otp_FK_2` (`to_credit_number`),
+  KEY `transaction_otp_FK` (`customer_id`),
+  CONSTRAINT `transaction_otp_FK` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`),
+  CONSTRAINT `transaction_otp_FK_1` FOREIGN KEY (`from_credit_number`) REFERENCES `credit_account` (`credit_number`),
+  CONSTRAINT `transaction_otp_FK_2` FOREIGN KEY (`to_credit_number`) REFERENCES `credit_account` (`credit_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -387,4 +390,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-28  6:45:51
+-- Dump completed on 2020-05-28  6:58:55
