@@ -153,7 +153,7 @@ router.post("/local-transfer", authenJWT, async (req, res) => {
   const mailOptions = {
     from: "no-reply <linh55909167@gmail.com>",
     to: from_customer_info["email_address"],
-    subject: 'Email OTP verification !!!',
+    subject: 'RetardBank Email OTP verification !!!',
     html: html
   };
 
