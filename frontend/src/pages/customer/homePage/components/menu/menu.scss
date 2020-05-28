@@ -11,29 +11,28 @@
 }
 
 .divider-vertical {
-  height: 30px;
+  height: 40px;
   margin: 0 0 0 9px;
   padding: 0 0 0 20px;
   border-left: 1px solid white;
 }
 
-.text-primary{
-    color: white
+.text-primary {
+  color: white;
 }
 
-a.dropdown-toggle::after{
-    //display: block !important;
-    color: white !important;
+.navbar-brand {
+  margin-right: !important;
 }
 
-.navbar-brand{
-    margin-right: 0 !important;
+a {
+  padding: 1 1 1 1 !important;
 }
 
-a{
-    padding:1 1 1 1 !important
+.nav-link {
+  padding: 0.3rem !important;
 }
 
-.nav-link{
-    padding: .2rem !important
+.nav-dropdown-bound{
+    height: 37px;
 }
