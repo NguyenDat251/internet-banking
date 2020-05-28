@@ -1,6 +1,7 @@
 const express = require('express');
 const customerModel = require('../models/customer.model');
-const creditAccountModel = require('../models//credit_account.model');
+const creditAccountModel = require('../models/credit_account.model');
+const savingAccountModel = require('../models/saving_account.model');
 const otpModel = require('../models/transaction_otp.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -48,6 +49,39 @@ const authenJWT = async (req, res, next) => {
 
   req.body["customer_id"] = decoded["customer_id"];
 
+  next();
+}
+
+const verifyOTP = async (req, res, next) => {
+  const transaction_id = req.body["transaction_id"];
+  const otp = req.body["otp"];
+  let result;
+  try {
+    result = await otpModel.searchTransaction(transaction_id);
+  } catch (err) {
+    res.status(401).json({ "err": "invalid transaction_id" });
+    return;
+  }
+
+  if (result.length === 0 || result === undefined) {
+    res.status(401).json({ "err": "invalid transaction_id" });
+    return
+  }
+
+  const transaction = result[0];
+
+  if (otp != transaction["otp"]) {
+    res.status(401).json({ "err": "invalid otp" });
+    return;
+  }
+
+  const current_ts = Math.floor(Date.now() / 1000);
+  if (current_ts - transaction["ts"] > config["otp_exp"]) { // otp expired
+    res.status(401).json({ "err": "otp expired" });
+    return;
+  }
+
+  req.body = transaction;
   next();
 }
 
@@ -130,6 +164,7 @@ router.post("/local-transfer", authenJWT, async (req, res) => {
     return;
   }
 
+  req.body["partner_code"] = "local";
   try {
     result = await otpModel.add(req.body);
   } catch (err) {
@@ -154,19 +189,32 @@ router.post("/local-transfer", authenJWT, async (req, res) => {
   const mailOptions = {
     from: "no-reply <linh55909167@gmail.com>",
     to: from_customer_info["email_address"],
-    subject: 'RetardBank Email OTP verification !!!',
+    subject: 'KiantoBank Email OTP verification !!!',
     html: html
   };
 
   try {
     await transporter.sendMail(mailOptions);
   } catch (err) {
-    console.log(err)
     res.status(401).json({ "err": "send email otp failed" });
     return;
   }
 
-  res.status(200).json({ "msg": "email otp created successfully" });
+  res.status(200).json({ "transaction_id": transaction_id });
+})
+
+/* POST request verify transaction id */
+router.post("/verify-otp", authenJWT, verifyOTP, async (req, res) => {
+  res.status(200).json({ "msg": "transaction success" });
+})
+
+/* GET request get list account */
+router.get("/get-list-account", authenJWT, async (req, res) => {
+  const customer_id = req.body["customer_id"];
+
+  const list_cre_acc = await creditAccountModel.searchByCustomerId(customer_id);
+  const list_save_acc = await savingAccountModel.searchByCustomerId(customer_id);
+  res.status(200).json({ "credit_account": list_cre_acc, "saving_account": list_save_acc });
 })
 
 module.exports = router;
