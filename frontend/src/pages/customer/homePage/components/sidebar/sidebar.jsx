@@ -20,8 +20,8 @@ const SideBar = ({match}) => {
 
     let servicesComponents = Services.map((item, index) => {
         return(
-            <div>
-            <li key={index} className={'nav'}>
+            <div key={index}>
+            <li className={'nav'}>
                 <NavLink className='navLink' activeClassName={'activeNavLink'} to={item.url}>> {item.name}</NavLink>
             </li>
             <hr/>
@@ -31,8 +31,8 @@ const SideBar = ({match}) => {
 
     let accountComponents = Account.map((item, index) => {
         return(
-            <div>
-            <li key={index} className={'nav'}>
+            <div key={index}>
+            <li className={'nav'}>
                 <NavLink className='navLink' activeClassName={'activeNavLink'} to={item.url}>> {item.name}</NavLink>
             </li>
             <hr/>
@@ -40,7 +40,7 @@ const SideBar = ({match}) => {
         )
     })
     return (
-        <div>
+        <div className = "sideBarContainer">
             <div className='leftNavContainer card'>
                 <div className="title">
                     <span className="text-white font-weight-bold">DỊCH VỤ</span>
@@ -51,7 +51,7 @@ const SideBar = ({match}) => {
             </div>
             <div className='leftNavContainer card'>
                 <div className="title">
-                    <span className="text-white font-weight-bold">iB@NGKING CỦA TÔI</span>
+                    <span className="text-white font-weight-bold">iB@NKING CỦA TÔI</span>
                 </div>
                 <ul>
                     {accountComponents}

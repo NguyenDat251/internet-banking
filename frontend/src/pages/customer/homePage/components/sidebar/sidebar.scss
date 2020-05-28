@@ -1,20 +1,25 @@
+.sideBarContainer{
+  width: 350px;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
 .leftNavContainer {
   margin: 50px;
   position: absolute;
   width: 300px;
-  display: block;
+  display: inline-block;
   box-sizing: border-box;
-  height: 100%;
   
   .navLink {
-    font-size: 15px;
+    font-size: 14px;
     padding-top: 15px;
     list-style-type: none;
     color: #000000;
   }
   a.activeNavLink {
     font-weight: bold;
-    font-size: 15px;
+    font-size: 14px;
     list-style-type: none;
     color: #000000;
   }
