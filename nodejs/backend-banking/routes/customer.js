@@ -137,7 +137,8 @@ router.post("/local-transfer", authenJWT, async (req, res) => {
     return;
   }
 
-  result = await otpModel.searchTransactionByCustomerId(customer_id);
+  const transaction_id = result["insertId"];
+  result = await otpModel.searchTransaction(transaction_id);
   transactionInfo = result[0];
   const otp = transactionInfo["otp"];
   const template = fs.readFileSync('./template/email/otp.html', 'utf8');
@@ -165,8 +166,7 @@ router.post("/local-transfer", authenJWT, async (req, res) => {
     return;
   }
 
-  res.status(200).json({ "msg": "otp created successfully" });
+  res.status(200).json({ "msg": "email otp created successfully" });
 })
-
 
 module.exports = router;

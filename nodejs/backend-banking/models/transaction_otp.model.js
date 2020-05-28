@@ -19,6 +19,6 @@ module.exports = {
     entity["ts"] = Math.floor(Date.now() / 1000);
     return db.add(entity, 'transaction_otp');
   },
-  searchTransactionByCustomerId: customer_id => db.load(`select * from transaction_otp where customer_id = ${customer_id} order by transaction_id desc limit 1`),
+  searchTransaction: (transaction_id) => db.load(`select * from transaction_otp where transaction_id = ${transaction_id}`),
   updateTransactionStatus: (transaction_id, status) => db.load(`update transaction_otp set status = "${status}" where transaction_id = ${transaction_id}`)
 };
