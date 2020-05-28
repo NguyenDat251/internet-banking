@@ -261,11 +261,13 @@ DROP TABLE IF EXISTS `transaction_otp`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `transaction_otp` (
-  `transaction_id` int(11) NOT NULL AUTO_INCREMENT,
+  `transaction_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `customer_id` int(11) NOT NULL,
   `from_credit_number` char(15) COLLATE utf8_unicode_ci NOT NULL,
   `to_credit_number` char(15) COLLATE utf8_unicode_ci NOT NULL,
   `amount` bigint(20) unsigned NOT NULL,
+  `fee_payer` char(10) COLLATE utf8_unicode_ci NOT NULL,
+  `partner_code` char(20) COLLATE utf8_unicode_ci NOT NULL,
   `otp` char(6) COLLATE utf8_unicode_ci NOT NULL,
   `ts` bigint(20) unsigned NOT NULL,
   `status` char(10) COLLATE utf8_unicode_ci NOT NULL,
@@ -390,4 +392,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-28  6:58:55
+-- Dump completed on 2020-05-28 10:04:01
