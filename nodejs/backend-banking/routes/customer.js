@@ -118,7 +118,7 @@ router.post("/login", authenLoginCustomer, async (req, res) => {
 })
 
 /* POST request local transfer */
-router.post("/local-transfer", authenJWT, async (req, res) => {
+router.post("/transfer-fund", authenJWT, async (req, res) => {
   let result;
   const customer_id = req.body["customer_id"];
 
@@ -128,32 +128,32 @@ router.post("/local-transfer", authenJWT, async (req, res) => {
   const target_fullname = req.body["target_fullname"].toUpperCase();
 
   let from_customer_info;
-  let to_customer_info;
   try {
     from_customer_info = await customerModel.searchByCreditNumber(from_credit_number);
   } catch (err) {
     res.status(401).json({ "err": "invalid from_credit_number" });
     return;
   }
-  try {
-    to_customer_info = await customerModel.searchByCreditNumber(to_credit_number);
-  } catch (err) {
-    res.status(401).json({ "err": "invalid to_credit_number" });
-    return;
-  }
-
   from_customer_info = from_customer_info[0];
-  to_customer_info = to_customer_info[0];
+
+  if (req.body["partner_code"] === "local") { // verify to_customer_info (local transfer only)
+    let to_customer_info;
+    try {
+      to_customer_info = await customerModel.searchByCreditNumber(to_credit_number);
+    } catch (err) {
+      res.status(401).json({ "err": "invalid to_credit_number" });
+      return;
+    }
+    const fullName = to_customer_info["lastname"] + " " + to_customer_info["firstname"];
+    if (fullName.toUpperCase() != target_fullname) {
+      res.status(401).json({ "err": "target_fullname value and to_credit_number info not match" });
+      return;
+    }
+  }
 
   // verify request
   if (from_customer_info["customer_id"] != customer_id) {
     res.status(401).json({ "err": "from_credit_number value and customer_id not match" });
-    return;
-  }
-
-  const fullName = to_customer_info["lastname"] + " " + to_customer_info["firstname"];
-  if (fullName.toUpperCase() != target_fullname) {
-    res.status(401).json({ "err": "target_fullname value and to_credit_number info not match" });
     return;
   }
 
@@ -164,7 +164,6 @@ router.post("/local-transfer", authenJWT, async (req, res) => {
     return;
   }
 
-  req.body["partner_code"] = "local";
   try {
     result = await otpModel.add(req.body);
   } catch (err) {
@@ -187,7 +186,7 @@ router.post("/local-transfer", authenJWT, async (req, res) => {
   });
 
   const mailOptions = {
-    from: "no-reply <linh55909167@gmail.com>",
+    from: "no-reply <kianto@bank.com>",
     to: from_customer_info["email_address"],
     subject: 'KiantoBank Email OTP verification !!!',
     html: html
@@ -205,6 +204,34 @@ router.post("/local-transfer", authenJWT, async (req, res) => {
 
 /* POST request verify transaction id */
 router.post("/verify-otp", authenJWT, verifyOTP, async (req, res) => {
+  const from_credit_number = req.body["from_credit_number"];
+  const to_credit_number = req.body["to_credit_number"];
+  const amount = req.body["amount"];
+  const fee_payer = req.body["fee_payer"];
+  const partner_code = req.body["partner_code"];
+  let transfer_fee;
+
+  result = await creditAccountModel.searchByAccountNumber(from_credit_number);
+  const credit_info = result[0];
+  if (credit_info["balance"] - amount < 50000) {
+    res.status(401).json({ "err": "balance insufficient" });
+    return;
+  }
+
+  if (partner_code === "local") {
+    transfer_fee = config["local_transfer_fee"];
+  } else {
+    transfer_fee = config["interbank_transfer_fee"];
+    res.status(401).json({ "err": "chua ho tro tinh nang interbank nhe anh em" });
+    return;
+  }
+
+  if (fee_payer === "sender") {
+    amount += transfer_fee;
+  }
+
+  
+
   res.status(200).json({ "msg": "transaction success" });
 })
 
