@@ -2,6 +2,7 @@ const express = require('express');
 const customerModel = require('../models/customer.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
 const config = require('../utils/config');
 
 const router = express.Router();
@@ -26,6 +27,7 @@ const authenLoginCustomer = async (req, res, next) => {
   req.headers["customerInfo"] = customerInfo;
   next();
 }
+
 
 const authenJWT = async (req, res, next) => {
   const accesstoken = req.headers["access_token"];
@@ -70,8 +72,6 @@ router.post("/local-transfer", authenJWT, async (req, res) => {
   } catch (err) {
     res.status(401).json({ "err": err.sqlMessage });
   }
-
-
 
   res.status(200).json({ "msg": "otp created successfully" });
 })
