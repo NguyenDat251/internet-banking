@@ -1,6 +1,6 @@
 .home-page {
   background-color: #dfe6e9;
-  height: 150vh;
+  height: 100%;
   .banner {
     background-image: url('/assets/banner.png');
     height: 100px;
@@ -21,6 +21,7 @@
     .rightContentContainer {
       display: inline-block;
       height: 100%;
+      padding: 20px;
       margin-right: auto;
       margin-left: auto;
       min-width: 640px;

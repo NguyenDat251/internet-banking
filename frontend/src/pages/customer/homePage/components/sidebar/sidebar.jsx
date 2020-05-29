@@ -4,18 +4,18 @@ import './sidebar.scss'
 
 const SideBar = ({match}) => {
     const Services = [
-        {name: 'Danh sách tài khoản', url: `${match.url}/action1`},
-        {name: 'Chuyển tiền trong KiantoBank', url: `${match.url}/action2`},
-        {name: 'Chuyển tiền đến ngân hàng khác', url: `${match.url}/action3`},
-        {name: 'Lịch sử giao dịch', url: `${match.url}/action4`},
-        {name: 'Quản lý nhắc nợ', url: `${match.url}/action5`},
+        {name: 'Danh sách tài khoản', url: `${match.url}/bankaccount`},
+        {name: 'Chuyển tiền trong KiantoBank', url: `${match.url}/transfer/kiantobank`},
+        {name: 'Chuyển tiền đến ngân hàng khác', url: `${match.url}/transfer/otherbank`},
+        {name: 'Lịch sử giao dịch', url: `${match.url}/history`},
+        {name: 'Quản lý nhắc nợ', url: `${match.url}/loan-reminder`},
     ]
     
     const Account = [
-        {name: 'Thông tin cá nhân', url: `${match.url}/action6`},
-        {name: 'Cài đặt người hưởng', url: `${match.url}/action7`},
-        {name: 'Đổi mật khẩu', url: `${match.url}/action8`},
-        {name: 'Thoát', url: `${match.url}/action9`},
+        {name: 'Thông tin cá nhân', url: `${match.url}/account-info`},
+        {name: 'Cài đặt người hưởng', url: `${match.url}/receiver`},
+        {name: 'Đổi mật khẩu', url: `${match.url}/change-password`},
+        {name: 'Thoát', url: `${match.url}/logout`},
     ]
 
     let servicesComponents = Services.map((item, index) => {

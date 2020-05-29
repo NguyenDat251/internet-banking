@@ -2,11 +2,10 @@ import React from 'react';
 import NavBar from './components/menu/menu';
 import SideBar from './components/sidebar/sidebar';
 import './homepage.component.scss';
-import { useRouteMatch, Switch, Route } from 'react-router-dom';
+import Router from './sidebarRouter';
 
-const customerHomepage = () => {
-  let { path, url } = useRouteMatch;
-  console.log(path);
+
+const CustomerHomepage = () => {
   return (
     <div className="home-page">
       <div className="banner float-left" />
@@ -15,11 +14,7 @@ const customerHomepage = () => {
         <div className="row">
           <SideBar className="col" />
           <div className="rightContentContainer card mt-5 ml-5 mr-5 col">
-            <Switch>
-              <Route exact path={path}>
-                <h3>This is content</h3>
-              </Route>
-            </Switch>
+            <Router/>
           </div>
         </div>
       </div>
@@ -27,4 +22,4 @@ const customerHomepage = () => {
   );
 };
 
-export default customerHomepage;
+export default CustomerHomepage;
