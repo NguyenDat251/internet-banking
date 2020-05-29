@@ -13,6 +13,9 @@
     - [API dành cho admin](#api-d%c3%a0nh-cho-admin)
       - [Thêm thông tin partner vào hệ thống](#th%c3%aam-th%c3%b4ng-tin-partner-v%c3%a0o-h%e1%bb%87-th%e1%bb%91ng)
   - [Một số thông tin mặc định được khởi tạo cùng với project, dùng để test api](#m%e1%bb%99t-s%e1%bb%91-th%c3%b4ng-tin-m%e1%ba%b7c-%c4%91%e1%bb%8bnh-%c4%91%c6%b0%e1%bb%a3c-kh%e1%bb%9fi-t%e1%ba%a1o-c%c3%b9ng-v%e1%bb%9bi-project-d%c3%b9ng-%c4%91%e1%bb%83-test-api)
+  - [Danh sách ngân hàng liên kêt](#danh-sách-các-ngân-hàng-liên-kết)
+    - [Ngân hàng đại diện nhóm chẵn (PGP)](#ngân-hàng-đại-diện-nhóm-chẵn-pgp)
+    - [Ngân hàng đại diện nhóm lẻ (RSA)](#ngân-hàng-đại-diện-nhóm-lẻ-rsa)
   - [Docker và Kubernetes](#docker-v%c3%a0-kubernetes)
     - [Môi trường lập trình local](#m%c3%b4i-tr%c6%b0%e1%bb%9dng-l%e1%ba%adp-tr%c3%acnh-local)
     - [Deploy lên Kubernetes cluster trên Google Cloud](#deploy-l%c3%aan-kubernetes-cluster-tr%c3%aan-google-cloud)
@@ -169,12 +172,14 @@ POST /api/admin/add-partner
 
 BODY
 {
-    "partner_code": "linh",
-    "public_key": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FDSmxRWi9tMStpTGZLL2xwWURtaWNsZTZ2MApsbExXdGRZaFNrSDZidWlPck5iYVhWSC8vWmNHOVRwT0xVMXZMK1BrdnByQ1ovTjFTdHF6MHhOcnpjZFQwekZJCnhRU3IzMWZCMXF6RDIrVDRuakJjR1JPU3R2MHV4aGFhcm1XVkp3akxpYTBybEw3Z3JSTDBheHc0ckVTTTluc04KYmU4WG5KR1ZLdEZ5OU1YSEJ3SURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQ=="
+    "partner_code": "bankdbb",
+    "bankname": "bankdbb",
+    "public_key": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FDRVVaSnd2VFlvcnVzdFFZK0YzaXFoSmUrTQordmsxMFYxZ2QrdFhBVDVlUTZCZngvRU9FRW9GaXduSC9JNUttUngzRDNhMkdIZ1dZSUxEbkNWbzVLbjZISC9SCkl1dmkxMXJsdks1Qzc5OFdZUmp2TmtPbGNmSTNNNml4UWYrZkFKU25mbE9xQ2NvUHAvUk0wSGdjeXdvVGtOV0sKUFFZcFBwazl0bm8vcWxPY3d3SURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQ==",
+    "partner_secret": "bankdbb"
 }
 ```
 
-- Hệ thống sẽ tự động tạo 1 secret_text trả về
+- Hệ thống sẽ tự động tạo 1 bank_secret trả về
 
 ## Một số thông tin mặc định được khởi tạo cùng với project, dùng để test api
 
@@ -190,7 +195,8 @@ BODY
     "firstname": "LINH",
     "lastname": "NGUYEN VAN",
     "date_of_birth": "1998-11-12",
-    "email_address": "linh1612340@gmail.com"
+    "email_address": "linh1612340@gmail.com",
+    "refresh_secret": "5FmWSukHG8PapSAcGrNS"
 }
 ```
 
@@ -199,8 +205,9 @@ BODY
 ```json
 {
     "customer_id": 1,
-    "account_number": "565572661049",
-    "balance": 100000
+    "credit_number": "565572661049",
+    "balance": 100000,
+    "status": 1
 }
 ```
 
@@ -210,8 +217,10 @@ BODY
 {
     "partner_id": 1,
     "partner_code": "linh",
+    "bankname": "linhbank",
     "public_key": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FDSmxRWi9tMStpTGZLL2xwWURtaWNsZTZ2MApsbExXdGRZaFNrSDZidWlPck5iYVhWSC8vWmNHOVRwT0xVMXZMK1BrdnByQ1ovTjFTdHF6MHhOcnpjZFQwekZJCnhRU3IzMWZCMXF6RDIrVDRuakJjR1JPU3R2MHV4aGFhcm1XVkp3akxpYTBybEw3Z3JSTDBheHc0ckVTTTluc04KYmU4WG5KR1ZLdEZ5OU1YSEJ3SURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQ==",
-    "secret_text": "kQYtFpj7pJfi5VVfoeGD"
+    "bank_secret": "kQYtFpj7pJfi5VVfoeGD",
+    "partner_secret": "idk"
 }
 ```
 
@@ -246,7 +255,7 @@ gP78h6zdxHh1xq/oLavoZue7xpP6nFMQmRrqPek8+A==
 -----END RSA PRIVATE KEY-----
 ```
 
-- bank public key
+- bank RSA public key
 
 ```html
 -----BEGIN PUBLIC KEY-----
@@ -257,7 +266,7 @@ be8XnJGVKtFy9MXHBwIDAQAB
 -----END PUBLIC KEY-----
 ```
 
-- bank secret key
+- bank RSA secret key
 
 ```html
 -----BEGIN RSA PRIVATE KEY-----
@@ -277,14 +286,119 @@ aLvYFAwzssSuUGlksRon0xjQ7M9P2+Bld3gcV6hUyg==
 -----END RSA PRIVATE KEY-----
 ```
 
-## Danh sách các ngân hàng  liên  kết
-### Ngân hàng đại diện nhóm chẵn:
-- Tên ngân hàng:
+- Bank PGP public key
+
+```html
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: Keybase OpenPGP v1.0.0
+Comment: https://keybase.io/crypto
+
+xo0EXsNd1gEEANMSmHxTjdL1XBcP09QGmky3Z75ePYfK8ywBKWJriAdqgy3nNHC+
+9Gn7yWxdG0yCIPUvsNfYFscXjyIWl2A5KUWgP7Tvnb88u1KDSV2WmXLJE+Mvxz28
+IkoZsRcOHNe9UDNDjxqJMYc6+vXHn+6KktTNEv45k+WVvzcbUUDUveURABEBAAHN
+HGxpbmggPGxpbmgxNjEyMzQwQGdtYWlsLmNvbT7CrQQTAQoAFwUCXsNd1gIbLwML
+CQcDFQoIAh4BAheAAAoJEAqwub56bRzrrNMD/iXzoYWhGgD1PW8hq4x04eY1FDTh
+UKIL7PNLqcWP/UIjIkVFwuJWPHRNKle804pLIOg1Kd0KKnefQ8/o48ekB8K3erlZ
+I7fMozmIEqqmmTXZLSNCCPieAHmtrHrcemjzhLRn6qG2VVUNbQPpHuK0yNVcWTqR
+RmbDeUyOMHja0Kf0zo0EXsNd1gEEAN1a3UNxi+/zqZbBSkAFGCBwGBzeg0GdRbgq
+kn44z3Ue+T0/iswS/mxRGPdtMYvagL1cZzvGBilJgzCQg4R2Jt5UMoieDo+YrIe9
+QrjjcopJ262Aee5aZB2Gu4YHbRMn4+hEKaTIpqL8rCLou/bhbkJG65YsDe8EiNwP
+i9iMJmmtABEBAAHCwIMEGAEKAA8FAl7DXdYFCQ8JnAACGy4AqAkQCrC5vnptHOud
+IAQZAQoABgUCXsNd1gAKCRBwACQaae7pkSQqBACN4v1lNA0ni2j2wJ29Piw4qRVv
+2mPfFHag3ilHj7wiEscQuBMA+659TvWPemXrBycsNkD3McueFAy/svLE28tqy9z2
+0udFIW7Jqni4q0nz7NInzyVXghF1Gv6KjnUppj1QLVyHar15Nr8IM8u1+vrVNgFC
+zz3lwqI0oSYY4UY/2OcbBAC19IGj8bM4EmOf7IEJd9lLGIo/mkDloRONeOM7R/Hi
+0aWuDeH4SViUdqz4303cdvf2LETVg16vffXzhOBUU+obLt0iKQrBS6QQLOFcxi1I
+OmC76AG/MpsD+Dis0l4D0TN1g08qIN/4t0owcwenkkuKWCpSMnO+T8CkoeSXC/kH
+C86NBF7DXdYBBADZTNl/VGoebXPlzJ5Sb0JZAnmMj8wTcd2hyT7WsrOvsu3t+qpR
+5l3XOgZMg6QvnNI+QAPw/sb0GzG5B5Bgq/HXhyyosyFEGMRxDoC6YLwTVS1Nt5mM
+dcHUuOipBWpbc6oZFUb5ldPibTYhyoWhjATwVjJArddBxl8rWq6vQ4mJxQARAQAB
+wsCDBBgBCgAPBQJew13WBQkPCZwAAhsuAKgJEAqwub56bRzrnSAEGQEKAAYFAl7D
+XdYACgkQPiF9sII2k1NKYAQApRbyELkB6/bkgyL/jJey95KobUzCv0tEdY7j0V/0
+2srSRg4xiJjbfxtrZtZNV2XJnHY6Y1Yws8zWXtvWW7CASqOKvqu1CeAER6HXJS+y
+KGGYzQaiwyDitLuTKpjsMp32YXBWkDMFaewsetRF1Q335/5us/oWOi/Q036X4B7J
+VWZobgQAyvxrw3OVc3soHZtr31FgblZFIfLvIGvAUhzlHm7SGtkzQdd7UjLkG48a
+aEaRRTz9FcbxFYI+68GOPX29aAbw3CcLBFXzPwH72E9v4uah4BapGFEFHrv+Zq2A
+xrc92e45BI8C3nuBrgZEvZT9l5sGR9lcaCWq0NwmO1mQK53XX94=
+=S6eu
+-----END PGP PUBLIC KEY BLOCK-----
 ```
+
+- Bank PGP private key
+
+```html
+-----BEGIN PGP PRIVATE KEY BLOCK-----
+Version: Keybase OpenPGP v1.0.0
+Comment: https://keybase.io/crypto
+
+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
+l5sGR9lcaCWq0NwmO1mQK53XX94=
+=MZrG
+-----END PGP PRIVATE KEY BLOCK-----
+```
+
+## Danh sách các ngân hàng  liên  kết
+
+### Ngân hàng đại diện nhóm chẵn (PGP)
+
+- Partner code:
+
+```html
 NaniBank
 ```
+
 - Public key (RSA):
-```
+
+```html
 -----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgsRrmYvqFeXGntLRa/84
 Zx7I5iJkDYNVlCXCxr2WVAoYKkiQWW/jlDD4OEhKCZCJgVVGT43XxUkQ3sv7+eVO
@@ -295,9 +409,49 @@ ktR6eRiI//ERKqhFM+XZ2ur/xTyv28hZhj8UInyHJogfPiX/cal1dr/7GKzqyqUp
 GQIDAQAB
 -----END PUBLIC KEY-----
 ```
-- Secret text:
+
+- Secrettext of partner:
+
+```html
+hi mom
 ```
-himom
+
+- Secrettext of bank:
+
+```html
+M0ec3lAqjHV82v66VYDb
+```
+
+### Ngân hàng đại diện nhóm lẻ (RSA)
+
+- Tên ngân hàng:
+
+```html
+bankdbb
+```
+
+- Public key (RSA):
+
+```html
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCEUZJwvTYorustQY+F3iqhJe+M
++vk10V1gd+tXAT5eQ6Bfx/EOEEoFiwnH/I5KmRx3D3a2GHgWYILDnCVo5Kn6HH/R
+Iuvi11rlvK5C798WYRjvNkOlcfI3M6ixQf+fAJSnflOqCcoPp/RM0HgcywoTkNWK
+PQYpPpk9tno/qlOcwwIDAQAB
+-----END PUBLIC KEY-----
+
+```
+
+- Secrettext of partner:
+
+```html
+bankdbb
+```
+
+- Secrettext of bank:
+
+```html
+Tj0xYDEDiQF9f2GYCxSv
 ```
 
 ## Docker và Kubernetes
