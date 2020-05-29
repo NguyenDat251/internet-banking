@@ -4,31 +4,19 @@ services:
 
 stages:
   - build
-  - release
-  - production
+  - deploy
 
 variables:
   DOCKER_DRIVER: overlay2
 
 before_script:
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+  - docker login -u gitlab-ci-token -p $DOCKER_PASSWORD
 
 build:
   stage: build
   script:
-    - docker build --pull -t $CI_REGISTRY_IMAGE:$CI_BUILD_REF .
-    - docker push $CI_REGISTRY_IMAGE:$CI_BUILD_REF
-  except:
-    - tags
-
-release-master:
-  stage: release
-  script:
-    - docker pull $CI_REGISTRY_IMAGE:$CI_BUILD_REF
-    - docker tag $CI_REGISTRY_IMAGE:$CI_BUILD_REF $CI_REGISTRY_IMAGE:latest
-    - docker push $CI_REGISTRY_IMAGE:latest
-  only:
-    - master
+    - docker build -t khuedoan/node-kubernetes nodejs
+    - docker push khuedoan/node-kubernetes
 
 .gcloud: &gcloud
   - echo $GCLOUD_SERVICE_KEY | base64 --decode -i > ~/gcloud-service-key.json
@@ -37,7 +25,7 @@ release-master:
 
 .prod_deploy: &prod_deploy
   image: google/cloud-sdk
-  stage: production
+  stage: deploy
   environment: production
   before_script: *gcloud
   script:
