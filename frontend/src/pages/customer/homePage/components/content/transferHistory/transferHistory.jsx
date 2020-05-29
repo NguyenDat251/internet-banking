@@ -1,18 +1,52 @@
-import React from 'react'
-import Title from '../component/title/title'
-import {DateRangePicker} from 'react-date-range'
+import React, { useState, useEffect } from 'react';
+import Title from '../component/title/title';
+import DatePicker from 'react-datepicker';
+import './transferHistory.scss';
 
-const transferHistory = () => {
-    return (
-        <div>
-            <Title title="CHUYỂN TIỀN CHO NGƯỜI HƯỞNG Ở NGÂN HÀNG KHÁC"/>
-            <div className="mt-4">
-                <h5 className="text-success">THÔNG TIN NGƯỜI CHUYỂN</h5>
-                <hr/>
-                <DateRangePicker/>
-            </div>
+import 'react-datepicker/dist/react-datepicker.css';
+
+const TransferHistory = () => {
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
+  useEffect(() => {
+    if(startDate>endDate){
+        setStartDate(endDate)
+    }
+  }, [endDate])
+
+  useEffect(() => {
+    if(startDate>endDate){
+        setEndDate(startDate)
+    }
+  }, [startDate])
+  return (
+    <div className="transferHistory">
+      <Title title="CHUYỂN TIỀN CHO NGƯỜI HƯỞNG Ở NGÂN HÀNG KHÁC" />
+      <div className="mt-4">
+        <h5 className="text-success">LỊCH SỬ GIAO DỊCH</h5>
+        <hr />
+        <div className="row">
+          <DatePicker
+            className="col-10 ml-4"
+            placeholderText="Ngày bắt đầu"
+            onChange={(date) => setStartDate(date)}
+            selected={startDate}
+            dateFormat="dd-MM-yyyy"
+          />
+          <DatePicker
+            className="col-10 "
+            placeholderText="Ngày kết thúc"
+            onChange={(date) => setEndDate(date)}
+            selected={endDate}
+            dateFormat="dd-MM-yyyy"
+          />
+          <div className="col-2"></div>
+          <button className="btn btn-success">Xem lịch sử</button>
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
-export default transferHistory
+export default TransferHistory;
