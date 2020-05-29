@@ -1,11 +1,11 @@
 import React from 'react'
-import HeaderHomePage from '../../../components/header/header' 
+import HeaderHomePage from './components/header/header' 
 import LoginForm from '../../../components/loginForm/loginForm' 
 import './loginPage.component.scss'
 
 const customerLoginPage = () => {
     return (
-        <div className="home-page">
+        <div className="login-page">
             <HeaderHomePage/>
             <div className="container">
                 <div className="row justify-content-md-center">

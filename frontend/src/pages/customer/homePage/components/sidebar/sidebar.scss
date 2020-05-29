@@ -1,0 +1,45 @@
+.sideBarContainer{
+  width: 350px;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.leftNavContainer {
+  margin: 50px;
+  position: absolute;
+  width: 300px;
+  display: inline-block;
+  box-sizing: border-box;
+  
+  .navLink {
+    font-size: 14px;
+    padding-top: 15px;
+    list-style-type: none;
+    color: #000000;
+  }
+  a.activeNavLink {
+    font-weight: bold;
+    font-size: 14px;
+    list-style-type: none;
+    color: #000000;
+  }
+
+  .title{
+      background-color: #008699;
+      height: 40px;
+      text-align: -webkit-center;
+      span{
+        vertical-align: -webkit-baseline-middle;
+        font-size: 18px;
+      }
+  }
+
+  ul{
+      padding-left: 10px !important;
+      padding-right: 10px !important;
+  }
+
+  hr{
+    margin-bottom: 0 !important;
+  }
+}
