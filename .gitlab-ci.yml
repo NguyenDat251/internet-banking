@@ -17,6 +17,8 @@ build:
   script:
     - docker build -t khuedoan/node-kubernetes nodejs
     - docker push khuedoan/node-kubernetes
+  only:
+    - master
 
 .gcloud: &gcloud
   - echo $GCLOUD_SERVICE_KEY | base64 --decode -i > ~/gcloud-service-key.json
