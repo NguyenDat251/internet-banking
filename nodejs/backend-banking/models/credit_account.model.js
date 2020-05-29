@@ -14,7 +14,7 @@ module.exports = {
     return db.add(entity, 'credit_account');
   },
 
-  searchByAccountNumber: accNum => db.load(`select * from credit_account where account_number = '${accNum}'`),
-  deposit: (accNum, amount) => db.load(`call deposit(${accNum}, ${amount})`),
-  withdraw: (accNum, amount) => db.load(`call withdraw(${accNum}, ${amount})`)
+  searchByAccountNumber: creNum => db.load(`select * from credit_account where credit_number = '${creNum}'`),
+  deposit: (creNum, amount) => db.load(`call deposit(${creNum}, ${amount})`),
+  withdraw: (creNum, amount) => db.load(`call withdraw(${creNum}, ${amount})`)
 };
