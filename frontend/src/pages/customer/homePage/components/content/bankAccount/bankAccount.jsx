@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Title from '../component/title/title'
-import SelectInput from '../component/selectInput/selectInput'
-import TextOutput from '../component/textOutput/textOutput'
+import SelectInput from './components/selectInput/selectInput'
+import TextMoneyOutput from '../component/textMoneyOutput/textMoneyOutput'
 
 const BankAccount = (props) => {
     const taikhoan = ['Tiền gửi thanh toán', 'TIền gửi tiết kiệm'];
@@ -15,20 +15,25 @@ const BankAccount = (props) => {
     useEffect(() => {
         const mangTaiKhoan = sotaikhoan[accountType];
         setAccountNumber(mangTaiKhoan);
-        const tien = sodu[mangTaiKhoan[0]];
+        let tien = sodu[mangTaiKhoan[0]];
         setMoney(tien);
     }, [accountType])
 
     useEffect(() => {
-        const tien = sodu[accountNumberValue];
+        let tien = sodu[accountNumberValue];
         setMoney(tien);
     }, [accountNumberValue])
+
     return (
         <div className="contentContainer">
-            <Title title="DANH SÁCH TÀI KHOẢN"/>
-            <SelectInput title="Loại tài khoản" items={taikhoan} onChange={e => setAccountType(e.target.value)}/>
-            <SelectInput title="Chọn tài khoản" items={accountNumber} onChange={e => setAccountNumberValue(e.target.value)}/>
-            <TextOutput title="Số dư" money={money}/>
+            <Title title="THÔNG TIN TÀI KHOẢN NGÂN HÀNG"/>
+            <div className="inputContainer mt-4">
+                <h5 className="text-success">DANH SÁCH TÀI KHOẢN</h5>
+                <hr/>
+                <SelectInput title="Loại tài khoản" items={taikhoan} onChange={e => setAccountType(e.target.value)}/>
+                <SelectInput title="Chọn tài khoản" items={accountNumber} onChange={e => setAccountNumberValue(e.target.value)}/>
+                <TextMoneyOutput title="Số dư hiện tại" money={money}/>
+            </div>
         </div>
     )
 }

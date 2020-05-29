@@ -2,7 +2,7 @@ import React from 'react';
 import NavBar from './components/menu/menu';
 import SideBar from './components/sidebar/sidebar';
 import './homepage.component.scss';
-import Router from './sidebarRouter';
+import SidebarRouter from './sidebarRouter';
 
 
 const CustomerHomepage = () => {
@@ -14,7 +14,7 @@ const CustomerHomepage = () => {
         <div className="row">
           <SideBar className="col" />
           <div className="rightContentContainer card mt-5 ml-5 mr-5 col">
-            <Router/>
+            <SidebarRouter/>
           </div>
         </div>
       </div>
