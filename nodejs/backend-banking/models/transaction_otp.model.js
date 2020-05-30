@@ -7,7 +7,10 @@ module.exports = {
     //   "customer_id": 1,
     //   "from_credit_number": "565572661049",
     //   "to_credit_number": "025917154505",
-    //   "amount": 50000
+    //   "amount": 50000,
+    //   "message": "bobo",
+    //   "fee_payer": "receiver",
+    //   "partner_code": "local"
     // }
 
     delete entity["target_fullname"];
