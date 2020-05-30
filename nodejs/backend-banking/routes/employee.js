@@ -1,6 +1,7 @@
 const express = require('express');
 const customerModel = require('../models/customer.model');
 const creditAccountModel = require('../models/credit_account.model');
+const savingAccountModel = require('../models/saving_account.model');
 const randomString = require('randomstring');
 
 const router = express.Router();
@@ -11,7 +12,6 @@ router.post('/add-customer', async (req, res, next) => {
   try {
     result = await customerModel.add(req.body);
   } catch (err) {
-    console.log(err.sqlMessage);
     res.status(422).json({ "err": err.sqlMessage });
     return;
   }
@@ -36,5 +36,21 @@ router.post('/add-customer', async (req, res, next) => {
 
   creditAccountModel.add({ customer_id: ret["customer_id"], credit_number: credit_number })
 });
+
+/* POST create saving account */
+router.post("/add-saving-account", async (req, res) => {
+  let result;
+  try {
+    result = await savingAccountModel.add(req.body);
+  } catch (err) {
+    res.status(401).json({ "err": err.sqlMessage });
+    return;
+  }
+
+  const account_id = result["insertId"];
+  result = await savingAccountModel.searchByAccountId(account_id);
+  const saveAcc = result[0];
+  res.status(201).json(saveAcc);
+})
 
 module.exports = router;
