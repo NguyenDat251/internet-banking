@@ -32,7 +32,6 @@ build:
   before_script: *gcloud
   script:
     - kubectl apply -f kubernetes
-    - kubectl rollout restart deployment.apps/nodejs
 
 auto-deploy-master:
   <<: *prod_deploy
