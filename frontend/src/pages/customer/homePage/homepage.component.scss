@@ -1,0 +1,30 @@
+.home-page {
+  background-color: #dfe6e9;
+  height: 100%;
+  .banner {
+    background-image: url('/assets/banner.png');
+    height: 100px;
+    width: 100vw;
+    min-width: 800px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .container.custom{
+    margin-top: 80px;
+    box-shadow: 0.005em 0.1rem 0.2rem rgba(0, 0, 0, 0.3) !important;
+    border-radius: 0.5rem !important;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 1138px;
+    .rightContentContainer {
+      display: inline-block;
+      height: 100%;
+      padding: 20px;
+      margin-right: auto;
+      margin-left: auto;
+      min-width: 640px;
+    }
+  }
+}
