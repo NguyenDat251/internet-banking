@@ -52,7 +52,6 @@ function LoginForm(props) {
         <div className="mt-4 col-md-auto">
           <ReCAPTCHA className="col-md-auto" sitekey={environment.SITE_KEY} onChange={verifyCallback} />
         </div>
-        <a></a>
         <button type="submit" className="btn btn-dark mt-4 mx-auto">
           Đăng nhập
         </button>

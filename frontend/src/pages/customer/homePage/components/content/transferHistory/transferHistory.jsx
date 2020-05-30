@@ -22,7 +22,7 @@ const TransferHistory = () => {
   }, [startDate])
   return (
     <div className="transferHistory">
-      <Title title="CHUYỂN TIỀN CHO NGƯỜI HƯỞNG Ở NGÂN HÀNG KHÁC" />
+      <Title title="TRA CỨU LỊCH SỬ GIAO DỊCH" />
       <div className="mt-4">
         <h5 className="text-success">LỊCH SỬ GIAO DỊCH</h5>
         <hr />

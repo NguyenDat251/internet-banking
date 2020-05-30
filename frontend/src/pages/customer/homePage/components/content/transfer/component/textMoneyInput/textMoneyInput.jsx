@@ -9,9 +9,9 @@ const TextMoneyInput = (props) => {
       </div>
       <div className="col-8">
         <div className="input-group">
-        <input type="text" class="form-control" placeholder="Nhập số tiền" onChange={props.onChange}></input>
-            <div class="input-group-append">
-                <span class="input-group-text">VND</span>
+        <input type="text" className="form-control" placeholder="Nhập số tiền" onChange={props.onChange}></input>
+            <div className="input-group-append">
+                <span className="input-group-text">VND</span>
             </div>
         </div>
       </div>

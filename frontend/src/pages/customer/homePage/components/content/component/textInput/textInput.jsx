@@ -8,7 +8,7 @@ const TextInput = (props) => {
         <h6>{props.title}</h6>
       </div>
       <div className="col-8">
-        <input className="form-control" placeholder={props.placeholder} onChange={props.onChange} disabled={props.disabled}/>
+        <input {...props} className="form-control"/>
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ const Menu = ({ match }) => {
     const [isAccountDropdown, setIsAccountDropDown] = useState(false);
   return (
     <nav className="custom-navbar navbar-expand navbar-light bg-color w-100 justify-content-center">
-      <a className href={`${match.url}`}>
+      <a href={`${match.url}`}>
         <img
           src="/assets/home_icon.svg"
           width="25"
