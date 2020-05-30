@@ -27,8 +27,8 @@ spec:
       - env:
         - name: PORT
           value: "80"
-        image: khuedoan/node-kubernetes
-        imagePullPolicy: ""
+        image: khuedoan/node-kubernetes:latest
+        imagePullPolicy: Always
         name: nodejs
         ports:
         - containerPort: 80

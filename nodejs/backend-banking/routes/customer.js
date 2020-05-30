@@ -6,6 +6,7 @@ const otpModel = require('../models/transaction_otp.model');
 const transactionModel = require('../models/transaction.models');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
 const config = require('../utils/config');
 const mustache = require('mustache');
 const fs = require('fs');
@@ -35,6 +36,7 @@ const authenLoginCustomer = async (req, res, next) => {
   req.headers["customerInfo"] = customerInfo;
   next();
 }
+
 
 const authenJWT = async (req, res, next) => {
   const accesstoken = req.headers["access_token"];
@@ -257,6 +259,7 @@ router.post("/verify-otp", authenJWT, verifyOTP, async (req, res) => {
   })
 
   res.status(200).json({ "msg": "transaction success" });
+
 })
 
 /* GET request get list account */
