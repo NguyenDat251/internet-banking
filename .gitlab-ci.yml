@@ -32,7 +32,7 @@ build:
   before_script: *gcloud
   script:
     - kubectl apply -f kubernetes
-    - kubectl patch deployment deployment.apps/nodejs -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"date\":\"`date +'%s'`\"}}}}}"
+    - kubectl patch deployment nodejs -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"date\":\"`date +'%s'`\"}}}}}"
 
 auto-deploy-master:
   <<: *prod_deploy
