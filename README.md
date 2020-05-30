@@ -1,26 +1,32 @@
 # Internet Banking
 
 - [Internet Banking](#internet-banking)
-  - [Thuật toán bảo mật API](#thu%e1%ba%adt-to%c3%a1n-b%e1%ba%a3o-m%e1%ba%adt-api)
-  - [Hướng dẫn sử dụng api](#h%c6%b0%e1%bb%9bng-d%e1%ba%abn-s%e1%bb%ad-d%e1%bb%a5ng-api)
-    - [API dành cho partner](#api-d%c3%a0nh-cho-partner)
-      - [Lấy thông tin tài khoản khách hàng bằng số tài khoản](#l%e1%ba%a5y-th%c3%b4ng-tin-t%c3%a0i-kho%e1%ba%a3n-kh%c3%a1ch-h%c3%a0ng-b%e1%ba%b1ng-s%e1%bb%91-t%c3%a0i-kho%e1%ba%a3n)
-      - [Nạp tiền vào tài khoản](#n%e1%ba%a1p-ti%e1%bb%81n-v%c3%a0o-t%c3%a0i-kho%e1%ba%a3n)
-      - [Rút tiền từ tài khoản](#r%c3%bat-ti%e1%bb%81n-t%e1%bb%ab-t%c3%a0i-kho%e1%ba%a3n)
-    - [API dành cho customer](#api-d%c3%a0nh-cho-customer)
-    - [API dành cho employee](#api-d%c3%a0nh-cho-employee)
-      - [Thêm thông tin khách hàng vào hệ thống](#th%c3%aam-th%c3%b4ng-tin-kh%c3%a1ch-h%c3%a0ng-v%c3%a0o-h%e1%bb%87-th%e1%bb%91ng)
-    - [API dành cho admin](#api-d%c3%a0nh-cho-admin)
-      - [Thêm thông tin partner vào hệ thống](#th%c3%aam-th%c3%b4ng-tin-partner-v%c3%a0o-h%e1%bb%87-th%e1%bb%91ng)
-  - [Một số thông tin mặc định được khởi tạo cùng với project, dùng để test api](#m%e1%bb%99t-s%e1%bb%91-th%c3%b4ng-tin-m%e1%ba%b7c-%c4%91%e1%bb%8bnh-%c4%91%c6%b0%e1%bb%a3c-kh%e1%bb%9fi-t%e1%ba%a1o-c%c3%b9ng-v%e1%bb%9bi-project-d%c3%b9ng-%c4%91%e1%bb%83-test-api)
-  - [Danh sách ngân hàng liên kêt](#danh-sách-các-ngân-hàng-liên-kết)
+  - [Thuật toán bảo mật API](#thuật-toán-bảo-mật-api)
+  - [Hướng dẫn sử dụng api](#hướng-dẫn-sử-dụng-api)
+    - [API dành cho partner](#api-dành-cho-partner)
+      - [Lấy thông tin tài khoản khách hàng bằng số tài khoản](#lấy-thông-tin-tài-khoản-khách-hàng-bằng-số-tài-khoản)
+      - [Nạp tiền vào tài khoản](#nạp-tiền-vào-tài-khoản)
+      - [Rút tiền từ tài khoản](#rút-tiền-từ-tài-khoản)
+    - [API dành cho customer](#api-dành-cho-customer)
+      - [Đăng Nhập](#đăng-nhập)
+      - [Lấy tên khách hàng bằng số  tài khoản tín dụng](#lấy-tên-khách-hàng-bằng-số-tài-khoản-tín-dụng)
+      - [Lấy toàn bộ danh sách tài khoản (credit + saving)](#lấy-toàn-bộ-danh-sách-tài-khoản-credit--saving)
+      - [Chuyển khoản](#chuyển-khoản)
+      - [Xác thực mã otp](#xác-thực-mã-otp)
+    - [API dành cho employee](#api-dành-cho-employee)
+      - [Thêm thông tin khách hàng vào hệ thống](#thêm-thông-tin-khách-hàng-vào-hệ-thống)
+      - [Thêm tài khoản tiết kiệm](#thêm-tài-khoản-tiết-kiệm)
+    - [API dành cho admin](#api-dành-cho-admin)
+      - [Thêm thông tin partner vào hệ thống](#thêm-thông-tin-partner-vào-hệ-thống)
+  - [Một số thông tin mặc định được khởi tạo cùng với project, dùng để test api](#một-số-thông-tin-mặc-định-được-khởi-tạo-cùng-với-project-dùng-để-test-api)
+  - [Danh sách các ngân hàng  liên  kết](#danh-sách-các-ngân-hàng-liên-kết)
     - [Ngân hàng đại diện nhóm chẵn (PGP)](#ngân-hàng-đại-diện-nhóm-chẵn-pgp)
     - [Ngân hàng đại diện nhóm lẻ (RSA)](#ngân-hàng-đại-diện-nhóm-lẻ-rsa)
-  - [Docker và Kubernetes](#docker-v%c3%a0-kubernetes)
-    - [Môi trường lập trình local](#m%c3%b4i-tr%c6%b0%e1%bb%9dng-l%e1%ba%adp-tr%c3%acnh-local)
-    - [Deploy lên Kubernetes cluster trên Google Cloud](#deploy-l%c3%aan-kubernetes-cluster-tr%c3%aan-google-cloud)
+  - [Docker và Kubernetes](#docker-và-kubernetes)
+    - [Môi trường lập trình local](#môi-trường-lập-trình-local)
+    - [Deploy lên Kubernetes cluster trên Google Cloud](#deploy-lên-kubernetes-cluster-trên-google-cloud)
     - [CI/CD](#cicd)
-  - [Trang web hữu ích](#trang-web-h%e1%bb%afu-%c3%adch)
+  - [Trang web hữu ích](#trang-web-hữu-ích)
 
 ## Thuật toán bảo mật API
 
@@ -143,12 +149,87 @@ BODY
 
 ### API dành cho customer
 
+#### Đăng Nhập
+
+```json
+POST /api/customer/login
+
+BODY
+{
+    "username": "linh",
+    "password": "linh"
+}
+```
+
+- Hệ thống sẽ trả lại access token, dùng access_token để  xác thực danh tính user
+
+#### Lấy tên khách hàng bằng số  tài khoản tín dụng
+
+```json
+GET /api/customer/get-credit-info
+
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcl9pZCI6MSwiaWF0IjoxNTkwODQ4NTQ3LCJleHAiOjE1OTA4NTQ1NDd9.F_IHlYq9QbpbJ5YmOVFrseZyqQaWzwBSYniZg8Ykdts"
+
+BODY
+{
+    "credit_number": "565572661049"
+}
+```
+
+#### Lấy toàn bộ danh sách tài khoản (credit + saving)
+
+```json
+GET /api/customer/get-list-account
+
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcl9pZCI6MSwiaWF0IjoxNTkwODQ4NTQ3LCJleHAiOjE1OTA4NTQ1NDd9.F_IHlYq9QbpbJ5YmOVFrseZyqQaWzwBSYniZg8Ykdts"
+```
+
+#### Chuyển khoản
+
+```json
+POST /api/customer/transfer-fund
+
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcl9pZCI6MSwiaWF0IjoxNTkwODQ4NTQ3LCJleHAiOjE1OTA4NTQ1NDd9.F_IHlYq9QbpbJ5YmOVFrseZyqQaWzwBSYniZg8Ykdts"
+
+BODY
+{
+    "target_fullname": "nguyen van linh",
+    "from_credit_number": "025917154505",
+    "to_credit_number": "565572661049",
+    "amount": 10000,
+    "fee_payer": "sender",
+    "partner_code": "local",
+    "message": "hello dude"
+}
+```
+
+- Nếu yêu cầu chuyển khoản thành công, mã otp sẽ được gửi vào email của customer yêu cầu chuyển khoản
+- API trả về transaction_id
+
+#### Xác thực mã otp
+
+```json
+POST /api/customer/verify-otp
+
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcl9pZCI6MSwiaWF0IjoxNTkwODQ4NTQ3LCJleHAiOjE1OTA4NTQ1NDd9.F_IHlYq9QbpbJ5YmOVFrseZyqQaWzwBSYniZg8Ykdts"
+
+BODY
+{
+    "transaction_id": 12,
+    "otp": "019628"
+}
+```
+
 ### API dành cho employee
 
 #### Thêm thông tin khách hàng vào hệ thống
 
 ```json
-POST /api/employee/add-customer
+POST /api/employee/add-customer 
 
 BODY
 {
@@ -160,6 +241,18 @@ BODY
     "lastname": "nguyen van",
     "date_of_birth": "1998-11-12",
     "email_address": "linh1612340@gmail.com"
+}
+```
+
+#### Thêm tài khoản tiết kiệm
+
+```json
+POST /api/employee/add-saving-account
+
+BODY
+{
+    "customer_id": 1,
+    "balance": 1000000
 }
 ```
 
@@ -420,6 +513,12 @@ hi mom
 
 ```html
 M0ec3lAqjHV82v66VYDb
+```
+
+- Host address
+
+```html
+35.240.195.17
 ```
 
 ### Ngân hàng đại diện nhóm lẻ (RSA)
