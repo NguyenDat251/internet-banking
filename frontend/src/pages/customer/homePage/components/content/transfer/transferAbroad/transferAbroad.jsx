@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Title from '../../component/title/title'
 import SenderInformation from '../component/senderInformation/senderInformation'
 import TransferInformation from '../component/transferInformation/transferInformation'
 import TextInput from '../../component/textInput/textInput'
 import SelectInput from '../../component/selectInput/selectInput'
+import InputWithSearch from '../component/inputWithSearch/inputWithSearch'
 
 const TransferAbroad = () => {
     const SoTK = ["0123456789"];
     const phiChuyenTien = ["Người gửi trả", "Người chuyển trả"]
+    const receiver=[{'id': 12345, 'name': 'Lam'}, {'id': 12313, 'name': 'Jindo'}, {'id': 56456, 'name': 'asdasd'}, {'id': 1235, 'name': 'Khue'}]
     const money = 500000;
+    const [value , setValue] = useState();
 
     const bankName = ["NaniBank", "AbcBank"];
     return (
@@ -23,6 +26,7 @@ const TransferAbroad = () => {
             <div className="mt-5">
                 <h5 className="text-success">THÔNG TIN NGƯỜI HƯỞNG</h5>
                 <hr/>
+                <InputWithSearch title="Tìm kiếm"  items={receiver} onChange={e => setValue(e.target.value)}/>
                 <TextInput title="Số tài khoản hưởng" placeholder="Nhập số tài khoản hưởng"/>
                 <SelectInput title="Ngân hàng" items={bankName}/>
                 

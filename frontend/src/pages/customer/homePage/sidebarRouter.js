@@ -6,6 +6,7 @@ import TransferAbroad from './components/content/transfer/transferAbroad/transfe
 import TransferHistory from './components/content/transferHistory/transferHistory'
 import AccountInfo from './components/content/accountInfo/accountInfo'
 import ChangePassword from './components/content/changePassword/changePassword'
+import Receiver from './components/content/receiver/receiver'
 
 const Router = () => {
     let match = useRouteMatch();
@@ -19,7 +20,7 @@ const Router = () => {
             <Route exact path={`${match.url}/history`} component={TransferHistory}/>
             <Route exact path={`${match.url}/loan-reminder`} render={() => <h3>{location.pathname}</h3>}/>
             <Route exact path={`${match.url}/account-info`} component={AccountInfo}/>
-            <Route exact path={`${match.url}/receiver`} render={() => <h3>{location.pathname}</h3>}/>
+            <Route exact path={`${match.url}/receiver`} component={Receiver}/>
             <Route exact path={`${match.url}/change-password`} component={ChangePassword}/>
             <Route exact path={`${match.url}/logout`} render={() => <Redirect to="/"></Redirect>}/>
         </Switch>

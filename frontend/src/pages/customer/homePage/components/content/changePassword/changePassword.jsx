@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Title from '../component/title/title';
 import ConfirmPassword from './components/confirmPassword/confirmPassword';
 import ConfirmOTP from './components/confirmOTP/confirmOTP';
