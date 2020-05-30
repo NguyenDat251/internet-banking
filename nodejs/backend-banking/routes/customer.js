@@ -3,6 +3,7 @@ const customerModel = require('../models/customer.model');
 const creditAccountModel = require('../models/credit_account.model');
 const savingAccountModel = require('../models/saving_account.model');
 const otpModel = require('../models/transaction_otp.model');
+const transactionModel = require('../models/transaction.models');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../utils/config');
@@ -70,6 +71,11 @@ const verifyOTP = async (req, res, next) => {
 
   const transaction = result[0];
 
+  if (transaction["status"] !== "pending") {  // this transaction invalid
+    res.status(401).json({ "err": "transaction already success or being canceled" });
+    return
+  }
+
   if (otp != transaction["otp"]) {
     res.status(401).json({ "err": "invalid otp" });
     return;
@@ -85,19 +91,20 @@ const verifyOTP = async (req, res, next) => {
   next();
 }
 
-/* GET list credit account */
-router.get("/list-credit-info", authenJWT, async (req, res) => {
-  const customer_id = req.body["customer_id"];
+/* GET fullname of credit account owner */
+router.get("/get-credit-info", authenJWT, async (req, res) => {
+  const credit_number = req.body["credit_number"];
 
-  let creditInfo;
+  let result;
   try {
-    creditInfo = await creditAccountModel.searchByCustomerId(customer_id);
+    result = await customerModel.searchByCreditNumber(credit_number);
   } catch (err) {
     res.status(401).json({ "err": "invalid customer_id" });
     return;
   }
+  const creditInfo = result[0];
 
-  res.status(200).json({ "data": creditInfo });
+  res.status(200).json({ "firstname": creditInfo["firstname"], "lastname": creditInfo["lastname"] });
 })
 
 /* POST request login */
@@ -127,23 +134,22 @@ router.post("/transfer-fund", authenJWT, async (req, res) => {
   const amount = req.body["amount"];
   const target_fullname = req.body["target_fullname"].toUpperCase();
 
-  let from_customer_info;
   try {
-    from_customer_info = await customerModel.searchByCreditNumber(from_credit_number);
+    result = await customerModel.searchByCreditNumber(from_credit_number);
   } catch (err) {
     res.status(401).json({ "err": "invalid from_credit_number" });
     return;
   }
-  from_customer_info = from_customer_info[0];
+  const from_customer_info = result[0];
 
   if (req.body["partner_code"] === "local") { // verify to_customer_info (local transfer only)
-    let to_customer_info;
     try {
-      to_customer_info = await customerModel.searchByCreditNumber(to_credit_number);
+      result = await customerModel.searchByCreditNumber(to_credit_number);
     } catch (err) {
       res.status(401).json({ "err": "invalid to_credit_number" });
       return;
     }
+    const to_customer_info = result[0];
     const fullName = to_customer_info["lastname"] + " " + to_customer_info["firstname"];
     if (fullName.toUpperCase() != target_fullname) {
       res.status(401).json({ "err": "target_fullname value and to_credit_number info not match" });
@@ -204,11 +210,13 @@ router.post("/transfer-fund", authenJWT, async (req, res) => {
 
 /* POST request verify transaction id */
 router.post("/verify-otp", authenJWT, verifyOTP, async (req, res) => {
+  const transaction_id = req.body["transaction_id"];
   const from_credit_number = req.body["from_credit_number"];
   const to_credit_number = req.body["to_credit_number"];
-  const amount = req.body["amount"];
+  let amount = req.body["amount"];
   const fee_payer = req.body["fee_payer"];
   const partner_code = req.body["partner_code"];
+  const message = req.body["message"] || "";
   let transfer_fee;
 
   result = await creditAccountModel.searchByAccountNumber(from_credit_number);
@@ -230,7 +238,23 @@ router.post("/verify-otp", authenJWT, verifyOTP, async (req, res) => {
     amount += transfer_fee;
   }
 
-  
+  otpModel.updateTransactionStatus(transaction_id, "success");
+  creditAccountModel.withdraw(from_credit_number, amount);
+  creditAccountModel.deposit(to_credit_number, amount - transfer_fee);
+  transactionModel.add_sent_to_history({
+    credit_number: from_credit_number,
+    to_credit_number: to_credit_number,
+    amount: amount - transfer_fee,
+    message: message,
+    partner_code: partner_code
+  })
+  transactionModel.add_receive_from_history({
+    credit_number: to_credit_number,
+    from_credit_number: from_credit_number,
+    amount: amount - transfer_fee,
+    message: message,
+    partner_code: partner_code
+  })
 
   res.status(200).json({ "msg": "transaction success" });
 })
