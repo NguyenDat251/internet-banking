@@ -180,7 +180,6 @@ CREATE TABLE `receive_from_transaction_history` (
   PRIMARY KEY (`transaction_id`),
   KEY `credit_number` (`credit_number`),
   KEY `receive_from_transaction_history_FK` (`from_credit_number`),
-  CONSTRAINT `receive_from_transaction_history_FK` FOREIGN KEY (`from_credit_number`) REFERENCES `credit_account` (`credit_number`),
   CONSTRAINT `receive_from_transaction_history_ibfk_1` FOREIGN KEY (`credit_number`) REFERENCES `credit_account` (`credit_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -239,7 +238,6 @@ CREATE TABLE `sent_to_transaction_history` (
   PRIMARY KEY (`transaction_id`),
   KEY `credit_number` (`credit_number`),
   KEY `sent_to_transaction_history_FK` (`to_credit_number`),
-  CONSTRAINT `sent_to_transaction_history_FK` FOREIGN KEY (`to_credit_number`) REFERENCES `credit_account` (`credit_number`),
   CONSTRAINT `sent_to_transaction_history_ibfk_1` FOREIGN KEY (`credit_number`) REFERENCES `credit_account` (`credit_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -266,6 +264,7 @@ CREATE TABLE `transaction_otp` (
   `from_credit_number` char(15) COLLATE utf8_unicode_ci NOT NULL,
   `to_credit_number` char(15) COLLATE utf8_unicode_ci NOT NULL,
   `amount` bigint(20) unsigned NOT NULL,
+  `message` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `fee_payer` char(10) COLLATE utf8_unicode_ci NOT NULL,
   `partner_code` char(20) COLLATE utf8_unicode_ci NOT NULL,
   `otp` char(6) COLLATE utf8_unicode_ci NOT NULL,
@@ -276,8 +275,7 @@ CREATE TABLE `transaction_otp` (
   KEY `transaction_otp_FK_2` (`to_credit_number`),
   KEY `transaction_otp_FK` (`customer_id`),
   CONSTRAINT `transaction_otp_FK` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`),
-  CONSTRAINT `transaction_otp_FK_1` FOREIGN KEY (`from_credit_number`) REFERENCES `credit_account` (`credit_number`),
-  CONSTRAINT `transaction_otp_FK_2` FOREIGN KEY (`to_credit_number`) REFERENCES `credit_account` (`credit_number`)
+  CONSTRAINT `transaction_otp_FK_1` FOREIGN KEY (`from_credit_number`) REFERENCES `credit_account` (`credit_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -392,4 +390,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-28 10:04:01
+-- Dump completed on 2020-05-30 15:23:48
