@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const db = require('../utils/db');
 const randomstring = require('randomstring');
+const creditAcountModel = require('./credit_account.model');
 
 module.exports = {
   add: entity => {
@@ -26,5 +27,15 @@ module.exports = {
   },
 
   searchByUserName: userName => db.load(`select * from customer where username = '${userName}'`),
-  searchByCustomerId: customerId => db.load(`select * from customer where customer_id = '${customerId}'`)
+  searchByCustomerId: customerId => db.load(`select * from customer where customer_id = '${customerId}'`),
+  searchByCreditNumber: async creditNum => {
+    let result;
+    try {
+      result = await db.load(`select customer_id from credit_account where credit_number = '${creditNum}' limit 1`);
+    } catch (err) {
+      return err;
+    }
+    customer_id = result[0]["customer_id"];
+    return db.load(`select * from customer where customer_id = '${customer_id}'`);
+  }
 };
