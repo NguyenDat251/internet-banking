@@ -40,7 +40,7 @@ app.use(function (err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(404).json({ "err": "invalid resource URL" });
+  res.status(404).json({ "err": "invalid resource url" });
 });
 
 module.exports = app;
