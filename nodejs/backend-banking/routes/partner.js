@@ -30,7 +30,6 @@ router.post('/deposit', verifySecretMiddleware, verifySignatureMiddleware, verif
   try {
     await creditAccountModel.deposit(creditNumber, amount);
   } catch (err) {
-    console.log(err.sqlMessage);
     res.status(422).json({ "err": err.sqlMessage });
     return;
   }
@@ -44,13 +43,15 @@ router.post('/withdraw', verifySecretMiddleware, verifySignatureMiddleware, veri
   const amount = req.body["amount"];
   const partnerCode = req.headers["partner-code"];
 
+  let result;
+
   try {
-    await creditAccountModel.withdraw(creditNumber, amount);
+    result = await creditAccountModel.withdraw(creditNumber, amount);
   } catch (err) {
-    console.log(err.sqlMessage);
     res.status(422).json({ "err": err.sqlMessage });
     return;
   }
+
   transactionModel.add_withdraw_history({ credit_number: creditNumber, amount: amount, partner_code: partnerCode })
   res.status(201).json({ "msg": "withdraw success" });
 })

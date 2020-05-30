@@ -8,8 +8,7 @@ router.post('/add-partner', async (req, res) => {
   let result;
   try {
     result = await partnerModel.add(req.body);
-  } catch (err) {
-    console.log(err.sqlMessage);
+  } catch (err) { 
     res.status(422).json({ "err": err.sqlMessage });
     return;
   }
