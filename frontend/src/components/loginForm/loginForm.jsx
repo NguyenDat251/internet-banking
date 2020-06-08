@@ -5,11 +5,12 @@ import { environment } from '../../environment';
 
 function LoginForm(props) {
   const [isVerified, setIsVerified] = useState(false);
-
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState()
   const handleForSubmit = (e) => {
     e.preventDefault();
     if (isVerified) {
-      alert(`${e.target.username.value} ${e.target.password.value}`);
+      props.login(username, password)
     } else {
       alert('Vui lòng xác thực lại');
     }
@@ -41,12 +42,14 @@ function LoginForm(props) {
           type="text"
           name="username"
           className="form-control form-control-sm mt-5 col-10 mx-auto"
+          onChange = {e => setUsername(e.target.value)}
           placeholder="Tên đăng nhập"
         />
         <input
           type="password"
           name="password"
           className="form-control form-control-sm mt-2 col-10 mx-auto"
+          onChange = {e => setPassword(e.target.value)}
           placeholder="Mật khẩu"
         />
         <div className="mt-4 col-md-auto">

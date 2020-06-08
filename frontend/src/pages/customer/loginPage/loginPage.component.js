@@ -2,8 +2,10 @@ import React from 'react'
 import HeaderHomePage from './components/header/header' 
 import LoginForm from '../../../components/loginForm/loginForm' 
 import './loginPage.component.scss'
+import {userActions} from '../../../actions/user'
+import { connect } from 'react-redux'
 
-const customerLoginPage = () => {
+const customerLoginPage = ({login}) => {
     return (
         <div className="login-page">
             <HeaderHomePage/>
@@ -11,7 +13,7 @@ const customerLoginPage = () => {
                 <div className="row justify-content-md-center">
                     <div className="col-6"></div>
                     <div className="col-md-auto mt-5">
-                        <LoginForm/>
+                        <LoginForm login = {login}/>
                     </div>
                 </div>
             </div>
@@ -19,4 +21,12 @@ const customerLoginPage = () => {
     )
 }
 
-export default customerLoginPage
+const mapStateToProps = (state) => ({
+    customer: state.customer
+})
+
+const mapDispatchToProps = dispatch => ({
+    login: (username, password) => dispatch(userActions.login(username, password))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(customerLoginPage)
