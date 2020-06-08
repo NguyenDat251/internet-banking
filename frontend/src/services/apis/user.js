@@ -1,4 +1,3 @@
-import NameLocal from '../../config/localStorage'
 import {environment} from '../../environment'
 import axios from 'axios';
 
@@ -10,8 +9,6 @@ const login = (username, password) => {
         password
     }).then(res => {
         return res.data
-    }).catch(err => {
-        return err;
     })
 }
 

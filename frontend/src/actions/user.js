@@ -1,13 +1,14 @@
 import { UserConstants } from './constants/user_constants';
 import {UserService} from '../services/apis/user'
 
+
 function login(username, password){
     return (dispatch) => {
       dispatch(request());
       UserService.login(username, password)
       .then(
         res =>{
-          dispatch(success(res.data))
+          dispatch(success(res))
         }
       ).catch(error => {
         dispatch(failure(error))

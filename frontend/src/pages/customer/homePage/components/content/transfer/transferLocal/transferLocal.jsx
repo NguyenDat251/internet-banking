@@ -13,9 +13,6 @@ const TransferLocal = () => {
     const receiver=[{'id': 12345, 'name': 'Lam'}, {'id': 12313, 'name': 'Jindo'}, {'id': 56456, 'name': 'asdasd'}, {'id': 1235, 'name': 'Khue'}]
     const [value , setValue] = useState();
 
-    useEffect(() => {
-        console.log(value)
-    }, [value])
     return (
         <div className="transferLocal">
             <form>
@@ -31,7 +28,7 @@ const TransferLocal = () => {
                     <hr/>
                     <InputWithSearch title="Tìm kiếm"  items={receiver} onChange={e => setValue(e.target.value)}/>
                     <TextInput title="Số tài khoản" placeholder="Nhập số tài khoản"/>
-                    <TextInput title="Tên người hưởng" placeholder="Tên người huởng" disabled={'true'}/>
+                    <TextInput title="Tên người hưởng" placeholder="Tên người huởng" disabled={true}/>
                 </div>
 
                 <div className="mt-5">

@@ -5,7 +5,7 @@ import './loginPage.component.scss'
 import {userActions} from '../../../actions/user'
 import { connect } from 'react-redux'
 
-const customerLoginPage = ({login}) => {
+const customerLoginPage = ({customer, login}) => {
     return (
         <div className="login-page">
             <HeaderHomePage/>
@@ -13,7 +13,7 @@ const customerLoginPage = ({login}) => {
                 <div className="row justify-content-md-center">
                     <div className="col-6"></div>
                     <div className="col-md-auto mt-5">
-                        <LoginForm login = {login}/>
+                        <LoginForm login = {login} customer = {customer}/>
                     </div>
                 </div>
             </div>

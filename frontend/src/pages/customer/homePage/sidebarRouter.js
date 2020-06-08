@@ -7,6 +7,7 @@ import TransferHistory from './components/content/transferHistory/transferHistor
 import AccountInfo from './components/content/accountInfo/accountInfo'
 import ChangePassword from './components/content/changePassword/changePassword'
 import Receiver from './components/content/receiver/receiver'
+import PrivateRoute from '../../../PrivateRoute'
 
 const Router = () => {
     let match = useRouteMatch();
@@ -15,7 +16,7 @@ const Router = () => {
         <Switch>    
             <Route exact path={`${match.url}`} component={BankAccount}/>
             <Route exact path={`${match.url}/bankaccount`} component={BankAccount}/>
-            <Route exact path={`${match.url}/transfer/kiantobank`} component={TransferLocal}/>
+            <PrivateRoute exact path={`${match.url}/transfer/kiantobank`} component={TransferLocal}/>
             <Route exact path={`${match.url}/transfer/otherbank`} component={TransferAbroad}/>
             <Route exact path={`${match.url}/history`} component={TransferHistory}/>
             <Route exact path={`${match.url}/loan-reminder`} render={() => <h3>{location.pathname}</h3>}/>

@@ -1,19 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './loginForm.scss';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { environment } from '../../environment';
+import { useHistory } from 'react-router-dom';
 
 function LoginForm(props) {
+  var history = useHistory()
   const [isVerified, setIsVerified] = useState(false);
   const [username, setUsername] = useState();
-  const [password, setPassword] = useState()
+  const [password, setPassword] = useState();
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    if(props.customer.loginError !== null){
+      setError("Sai tên tài khoản hoặc mật khẩu!")
+    } else if(props.customer.loginSuccess){
+      history.push('/dashboard')
+    }
+  }, [props.customer])
+
   const handleForSubmit = (e) => {
     e.preventDefault();
-    if (isVerified) {
-      props.login(username, password)
-    } else {
-      alert('Vui lòng xác thực lại');
+    if(!username){
+      setError("Quý khách vui lòng nhập tên đăng nhập!")
+      return;
+    } else if(!password) {
+      setError("Quý khách vui lòng nhập mật khẩu!")
+      return
+    } else if(!isVerified){
+      setError("Vui lòng xác minh!")
+      return
     }
+      props.login(username, password)
   };
 
   const verifyCallback = (res) => {
@@ -54,6 +72,9 @@ function LoginForm(props) {
         />
         <div className="mt-4 col-md-auto">
           <ReCAPTCHA className="col-md-auto" sitekey={environment.SITE_KEY} onChange={verifyCallback} />
+        </div>
+        <div className="mt-3">
+          <span className="text-danger">{error}</span>
         </div>
         <button type="submit" className="btn btn-dark mt-4 mx-auto">
           Đăng nhập
