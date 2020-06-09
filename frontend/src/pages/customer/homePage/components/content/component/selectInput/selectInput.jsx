@@ -9,8 +9,8 @@ const SelectInput = (props) => {
       </div>
       <div className="col-8">
         <select className="form-control input-sm" onChange={props.onChange}>
-            {props.items ? props.items.map(item =>
-                <option>{item}</option>
+            {props.items ? props.items.map((item,key) =>
+                <option key={key}>{item}</option>
             ) : null}
         </select>
       </div>
