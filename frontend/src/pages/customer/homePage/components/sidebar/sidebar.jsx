@@ -8,18 +8,18 @@ const SideBar = ({logout}) => {
 
     const match = useRouteMatch();
     const Services = [
-        {name: 'Danh sách tài khoản', url: `${match.url}/bankaccount`},
-        {name: 'Chuyển tiền trong KiantoBank', url: `${match.url}/transfer/kiantobank`},
-        {name: 'Chuyển tiền đến ngân hàng khác', url: `${match.url}/transfer/otherbank`},
-        {name: 'Lịch sử giao dịch', url: `${match.url}/history`},
-        {name: 'Quản lý nhắc nợ', url: `${match.url}/loan-reminder`},
+        {name: 'Danh sách tài khoản', url: `${match.path}/bankaccount`},
+        {name: 'Chuyển tiền trong KiantoBank', url: `${match.path}/transfer/kiantobank`},
+        {name: 'Chuyển tiền đến ngân hàng khác', url: `${match.path}/transfer/otherbank`},
+        {name: 'Lịch sử giao dịch', url: `${match.path}/history`},
+        {name: 'Quản lý nhắc nợ', url: `${match.path}/loan-reminder`},
     ]
     
     const Account = [
-        {name: 'Thông tin cá nhân', url: `${match.url}/account-info`},
-        {name: 'Cài đặt người hưởng', url: `${match.url}/receiver`},
-        {name: 'Đổi mật khẩu', url: `${match.url}/change-password`},
-        {name: 'Thoát', url: `${match.url}/logout`, onClick: () => logout()}
+        {name: 'Thông tin cá nhân', url: `${match.path}/account-info`},
+        {name: 'Cài đặt người hưởng', url: `${match.path}/receiver`},
+        {name: 'Đổi mật khẩu', url: `${match.path}/change-password`},
+        {name: 'Thoát', url: `${match.path}/logout`, onClick: () => logout()}
     ]
 
     let servicesComponents = Services.map((item, index) => {

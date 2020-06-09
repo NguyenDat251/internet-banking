@@ -40,7 +40,6 @@ const BankAccount = ({bankAccount, getBankAccount}) => {
     }, [accountType])
 
     useEffect(() => {
-        console.log("Change")
         if(bankAccount.bankAccountSuccess === true){
             let accounts = bankAccount[loaiTaiKhoan[accountType]];
             let account = accounts.filter(account => account.credit_account === accountNumberValue)

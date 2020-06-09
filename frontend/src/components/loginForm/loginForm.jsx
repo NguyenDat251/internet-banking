@@ -25,20 +25,20 @@ function LoginForm(props) {
       setError("Quý khách vui lòng nhập mật khẩu!")
       return
     } 
-    else if(!isVerified){
-      setError("Vui lòng xác minh!")
-      return
-    }
+    // else if(!isVerified){
+    //   setError("Vui lòng xác minh!")
+    //   return
+    // }
     props.login(username, password)
   };
 
-  const verifyCallback = (res) => {
-    if (res) {
-      setIsVerified(true);
-    }
-  };
+  // const verifyCallback = (res) => {
+  //   if (res) {
+  //     setIsVerified(true);
+  //   }
+  // };
 
-  if(props.customer.loginSuccess === true){
+  if( sessionStorage.getItem("ACCESS_TOKEN") !== null){
     return <Redirect to="/dashboard"/>
   }
   return (
@@ -72,9 +72,9 @@ function LoginForm(props) {
           onChange = {e => setPassword(e.target.value)}
           placeholder="Mật khẩu"
         />
-        <div className="mt-4 col-md-auto center-vertical">
+        {/* <div className="mt-4 col-md-auto center-vertical">
           <ReCAPTCHA className="col-md-auto" sitekey={environment.SITE_KEY} onChange={verifyCallback} />
-        </div>
+        </div> */}
         <div className="mt-3">
           <span className="text-danger">{error}</span>
         </div>
