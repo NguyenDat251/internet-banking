@@ -5,30 +5,47 @@ import TextMoneyOutput from '../component/textMoneyOutput/textMoneyOutput'
 import { bankAccountActions } from '../../../../../../actions/customer/bankAccount'
 import { connect } from 'react-redux'
 
+
+const CREDIT_ACCOUNT = "Tiền gửi thanh toán"
+const SAVING_ACCOUNT = "Tiền gửi tiết kiệm"
+
 const BankAccount = ({bankAccount, getBankAccount}) => {
-    const taikhoan = ['Tiền gửi thanh toán', 'TIền gửi tiết kiệm'];
-    const sotaikhoan = {'Tiền gửi thanh toán': ['123456'], 'TIền gửi tiết kiệm' : ['024689', '135790', '000001']}
-    const sodu = {'123456' : 50000, '024689': 80000, '135790': '100000', '000001': 5000000};
+    const taikhoan = [CREDIT_ACCOUNT, SAVING_ACCOUNT];
+    const loaiTaiKhoan = { "Tiền gửi thanh toán": "credit_account", "Tiền gửi tiết kiệm": "saving_account"}
     const [accountType, setAccountType] = useState(taikhoan[0]);
-    const [accountNumber, setAccountNumber] = useState(sotaikhoan[taikhoan[0]]);
-    const [accountNumberValue, setAccountNumberValue] = useState(accountNumber[0]);
-    const [money, setMoney] = useState(sodu[accountNumberValue]);
+    const [accountNumber, setAccountNumber] = useState([]);
+    const [accountNumberValue, setAccountNumberValue] = useState();
+    const [money, setMoney] = useState(0);
 
     useEffect(() => {
         getBankAccount()
-        console.log(bankAccount)
     }, [])
 
     useEffect(() => {
-        const mangTaiKhoan = sotaikhoan[accountType];
-        setAccountNumber(mangTaiKhoan);
-        let tien = sodu[mangTaiKhoan[0]];
-        setMoney(tien);
+       if(bankAccount.bankAccountSuccess === true){
+           let accounts = bankAccount[loaiTaiKhoan[accountType]];
+           let accountNumberArr = accounts.map(item => item.credit_number)
+           setAccountNumber(accountNumberArr)
+           accountNumberArr.length > 0 && setMoney(accounts[0].balance);
+        }
+    }, [bankAccount])
+    
+    useEffect(() => {
+        if(bankAccount.bankAccountSuccess === true){
+            let accounts = bankAccount[loaiTaiKhoan[accountType]];
+            let accountNumberArr = accounts.map(item => item.credit_number)
+            setAccountNumber(accountNumberArr)
+            accountNumberArr.length > 0 ? setMoney(accounts[0].balance) : setMoney(0)
+        }
     }, [accountType])
 
     useEffect(() => {
-        let tien = sodu[accountNumberValue];
-        setMoney(tien);
+        console.log("Change")
+        if(bankAccount.bankAccountSuccess === true){
+            let accounts = bankAccount[loaiTaiKhoan[accountType]];
+            let account = accounts.filter(account => account.credit_account === accountNumberValue)
+            account.length > 0 ? setMoney(account[0].balance) : setMoney(0)
+        }
     }, [accountNumberValue])
 
     return (

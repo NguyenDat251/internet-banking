@@ -2,7 +2,7 @@ import React from 'react';
 import './textMoneyOutput.scss';
 
 const TextOutput = (props) => {
-  const money = props.money.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+  const money = props.money && props.money.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
   return (
     <div className="row mt-3 textMoneyOutput">
       <div className="col-4 text-right align-self-center">
