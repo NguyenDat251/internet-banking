@@ -6,6 +6,7 @@ const otpModel = require('../models/transaction_otp.model');
 const transactionModel = require('../models/transaction.models');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const randomstring = require('randomstring');
 
 const config = require('../utils/config');
 const mustache = require('mustache');
@@ -268,6 +269,60 @@ router.get("/get-list-account", authenJWT, async (req, res) => {
   const list_cre_acc = await creditAccountModel.searchByCustomerId(customer_id);
   const list_save_acc = await savingAccountModel.searchByCustomerId(customer_id);
   res.status(200).json({ "credit_account": list_cre_acc, "saving_account": list_save_acc });
+})
+
+/* POST request forget password */
+router.post("/reset-password", async (req, res) => {
+  const username = req.body["username"];
+  const identity_number = req.body["identity_number"];
+  let result;
+
+  try {
+    result = await customerModel.searchByUserName(username);
+  } catch{
+    res.status(401).json({ "message": "can not verify username" });
+  }
+  if (result.length === 0 || result === undefined) {
+    res.status(401).json({ "err": "invalid username" });
+    return;
+  }
+
+  const customerInfo = result[0];
+  if (customerInfo["identity_number"] !== identity_number) {
+    res.status(401).json({ "err": "invalid identity number" });
+    return;
+  }
+
+  const otp = randomstring.generate({
+    length: 6,
+    charset: 'numeric'
+  });
+  const template = fs.readFileSync('./template/email/reset-password.html', 'utf8');
+  const html = mustache.render(template, { otp: otp });
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: config["bankmail_address"],
+      pass: config["bankmail_password"]
+    }
+  });
+
+  const mailOptions = {
+    from: "no-reply <kianto@bank.com>",
+    to: customerInfo["email_address"],
+    subject: 'KiantoBank Email OTP verification !!!',
+    html: html
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+  } catch (err) {
+    res.status(401).json({ "err": "send email otp failed" });
+    return;
+  }
+
+  res.status(200).json({ "transaction_id": 1 });
+
 })
 
 module.exports = router;
