@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react'
 import Title from '../component/title/title'
 import SelectInput from './components/selectInput/selectInput'
 import TextMoneyOutput from '../component/textMoneyOutput/textMoneyOutput'
+import { bankAccountActions } from '../../../../../../actions/customer/bankAccount'
+import { connect } from 'react-redux'
 
-const BankAccount = (props) => {
+const BankAccount = ({bankAccount, getBankAccount}) => {
     const taikhoan = ['Tiền gửi thanh toán', 'TIền gửi tiết kiệm'];
     const sotaikhoan = {'Tiền gửi thanh toán': ['123456'], 'TIền gửi tiết kiệm' : ['024689', '135790', '000001']}
     const sodu = {'123456' : 50000, '024689': 80000, '135790': '100000', '000001': 5000000};
@@ -11,6 +13,11 @@ const BankAccount = (props) => {
     const [accountNumber, setAccountNumber] = useState(sotaikhoan[taikhoan[0]]);
     const [accountNumberValue, setAccountNumberValue] = useState(accountNumber[0]);
     const [money, setMoney] = useState(sodu[accountNumberValue]);
+
+    useEffect(() => {
+        getBankAccount()
+        console.log(bankAccount)
+    }, [])
 
     useEffect(() => {
         const mangTaiKhoan = sotaikhoan[accountType];
@@ -38,4 +45,12 @@ const BankAccount = (props) => {
     )
 }
 
-export default BankAccount
+const mapStateToProps = (state) => ({
+    bankAccount: state.bankAccount
+})
+
+const mapDispatchToProps = dispatch => ({
+    getBankAccount: () => dispatch(bankAccountActions.getBankAccount())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(BankAccount)
