@@ -37,5 +37,9 @@ module.exports = {
     }
     customer_id = result[0]["customer_id"];
     return db.load(`select * from customer where customer_id = '${customer_id}'`);
+  },
+  changePassword: (customerId, password) => {
+    const hash = bcrypt.hashSync(password, 8);
+    return db.load(`update customer set hashed_password = '${hash}' where customer_id = ${customerId}`)
   }
 };
