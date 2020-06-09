@@ -14,16 +14,16 @@ const Router = () => {
     let location = useLocation();
     return (
         <Switch>    
-            <Route exact path={`${match.url}`} component={BankAccount}/>
-            <Route exact path={`${match.url}/bankaccount`} component={BankAccount}/>
-            <PrivateRoute exact path={`${match.url}/transfer/kiantobank`} component={TransferLocal}/>
+            {/* <PrivateRoute exact path={`${match.url}`} component={BankAccount}/> */}
+            <PrivateRoute exact path={`${match.url}/bankaccount`} component={BankAccount}/>
+            <Route exact path={`${match.url}/transfer/kiantobank`} component={TransferLocal}/>
             <Route exact path={`${match.url}/transfer/otherbank`} component={TransferAbroad}/>
             <Route exact path={`${match.url}/history`} component={TransferHistory}/>
             <Route exact path={`${match.url}/loan-reminder`} render={() => <h3>{location.pathname}</h3>}/>
             <Route exact path={`${match.url}/account-info`} component={AccountInfo}/>
             <Route exact path={`${match.url}/receiver`} component={Receiver}/>
             <Route exact path={`${match.url}/change-password`} component={ChangePassword}/>
-            <Route exact path={`${match.url}/logout`} render={() => <Redirect to="/"></Redirect>}/>
+            <Route exact path={`${match.url}/logout`} render={() => <Redirect to="/logout"></Redirect>}/>
         </Switch>
     )
 }

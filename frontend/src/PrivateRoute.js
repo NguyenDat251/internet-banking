@@ -1,14 +1,16 @@
 import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Redirect, useHistory, useRouteMatch } from 'react-router-dom'
 import {isAuthen} from './services/authService/authService'
 
-console.log(isAuthen.isAuthenticated)
-const PrivateRoute = ({component: Component, ...rest}) => (
+const PrivateRoute = ({component: Component, ...rest}) => { 
+    console.log(isAuthen())
+    console.log(sessionStorage.getItem("ACCESS_TOKEN"))
+    return(
     <Route {...rest} render={(props) => (
-        isAuthen.isAuthenticated === true
+        isAuthen() === true
         ? <Component {...props}/>
         : <Redirect to="/login"/> 
     )}/>
-)
+)}
 
 export default PrivateRoute

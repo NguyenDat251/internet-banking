@@ -2,21 +2,18 @@ import React, { useState, useEffect } from 'react';
 import './loginForm.scss';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { environment } from '../../environment';
-import { useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 function LoginForm(props) {
-  var history = useHistory()
   const [isVerified, setIsVerified] = useState(false);
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState();
 
   useEffect(() => {
-    if(props.customer.loginError !== null){
+    if(props.customer.loginError !== null && props.customer.loginSuccess === false){
       setError("Sai tên tài khoản hoặc mật khẩu!")
-    } else if(props.customer.loginSuccess){
-      history.push('/dashboard')
-    }
+    } 
   }, [props.customer])
 
   const handleForSubmit = (e) => {
@@ -27,18 +24,23 @@ function LoginForm(props) {
     } else if(!password) {
       setError("Quý khách vui lòng nhập mật khẩu!")
       return
-    } else if(!isVerified){
-      setError("Vui lòng xác minh!")
-      return
-    }
-      props.login(username, password)
+    } 
+    // else if(!isVerified){
+    //   setError("Vui lòng xác minh!")
+    //   return
+    // }
+    props.login(username, password)
   };
 
-  const verifyCallback = (res) => {
-    if (res) {
-      setIsVerified(true);
-    }
-  };
+  // const verifyCallback = (res) => {
+  //   if (res) {
+  //     setIsVerified(true);
+  //   }
+  // };
+
+  if(props.customer.loginSuccess === true){
+    return <Redirect to="/dashboard"/>
+  }
   return (
     <div className="custom-shadow-rounded card p-3 mb-5 bg-white">
       <div className="row vertical-center-row">
@@ -70,9 +72,9 @@ function LoginForm(props) {
           onChange = {e => setPassword(e.target.value)}
           placeholder="Mật khẩu"
         />
-        <div className="mt-4 col-md-auto">
+        {/* <div className="mt-4 col-md-auto">
           <ReCAPTCHA className="col-md-auto" sitekey={environment.SITE_KEY} onChange={verifyCallback} />
-        </div>
+        </div> */}
         <div className="mt-3">
           <span className="text-danger">{error}</span>
         </div>
