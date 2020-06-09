@@ -30,6 +30,11 @@ const user = (state = initialState, action) => {
         loginSuccess: false,
         loginError: action.payload,
       };
+    case UserConstants.LOGOUT:
+      sessionStorage.removeItem(NameItem.ACCESS_TOKEN);
+      return {
+        logout: true
+      }
     default:
       return state;
   }

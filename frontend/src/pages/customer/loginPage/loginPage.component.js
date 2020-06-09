@@ -4,7 +4,6 @@ import LoginForm from '../../../components/loginForm/loginForm'
 import './loginPage.component.scss'
 import {userActions} from '../../../actions/user'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
 
 const customerLoginPage = ({customer, login}) => {
     return (

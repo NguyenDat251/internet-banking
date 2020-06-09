@@ -11,8 +11,7 @@ const Router = () => {
         <Switch>
             <Redirect exact from="/" to="/login"></Redirect>
             <Route exact path="/login" component={CustomerLoginPage}/>
-            <Route exact path="/dashboard/login"  render={() => <Redirect to="/"></Redirect>}/>
-            <Route exact path="/dashboard/logout" render={() => <Redirect to="/"></Redirect>}/>
+            <Route exact path="/dashboard/login"  render={() => <Redirect to="/login"></Redirect>}/>
             <Route path="/dashboard" component={CustomerHomepage}/>
 
 

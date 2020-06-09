@@ -20,6 +20,11 @@ const request = () => ({type: UserConstants.LOGIN_REQUEST});
 const success = (res) => ({type: UserConstants.LOGIN_SUCCESS, payload: res});
 const failure = (error) => ({type: UserConstants.LOGIN_ERROR, payload: error});
 
+function logout(){
+  return dispatch => dispatch({type: UserConstants.LOGOUT})
+}
+
 export const userActions = {
-  login
+  login, 
+  logout
 }
