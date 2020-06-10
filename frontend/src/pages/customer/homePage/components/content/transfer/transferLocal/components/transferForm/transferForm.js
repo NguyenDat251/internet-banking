@@ -4,7 +4,7 @@ import TransferInformation from '../../../component/transferInformation/transfer
 import InputWithSearch from '../../../component/inputWithSearch/inputWithSearch'
 import TextInput from '../../../../component/textInput/textInput'
 import "./transferForm.scss"
-import { connect } from 'react-redux'
+import CheckBox from '../../../../component/checkBox/checkBox'
 
 const TransferForm = (props) => {
     const credit_account = props.bankAccount.credit_account[0];
@@ -16,9 +16,14 @@ const TransferForm = (props) => {
 
     const handleForSubmit = (e) => {
         e.preventDefault();
+        props.setStep(2);
     }
     return (
         <div className="transferForm">
+            <div className="mt-4">
+                <h5 className="text-success">THÔNG TIN NGƯỜI CHUYỂN</h5>
+                <hr />
+            </div>
             <form onSubmit={handleForSubmit}>    
                 <SenderInformation items={SoTK} money={money}/>
                 <div className="mt-5">
@@ -27,6 +32,10 @@ const TransferForm = (props) => {
                     <InputWithSearch title="Tìm kiếm"  items={receiver} onChange={e => setValue(e.target.value)}/>
                     <TextInput title="Số tài khoản" placeholder="Nhập số tài khoản" onChange={(e) => props.setSoTaiKhoan(e.target.value)}/>
                     <TextInput title="Tên người hưởng" placeholder="Tên người huởng" disabled={true}/>
+                    <CheckBox label="Lưu thông tin người hưởng" onChange={() => props.setLuuThongTin(!props.luuThongTin)}/>
+                    {props.luuThongTin && (
+                        <TextInput title="Tên gợi nhớ" placeholder="Nhập tên gợi nhớ"/>
+                    )}
                 </div>
 
                 <div className="mt-5">
@@ -35,7 +44,7 @@ const TransferForm = (props) => {
                     <TransferInformation {...props} items={phiChuyenTien}/>
                 </div>
                 <div className="mt-5 center-align">
-                    <button className="btn btn-success float-center" type="submit">Xác nhận</button>
+                    <button className="btn btn-success float-center" type="submit">Chuyển tiền</button>
                 </div>
             </form>
         </div>

@@ -16,7 +16,6 @@ const SideBar = ({logout}) => {
     ]
     
     const Account = [
-        {name: 'Thông tin cá nhân', url: `${match.path}/account-info`},
         {name: 'Cài đặt người hưởng', url: `${match.path}/receiver`},
         {name: 'Đổi mật khẩu', url: `${match.path}/change-password`},
         {name: 'Thoát', url: `${match.path}/logout`, onClick: () => logout()}
