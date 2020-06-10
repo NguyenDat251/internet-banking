@@ -12,8 +12,8 @@ services:
     volumes:
     - dbdata:/var/lib/mysql
   nodejs:
-    image: khuedoan/node-kubernetes
     container_name: "nodejs"
+    build: "./nodejs"
     environment:
       - PORT=80
     ports:
@@ -22,9 +22,14 @@ services:
     volumes:
       - "./nodejs/backend-banking:/usr/src/backend-banking"
       - "/usr/src/backend-banking/node_modules"
-    working_dir: "/usr/src/backend-banking"
     depends_on:
       - "mariadb"
+  frontend:
+    container_name: "frontend"
+    build: "./frontend"
+    ports:
+      - "3000:3000"
+    stdin_open: true
 
 volumes:
   dbdata:

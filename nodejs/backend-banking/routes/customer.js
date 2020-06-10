@@ -17,19 +17,18 @@ const router = express.Router();
 const authenLoginCustomer = async (req, res, next) => {
   const username = req.body["username"];
   const plain_password = req.body["password"];
-  let customerInfo
-  try { // find username
-    customerInfo = await customerModel.searchByUserName(username);
-  } catch{ // unknow username
+  let result
+
+  result = await customerModel.searchByUserName(username);
+
+  const customerInfo = result[0]
+  if (customerInfo === undefined) {
     res.status(401).json({ "err": "invalid username" });
     return;
   }
 
-  customerInfo = customerInfo[0]
-
-  try {
-    await bcrypt.compare(plain_password, customerInfo["hashed_password"]);
-  } catch{ // not match password hash
+  result = await bcrypt.compare(plain_password, customerInfo["hashed_password"]);
+  if (result === false) { // not match password hash
     res.status(401).json({ "err": "invalid password" });
     return;
   }

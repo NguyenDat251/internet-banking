@@ -13,3 +13,9 @@
 .yellow{
     color: #F7CA18;
 }
+
+.center-vertical{
+    .col-md-auto{
+        text-align: -webkit-center;
+    }
+}

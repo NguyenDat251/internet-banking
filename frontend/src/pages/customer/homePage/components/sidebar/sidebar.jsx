@@ -1,8 +1,12 @@
 import React from 'react'
-import { withRouter, NavLink } from 'react-router-dom'
+import { NavLink, useRouteMatch } from 'react-router-dom'
 import './sidebar.scss'
+import { userActions } from '../../../../../actions/user'
+import { connect } from 'react-redux'
 
-const SideBar = ({match}) => {
+const SideBar = ({logout}) => {
+
+    const match = useRouteMatch();
     const Services = [
         {name: 'Danh sách tài khoản', url: `${match.url}/bankaccount`},
         {name: 'Chuyển tiền trong KiantoBank', url: `${match.url}/transfer/kiantobank`},
@@ -15,7 +19,7 @@ const SideBar = ({match}) => {
         {name: 'Thông tin cá nhân', url: `${match.url}/account-info`},
         {name: 'Cài đặt người hưởng', url: `${match.url}/receiver`},
         {name: 'Đổi mật khẩu', url: `${match.url}/change-password`},
-        {name: 'Thoát', url: `${match.url}/logout`},
+        {name: 'Thoát', url: `${match.url}/logout`, onClick: () => logout()}
     ]
 
     let servicesComponents = Services.map((item, index) => {
@@ -33,7 +37,7 @@ const SideBar = ({match}) => {
         return(
             <div key={index}>
             <li className={'nav'}>
-                <NavLink className='navLink' activeClassName={'activeNavLink'} to={item.url}>> {item.name}</NavLink>
+                <NavLink className='navLink' activeClassName={'activeNavLink'} to={item.url} onClick = {item.onClick}>> {item.name}</NavLink>
             </li>
             <hr/>
             </div>
@@ -61,4 +65,8 @@ const SideBar = ({match}) => {
     )
 }
 
-export default withRouter(SideBar)
+const mapDispatchToProps = dispatch => ({
+    logout: () => dispatch(userActions.logout())
+})
+
+export default connect(null, mapDispatchToProps)(SideBar)
