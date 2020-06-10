@@ -39,7 +39,7 @@ CREATE TABLE `credit_account` (
 
 LOCK TABLES `credit_account` WRITE;
 /*!40000 ALTER TABLE `credit_account` DISABLE KEYS */;
-INSERT INTO `credit_account` VALUES (3,'025917154505','100000',1),(1,'565572661049','500000',1);
+INSERT INTO `credit_account` VALUES (3,'025917154505','100000',1),(4,'407103851140','100000',1),(1,'565572661049','500000',1);
 /*!40000 ALTER TABLE `credit_account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -65,7 +65,7 @@ CREATE TABLE `customer` (
   UNIQUE KEY `identity_number` (`identity_number`),
   UNIQUE KEY `phone_number` (`phone_number`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +74,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (1,'025895863','LINH','NGUYEN VAN','1998-11-12','0704468257','linh1612340@gmail.com','linh','$2a$08$gKlA.6Ie2HfU/IzgambPXOG.YinikOdf6pwaZxU6QBEB9ZWOyhinS','5FmWSukHG8PapSAcGrNS'),(3,'025895864','KHUE','DOAN','1998-11-12','0704468258','linh0903611@gmail.com','khue','$2a$08$YvaUktj.B6M4pBWWf6gqsujOcas03q3rIPZNI/8zW14rfS/WiN8P6','6sDwx1T5t8IMSPpsLmYS');
+INSERT INTO `customer` VALUES (1,'025895863','LINH','NGUYEN VAN','1998-11-12','0704468257','linh1612340@gmail.com','linh','$2a$08$gKlA.6Ie2HfU/IzgambPXOG.YinikOdf6pwaZxU6QBEB9ZWOyhinS','5FmWSukHG8PapSAcGrNS'),(3,'025895864','KHUE','DOAN','1998-11-12','0704468258','linh0903611@gmail.com','khue','$2a$08$YvaUktj.B6M4pBWWf6gqsujOcas03q3rIPZNI/8zW14rfS/WiN8P6','6sDwx1T5t8IMSPpsLmYS'),(4,'025842863','JINDO','KATORY','1998-11-12','0704468557','jindo@gmail.com','jindo','$2a$08$7q6hgvv71cKCHI.GiM9Z.unu9BBYPUl/lnnUrq8tbugxOrEkqujbe','KW7l0ATa4MutpvM7hhsW');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -104,6 +104,32 @@ CREATE TABLE `deposit_transaction_history` (
 LOCK TABLES `deposit_transaction_history` WRITE;
 /*!40000 ALTER TABLE `deposit_transaction_history` DISABLE KEYS */;
 /*!40000 ALTER TABLE `deposit_transaction_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `employee`
+--
+
+DROP TABLE IF EXISTS `employee`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `employee` (
+  `username` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `employee_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `hashed_password` text COLLATE utf8_unicode_ci NOT NULL,
+  `refresh_secret` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`employee_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `employee`
+--
+
+LOCK TABLES `employee` WRITE;
+/*!40000 ALTER TABLE `employee` DISABLE KEYS */;
+INSERT INTO `employee` VALUES ('trump',1,'$2a$08$z/eROGEhVaw2HNino1zm/.IOsrV6VZApPLW58OEmZOHgYNKgoSBRq','jXHvcBfimELm08lOAT1x');
+/*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -390,5 +416,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-30 15:23:48
-
+-- Dump completed on 2020-06-10  4:22:15
