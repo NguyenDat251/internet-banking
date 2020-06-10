@@ -16,4 +16,6 @@ module.exports = {
     delete entity["password"];
     return db.add(entity, 'employee');
   },
+
+  searchByUserName: userName => db.load(`select * from employee where username = '${userName}'`),
 };
