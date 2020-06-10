@@ -1,5 +1,6 @@
 const express = require('express');
 const partnerModel = require('../models/partner.model');
+const employeeModel = require('../models/employee.model');
 
 const router = express.Router();
 
@@ -9,6 +10,23 @@ router.post('/add-partner', async (req, res) => {
   try {
     result = await partnerModel.add(req.body);
   } catch (err) { 
+    res.status(422).json({ "err": err.sqlMessage });
+    return;
+  }
+
+  const ret = {
+    partner_id: result["insertId"],
+    ...req.body
+  }
+  res.status(201).json(ret);
+})
+
+/* POST request create employee to db */
+router.post('/add-employee', async (req, res) => {
+  let result;
+  try {
+    result = await employeeModel.add(req.body);
+  } catch (err) {
     res.status(422).json({ "err": err.sqlMessage });
     return;
   }

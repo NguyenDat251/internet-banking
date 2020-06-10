@@ -3,6 +3,7 @@ const customerModel = require('../models/customer.model');
 const creditAccountModel = require('../models/credit_account.model');
 const savingAccountModel = require('../models/saving_account.model');
 const randomString = require('randomstring');
+const config = require('../utils/config');
 
 const router = express.Router();
 
@@ -51,6 +52,22 @@ router.post("/add-saving-account", async (req, res) => {
   result = await savingAccountModel.searchByAccountId(account_id);
   const saveAcc = result[0];
   res.status(201).json(saveAcc);
+})
+
+router.post("/login", async (req, res) => {
+  const secret_text = config["secret_text"];
+  const accesstoken_exp = config["accesstoken_exp"];
+  const refreshtoken_exp = config["refreshtoken_exp"];
+
+  const employeeInfo = req.headers["customerInfo"];
+  const customer_id = customerInfo["customer_id"];
+  const refresh_secret = customerInfo["refresh_secret"];
+
+  const accesstoken = jwt.sign({ customer_id: customer_id }, secret_text, { expiresIn: accesstoken_exp });
+
+  const refreshtoken = jwt.sign({ customer_id: customer_id }, refresh_secret, { expiresIn: refreshtoken_exp });
+
+  res.status(200).json({ "access_token": accesstoken, "refresh_token": refreshtoken });
 })
 
 module.exports = router;
