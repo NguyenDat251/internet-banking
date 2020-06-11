@@ -3,6 +3,7 @@ const customerModel = require('../models/customer.model');
 const creditAccountModel = require('../models/credit_account.model');
 const savingAccountModel = require('../models/saving_account.model');
 const otpModel = require('../models/transaction_otp.model');
+const resetPassOtpModel = require('../models/reset_password_otp.model');
 const transactionModel = require('../models/transaction.models');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -293,6 +294,14 @@ router.post("/reset-password", async (req, res) => {
     return;
   }
 
+  try {
+    result = await resetPassOtpModel.add({ "customer_id": customerInfo["customer_id"] });
+  } catch{
+    res.status(401).json({ "err": "can not complete reset password action" });
+    return;
+  }
+  const reset_id = result["insertId"];
+
   const otp = randomstring.generate({
     length: 6,
     charset: 'numeric'
@@ -321,8 +330,14 @@ router.post("/reset-password", async (req, res) => {
     return;
   }
 
-  res.status(200).json({ "transaction_id": 1 });
+  res.status(200).json({ "reset_id": reset_id });
+})
 
+/* POST request verify reset password action id */
+router.post("/verify-otp-resetpass", async (req, res) => {
+
+ 
+  res.status(200).json({ "msg": "reset password success, please check mail for new password" });
 })
 
 module.exports = router;
