@@ -2,7 +2,6 @@ import React from 'react';
 import './selectInput.scss';
 
 const SelectInput = (props) => {
-  console.log(props.value)
   return (
     <div className="row mt-3 selectInput">
       <div className="col-4 text-right align-self-center">
