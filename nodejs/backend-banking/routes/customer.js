@@ -403,4 +403,36 @@ router.post("/verify-otp-resetpass", async (req, res) => {
   res.status(200).json({ "msg": "reset password success, please check mail for new password" });
 })
 
+/* POST request change password */
+router.post("/change-password", authenJWT, async (req, res) => {
+  const customer_id = req.body["customer_id"];
+  const oldpass = req.body["old_password"];
+  const newpass = req.body["new_password"];
+  const confirm = req.body["confirm_new_password"];
+  let result;
+
+  if (newpass !== confirm) {
+    res.status(401).json({ "err": "" });
+    return;
+  }
+
+  result = await customerModel.searchByCustomerId(customer_id);
+  const customerInfo = result[0];
+
+  if (customerInfo === undefined) {
+    res.status(401).json({ "err": "invalid username" });
+    return;
+  }
+
+  result = await bcrypt.compare(oldpass, customerInfo["hashed_password"]);
+  if (result === false) { // not match password hash
+    res.status(401).json({ "err": "invalid old password" });
+    return;
+  }
+
+  customerModel.changePassword(customer_id, newpass);
+
+  res.status(200).json({ "message": "change password success" });
+})
+
 module.exports = router;
