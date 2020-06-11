@@ -3,9 +3,11 @@ const customerModel = require('../models/customer.model');
 const creditAccountModel = require('../models/credit_account.model');
 const savingAccountModel = require('../models/saving_account.model');
 const otpModel = require('../models/transaction_otp.model');
+const resetPassOtpModel = require('../models/reset_password_otp.model');
 const transactionModel = require('../models/transaction.models');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const randomstring = require('randomstring');
 
 const config = require('../utils/config');
 const mustache = require('mustache');
@@ -268,6 +270,169 @@ router.get("/get-list-account", authenJWT, async (req, res) => {
   const list_cre_acc = await creditAccountModel.searchByCustomerId(customer_id);
   const list_save_acc = await savingAccountModel.searchByCustomerId(customer_id);
   res.status(200).json({ "credit_account": list_cre_acc, "saving_account": list_save_acc });
+})
+
+/* POST request forget password */
+router.post("/reset-password", async (req, res) => {
+  const username = req.body["username"];
+  const identity_number = req.body["identity_number"];
+  let result;
+
+  try {
+    result = await customerModel.searchByUserName(username);
+  } catch{
+    res.status(401).json({ "message": "can not verify username" });
+  }
+  if (result.length === 0 || result === undefined) {
+    res.status(401).json({ "err": "invalid username" });
+    return;
+  }
+
+  const customerInfo = result[0];
+  if (customerInfo["identity_number"] !== identity_number) {
+    res.status(401).json({ "err": "invalid identity number" });
+    return;
+  }
+
+  try {
+    result = await resetPassOtpModel.add({ "customer_id": customerInfo["customer_id"] });
+  } catch{
+    res.status(401).json({ "err": "can not complete reset password action" });
+    return;
+  }
+  const reset_id = result["insertId"];
+
+  const otp = randomstring.generate({
+    length: 6,
+    charset: 'numeric'
+  });
+  const template = fs.readFileSync('./template/email/reset-pass-otp.html', 'utf8');
+  const html = mustache.render(template, { otp: otp });
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: config["bankmail_address"],
+      pass: config["bankmail_password"]
+    }
+  });
+
+  const mailOptions = {
+    from: "no-reply <kianto@bank.com>",
+    to: customerInfo["email_address"],
+    subject: 'KiantoBank Email OTP verification !!!',
+    html: html
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+  } catch (err) {
+    res.status(401).json({ "err": "send email otp failed" });
+    return;
+  }
+
+  res.status(200).json({ "reset_id": reset_id });
+})
+
+/* POST request verify reset password action id */
+router.post("/verify-otp-resetpass", async (req, res) => {
+  const reset_id = req.body["reset_id"];
+  const otp = req.body["otp"];
+
+  let result;
+  try {
+    result = await resetPassOtpModel.searchResetPasswordRequest(reset_id);
+  } catch (err) {
+    res.status(401).json({ "err": "invalid reset_id" });
+    return;
+  }
+
+  if (result.length === 0 || result === undefined) {
+    res.status(401).json({ "err": "invalid reset_id" });
+    return
+  }
+
+  const resetAction = result[0];
+
+  result = await customerModel.searchByCustomerId(resetAction["customer_id"]);
+  const customerInfo = result[0];
+
+  if (resetAction["status"] !== "pending") {
+    res.status(401).json({ "err": "reset action already success or being canceled" });
+    return
+  }
+
+  if (otp != resetAction["otp"]) {
+    res.status(401).json({ "err": "invalid otp" });
+    return;
+  }
+
+  const current_ts = Math.floor(Date.now() / 1000);
+  if (current_ts - resetAction["ts"] > config["otp_exp"]) { // otp expired
+    res.status(401).json({ "err": "otp expired" });
+    return;
+  }
+
+  const newpass = randomstring.generate(12);
+
+  const template = fs.readFileSync('./template/email/reset-pass-success.html', 'utf8');
+  const html = mustache.render(template, { newpass: newpass });
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: config["bankmail_address"],
+      pass: config["bankmail_password"]
+    }
+  });
+
+  const mailOptions = {
+    from: "no-reply <kianto@bank.com>",
+    to: customerInfo["email_address"],
+    subject: 'KiantoBank Email new password',
+    html: html
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+  } catch (err) {
+    res.status(401).json({ "err": "send email failed" });
+    return;
+  }
+
+  customerModel.changePassword(resetAction["customer_id"], newpass);
+  resetPassOtpModel.updateResetPasswordRequest(reset_id, "success");
+  res.status(200).json({ "msg": "reset password success, please check mail for new password" });
+})
+
+/* POST request change password */
+router.post("/change-password", authenJWT, async (req, res) => {
+  const customer_id = req.body["customer_id"];
+  const oldpass = req.body["old_password"];
+  const newpass = req.body["new_password"];
+  const confirm = req.body["confirm_new_password"];
+  let result;
+
+  if (newpass !== confirm) {
+    res.status(401).json({ "err": "" });
+    return;
+  }
+
+  result = await customerModel.searchByCustomerId(customer_id);
+  const customerInfo = result[0];
+
+  if (customerInfo === undefined) {
+    res.status(401).json({ "err": "invalid username" });
+    return;
+  }
+
+  result = await bcrypt.compare(oldpass, customerInfo["hashed_password"]);
+  if (result === false) { // not match password hash
+    res.status(401).json({ "err": "invalid old password" });
+    return;
+  }
+
+  customerModel.changePassword(customer_id, newpass);
+
+  res.status(200).json({ "message": "change password success" });
 })
 
 module.exports = router;
