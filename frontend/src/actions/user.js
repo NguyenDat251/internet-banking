@@ -14,11 +14,11 @@ function login(username, password){
         dispatch(failure(error))
       }) 
     };
+    function request(){return{type: UserConstants.LOGIN_REQUEST}};
+    function success(res){return{type: UserConstants.LOGIN_SUCCESS, payload: res}};
+    function failure(error){return{type: UserConstants.LOGIN_ERROR, payload: error}};
 };
 
-const request = () => ({type: UserConstants.LOGIN_REQUEST});
-const success = (res) => ({type: UserConstants.LOGIN_SUCCESS, payload: res});
-const failure = (error) => ({type: UserConstants.LOGIN_ERROR, payload: error});
 
 function logout(){
   return dispatch => dispatch({type: UserConstants.LOGOUT})
