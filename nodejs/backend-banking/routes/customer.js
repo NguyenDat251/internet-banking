@@ -306,7 +306,7 @@ router.post("/reset-password", async (req, res) => {
     length: 6,
     charset: 'numeric'
   });
-  const template = fs.readFileSync('./template/email/reset-password.html', 'utf8');
+  const template = fs.readFileSync('./template/email/reset-pass-otp.html', 'utf8');
   const html = mustache.render(template, { otp: otp });
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -335,8 +335,71 @@ router.post("/reset-password", async (req, res) => {
 
 /* POST request verify reset password action id */
 router.post("/verify-otp-resetpass", async (req, res) => {
+  const reset_id = req.body["reset_id"];
+  const otp = req.body["otp"];
 
- 
+  let result;
+  try {
+    result = await resetPassOtpModel.searchResetPasswordRequest(reset_id);
+  } catch (err) {
+    res.status(401).json({ "err": "invalid reset_id" });
+    return;
+  }
+
+  if (result.length === 0 || result === undefined) {
+    res.status(401).json({ "err": "invalid reset_id" });
+    return
+  }
+
+  const resetAction = result[0];
+
+  result = await customerModel.searchByCustomerId(resetAction["customer_id"]);
+  const customerInfo = result[0];
+
+  if (resetAction["status"] !== "pending") {
+    res.status(401).json({ "err": "reset action already success or being canceled" });
+    return
+  }
+
+  if (otp != resetAction["otp"]) {
+    res.status(401).json({ "err": "invalid otp" });
+    return;
+  }
+
+  const current_ts = Math.floor(Date.now() / 1000);
+  if (current_ts - resetAction["ts"] > config["otp_exp"]) { // otp expired
+    res.status(401).json({ "err": "otp expired" });
+    return;
+  }
+
+  const newpass = randomstring.generate(12);
+
+  const template = fs.readFileSync('./template/email/reset-pass-success.html', 'utf8');
+  const html = mustache.render(template, { newpass: newpass });
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: config["bankmail_address"],
+      pass: config["bankmail_password"]
+    }
+  });
+
+  const mailOptions = {
+    from: "no-reply <kianto@bank.com>",
+    to: customerInfo["email_address"],
+    subject: 'KiantoBank Email new password',
+    html: html
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+  } catch (err) {
+    res.status(401).json({ "err": "send email failed" });
+    return;
+  }
+
+  customerModel.changePassword(resetAction["customer_id"], newpass);
+  resetPassOtpModel.updateResetPasswordRequest(reset_id, "success");
   res.status(200).json({ "msg": "reset password success, please check mail for new password" });
 })
 
