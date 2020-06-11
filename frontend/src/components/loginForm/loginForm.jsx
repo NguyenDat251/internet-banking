@@ -2,19 +2,22 @@ import React, { useState, useEffect } from 'react';
 import './loginForm.scss';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { environment } from '../../environment';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 
 function LoginForm(props) {
+  const location = useLocation();
   const [isVerified, setIsVerified] = useState(false);
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState();
 
   useEffect(() => {
-    if(props.customer.loginError !== null && props.customer.loginSuccess === false){
-      setError("Sai tên tài khoản hoặc mật khẩu!")
-    } 
-  }, [props.customer])
+    if(props.customer){
+      if(props.customer.loginError !== null && props.customer.loginSuccess === false){
+        setError("Sai tên tài khoản hoặc mật khẩu!")
+      } 
+    }
+    }, [props.customer])
 
   const handleForSubmit = (e) => {
     e.preventDefault();
@@ -38,7 +41,10 @@ function LoginForm(props) {
   //   }
   // };
 
-  if( sessionStorage.getItem("ACCESS_TOKEN") !== null){
+  if( sessionStorage.getItem("ACCESS_TOKEN") !== null && props.user){
+    return <Redirect to={`${location.pathname}/dashboard`}/>
+  }
+  if( sessionStorage.getItem("ACCESS_TOKEN") !== null && props.customer){
     return <Redirect to="/dashboard"/>
   }
   return (
@@ -83,11 +89,14 @@ function LoginForm(props) {
         </button>
       </form>
       <hr />
-      <div className="ml-4">
+      {props.customer && (
+        <div className="ml-4">
         <a href="/" className="text-secondary">
           Quên mật khẩu?
         </a>
       </div>
+      )}
+      
     </div>
   );
 }

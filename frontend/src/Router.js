@@ -13,10 +13,8 @@ const Router = () => {
             <Route exact path="/login" component={CustomerLoginPage}/>
             <Route path="/dashboard" component={CustomerHomepage}/>
 
-
-
             <Route exact path="/employee" component={EmployeeLoginPage}/>
-            <Route exact path="/employee/dashboard" component={EmployeeHomepage}/>
+            <Route path="/employee/dashboard" component={EmployeeHomepage}/>
             <Route render={() => <Redirect to="/"/>}/>
         </Switch>
     )
