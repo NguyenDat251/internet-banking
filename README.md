@@ -224,12 +224,55 @@ BODY
 }
 ```
 
+#### Reset mật khẩu
+
+```json
+POST /api/customer/reset-password
+
+BODY
+{
+    "username": "linh",
+    "identity_number": "025895863"
+}
+```
+
+- Hệ thống sẽ trả về reset_id và mã otp được gửi vào email customer yêu cầu đổi mật khẩu
+
+#### Xác thực otp đổi mật khẩu
+
+```json
+POST /api/customer/verify-otp-resetpass
+
+BODY
+{
+    "reset_id": 1,
+    "otp": "448890"
+}
+```
+
+#### Đổi mật khẩu
+
+```json
+POST /api/customer/change-password
+
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcl9pZCI6MSwiaWF0IjoxNTkxOTQ1OTE0LCJleHAiOjE1OTE5NTE5MTR9.JRYklbQtj-jCvEXWj1109RfdZtHrecZYBBjrTHJuH8Y"
+
+BODY
+{
+    "old_password": "noob",
+    "new_password": "linh",
+    "confirm_new_password": "linh"
+}
+
+```
+
 ### API dành cho employee
 
 #### Thêm thông tin khách hàng vào hệ thống
 
 ```json
-POST /api/employee/add-customer 
+POST /api/employee/add-customer
 
 BODY
 {
