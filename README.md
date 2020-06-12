@@ -99,20 +99,18 @@ Hello World
 #### Lấy thông tin tài khoản khách hàng bằng số tài khoản
 
 ```json
-GET /api/partner/get-account-info
+GET /api/partner/get-account-info?credit_number=565572661049
 
 HEADER
 "partner-code": "linh"
 "timestamp": 1589520986
-"authen-hash": "1IMI0cZpABCeG3zehxQMml2J2L3ypWTRe44j+hm0A9M="
+"authen-hash": "BNAX7ITAnYu8rVliY5b6z4Waxs2GMk64FZd+ivBmNMo="
 
-BODY
-{"credit_number":"565572661049"}
 ```
 
 - timestamp là thời điểm gởi request, format sử dụng unix utc second, có thể  xem ở <https://www.epochconverter.com/,> lưu ý timestamp không được **lớn hơn** hoặc nhỏ hơn quá **60**s so với thời gian thực
 - partner-code là chuỗi code để xác định partner nào đã đăng kí api
-- authen-hash là chuỗi hash sha256 của **timestamp+secret+body**,sau đó được encode base64 lại và gửi đi, ví dụ ở trên
+- authen-hash là chuỗi hash sha256 của **timestamp+secret+body**, nếu body empty thì là **{}**,sau đó được encode base64 lại và gửi đi, ví dụ ở trên
 - Không yêu cầu **authen-sig**
 
 #### Nạp tiền vào tài khoản
@@ -166,15 +164,10 @@ BODY
 #### Lấy tên khách hàng bằng số  tài khoản tín dụng
 
 ```json
-GET /api/customer/get-credit-info
+GET /api/customer/get-credit-info?credit_number=565572661049o
 
 HEADER
 "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcl9pZCI6MSwiaWF0IjoxNTkwODQ4NTQ3LCJleHAiOjE1OTA4NTQ1NDd9.F_IHlYq9QbpbJ5YmOVFrseZyqQaWzwBSYniZg8Ykdts"
-
-BODY
-{
-    "credit_number": "565572661049"
-}
 ```
 
 #### Lấy toàn bộ danh sách tài khoản (credit + saving)
@@ -224,6 +217,49 @@ BODY
 }
 ```
 
+#### Reset mật khẩu
+
+```json
+POST /api/customer/reset-password
+
+BODY
+{
+    "username": "linh",
+    "identity_number": "025895863"
+}
+```
+
+- Hệ thống sẽ trả về reset_id và mã otp được gửi vào email customer yêu cầu đổi mật khẩu
+
+#### Xác thực otp đổi mật khẩu
+
+```json
+POST /api/customer/verify-otp-resetpass
+
+BODY
+{
+    "reset_id": 1,
+    "otp": "448890"
+}
+```
+
+#### Đổi mật khẩu
+
+```json
+POST /api/customer/change-password
+
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcl9pZCI6MSwiaWF0IjoxNTkxOTQ1OTE0LCJleHAiOjE1OTE5NTE5MTR9.JRYklbQtj-jCvEXWj1109RfdZtHrecZYBBjrTHJuH8Y"
+
+BODY
+{
+    "old_password": "noob",
+    "new_password": "linh",
+    "confirm_new_password": "linh"
+}
+
+```
+
 ### API dành cho employee
 
 #### Đăng Nhập
@@ -243,7 +279,7 @@ BODY
 #### Thêm thông tin khách hàng vào hệ thống
 
 ```json
-POST /api/employee/add-customer 
+POST /api/employee/add-customer
 
 BODY
 {
