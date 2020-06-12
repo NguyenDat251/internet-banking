@@ -27,7 +27,7 @@ const verifySecret = async (req, res, next) => {
   }
 
   // pass this below info for next verify signature
-  req.headers["dataToSign"] = text; 
+  req.headers["dataToSign"] = text;
   req.headers["partnerPubkeyBase64"] = partner_info[0]["public_key"];
 
   next()
