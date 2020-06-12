@@ -220,6 +220,34 @@ LOCK TABLES `receive_from_transaction_history` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `reset_password_otp`
+--
+
+DROP TABLE IF EXISTS `reset_password_otp`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reset_password_otp` (
+  `reset_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
+  `otp` varchar(6) COLLATE utf8_unicode_ci NOT NULL,
+  `status` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `ts` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`reset_id`),
+  KEY `reset_password_otp_FK` (`customer_id`),
+  CONSTRAINT `reset_password_otp_FK` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reset_password_otp`
+--
+
+LOCK TABLES `reset_password_otp` WRITE;
+/*!40000 ALTER TABLE `reset_password_otp` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reset_password_otp` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `saving_account`
 --
 
@@ -416,4 +444,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-10  4:22:15
+-- Dump completed on 2020-06-12  7:01:13
