@@ -226,6 +226,20 @@ BODY
 
 ### API dành cho employee
 
+#### Đăng Nhập
+
+```json
+POST /api/employee/login
+
+BODY
+{
+    "username": "trump",
+    "password": "idiot"
+}
+```
+
+- Hệ thống sẽ trả lại access token, dùng access_token để xác thực danh tính employee
+
 #### Thêm thông tin khách hàng vào hệ thống
 
 ```json
@@ -269,6 +283,20 @@ BODY
     "bankname": "bankdbb",
     "public_key": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlHZk1BMEdDU3FHU0liM0RRRUJBUVVBQTRHTkFEQ0JpUUtCZ1FDRVVaSnd2VFlvcnVzdFFZK0YzaXFoSmUrTQordmsxMFYxZ2QrdFhBVDVlUTZCZngvRU9FRW9GaXduSC9JNUttUngzRDNhMkdIZ1dZSUxEbkNWbzVLbjZISC9SCkl1dmkxMXJsdks1Qzc5OFdZUmp2TmtPbGNmSTNNNml4UWYrZkFKU25mbE9xQ2NvUHAvUk0wSGdjeXdvVGtOV0sKUFFZcFBwazl0bm8vcWxPY3d3SURBUUFCCi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQ==",
     "partner_secret": "bankdbb"
+}
+```
+
+- Hệ thống sẽ tự động tạo 1 bank_secret trả về
+
+#### Tạo tài khoản employee
+
+```json
+POST /api/admin/add-employee
+
+BODY
+{
+    "username": "trump",
+    "password": "idiot"
 }
 ```
 
