@@ -6,7 +6,7 @@ const SenderInformation = (props) => {
     return (
         <div>
             <SelectInput title={"Tài khoản nguồn"} items={props.items}/>
-            <TextMoneyOutput title={"Số dư khả dụng"} money={500000}/>
+            <TextMoneyOutput title={"Số dư khả dụng"} money={props.money}/>
         </div>  
     )
 }

@@ -5,7 +5,10 @@ import './loginPage.component.scss'
 import {userActions} from '../../../actions/user'
 import { connect } from 'react-redux'
 
-const customerLoginPage = ({customer, login}) => {
+const CustomerLoginPage = ({customer, login, logout}) => {
+    useEffect(() => {
+        logout()
+    }, [])
     return (
         <div className="login-page">
             <HeaderHomePage/>
@@ -26,7 +29,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    login: (username, password) => dispatch(userActions.login(username, password))
+    login: (username, password) => dispatch(userActions.login(username, password)),
+    logout: () => dispatch(userActions.logout())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(customerLoginPage)
+export default connect(mapStateToProps, mapDispatchToProps)(CustomerLoginPage)

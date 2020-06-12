@@ -18,7 +18,7 @@
   }
   
   #sidebar-wrapper {
-    min-height: 100vh;
+    min-height: 110vh;
     margin-left: -15rem;
     -webkit-transition: margin .25s ease-out;
     -moz-transition: margin .25s ease-out;
@@ -34,6 +34,7 @@
   
   #sidebar-wrapper .list-group {
     width: 15rem;
+    padding-left: 1rem;
   }
   
   #page-content-wrapper {
@@ -59,3 +60,14 @@
     }
   }
   
+  .employee{
+    .rightContentContainer{
+      display: table;
+      height: auto;
+      padding: 20px;
+      margin-right: auto;
+      margin-left: auto;
+      min-width: 1000px;
+      margin-bottom: 50px;
+    }
+  }

@@ -11,13 +11,10 @@ const Router = () => {
         <Switch>
             <Redirect exact from="/" to="/login"></Redirect>
             <Route exact path="/login" component={CustomerLoginPage}/>
-            <Route exact path="/dashboard/login"  render={() => <Redirect to="/login"></Redirect>}/>
             <Route path="/dashboard" component={CustomerHomepage}/>
 
-
-
             <Route exact path="/employee" component={EmployeeLoginPage}/>
-            <Route exact path="/employee/dashboard" component={EmployeeHomepage}/>
+            <Route path="/employee/dashboard" component={EmployeeHomepage}/>
             <Route render={() => <Redirect to="/"/>}/>
         </Switch>
     )

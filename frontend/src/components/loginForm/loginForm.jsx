@@ -2,19 +2,22 @@ import React, { useState, useEffect } from 'react';
 import './loginForm.scss';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { environment } from '../../environment';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 
 function LoginForm(props) {
+  const location = useLocation();
   const [isVerified, setIsVerified] = useState(false);
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState();
 
   useEffect(() => {
-    if(props.customer.loginError !== null && props.customer.loginSuccess === false){
-      setError("Sai tên tài khoản hoặc mật khẩu!")
-    } 
-  }, [props.customer])
+    if(props.customer){
+      if(props.customer.loginError !== null && props.customer.loginSuccess === false){
+        setError("Sai tên tài khoản hoặc mật khẩu!")
+      } 
+    }
+    }, [props.customer])
 
   const handleForSubmit = (e) => {
     e.preventDefault();
@@ -25,20 +28,23 @@ function LoginForm(props) {
       setError("Quý khách vui lòng nhập mật khẩu!")
       return
     } 
-    else if(!isVerified){
-      setError("Vui lòng xác minh!")
-      return
-    }
+    // else if(!isVerified){
+    //   setError("Vui lòng xác minh!")
+    //   return
+    // }
     props.login(username, password)
   };
 
-  const verifyCallback = (res) => {
-    if (res) {
-      setIsVerified(true);
-    }
-  };
+  // const verifyCallback = (res) => {
+  //   if (res) {
+  //     setIsVerified(true);
+  //   }
+  // };
 
-  if(props.customer.loginSuccess === true){
+  if( sessionStorage.getItem("ACCESS_TOKEN") !== null && props.user){
+    return <Redirect to={`${location.pathname}/dashboard`}/>
+  }
+  if( sessionStorage.getItem("ACCESS_TOKEN") !== null && props.customer){
     return <Redirect to="/dashboard"/>
   }
   return (
@@ -72,9 +78,9 @@ function LoginForm(props) {
           onChange = {e => setPassword(e.target.value)}
           placeholder="Mật khẩu"
         />
-        <div className="mt-4 col-md-auto center-vertical">
+        {/* <div className="mt-4 col-md-auto center-vertical">
           <ReCAPTCHA className="col-md-auto" sitekey={environment.SITE_KEY} onChange={verifyCallback} />
-        </div>
+        </div> */}
         <div className="mt-3">
           <span className="text-danger">{error}</span>
         </div>
@@ -83,11 +89,14 @@ function LoginForm(props) {
         </button>
       </form>
       <hr />
-      <div className="ml-4">
+      {props.customer && (
+        <div className="ml-4">
         <a href="/" className="text-secondary">
           Quên mật khẩu?
         </a>
       </div>
+      )}
+      
     </div>
   );
 }

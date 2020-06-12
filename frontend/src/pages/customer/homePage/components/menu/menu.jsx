@@ -60,7 +60,6 @@ const Menu = ({ match }) => {
                 title={<span className="text-white divider-vertical">Tài khoản</span>}
                 id="basic-nav-dropdown"
                 show={isAccountDropdown}>
-                <NavDropdown.Item href={`${match.url}/account-info`}>Thông tin cá nhân</NavDropdown.Item>
                 <NavDropdown.Item href={`${match.url}/change-password`}>Đổi mật khẩu</NavDropdown.Item>
                 <NavDropdown.Item href={`${match.url}/logout`}>Đăng xuất</NavDropdown.Item>
             </NavDropdown>
