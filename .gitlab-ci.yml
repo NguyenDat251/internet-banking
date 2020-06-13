@@ -17,6 +17,8 @@ build:
   script:
     - docker build -t khuedoan/node-kubernetes nodejs
     - docker push khuedoan/node-kubernetes
+    - docker build -t khuedoan/bank-frontend-kubernetes frontend
+    - docker push khuedoan/bank-frontend-kubernetes
   only:
     - master
 
@@ -33,6 +35,7 @@ build:
   script:
     - kubectl apply -f kubernetes
     - kubectl patch deployment nodejs -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"date\":\"`date +'%s'`\"}}}}}"
+    - kubectl patch deployment frontend -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"date\":\"`date +'%s'`\"}}}}}"
 
 auto-deploy-master:
   <<: *prod_deploy
