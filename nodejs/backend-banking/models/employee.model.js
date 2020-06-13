@@ -18,4 +18,5 @@ module.exports = {
   },
 
   searchByUserName: userName => db.load(`select * from employee where username = '${userName}'`),
+  getEmployeeList: db.load(`select * from employee`),
 };
