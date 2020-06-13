@@ -43,7 +43,7 @@ router.post('/delete-employee', async (req,res) => {
     let result;
 
     try {
-        result = await employeeModel.deleteEmployeeByID(req.employee_id);
+        result = await employeeModel.deleteEmployeeByID(req.body["employee_id"]);
     } catch (err) {
         res.status(422).json({ "err": err.sqlMessage });
         return;
