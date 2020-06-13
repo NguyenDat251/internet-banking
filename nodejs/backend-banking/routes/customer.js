@@ -96,13 +96,13 @@ const verifyOTP = async (req, res, next) => {
 
 /* GET fullname of credit account owner */
 router.get("/get-credit-info", authenJWT, async (req, res) => {
-  const credit_number = req.body["credit_number"];
+  const credit_number = req.query["credit_number"];
 
   let result;
   try {
     result = await customerModel.searchByCreditNumber(credit_number);
   } catch (err) {
-    res.status(401).json({ "err": "invalid customer_id" });
+    res.status(401).json({ "err": "invalid credit_number" });
     return;
   }
   const creditInfo = result[0];
