@@ -38,10 +38,23 @@ router.post('/add-employee', async (req, res) => {
   res.status(201).json(ret);
 })
 
+/* POST delete employee by ID */
+router.post('/delete-employee', async (req,res) => {
+    let result;
+
+    try {
+        result = await employeeModel.deleteEmployeeByID(req.employee_id);
+    } catch (err) {
+        res.status(422).json({ "err": err.sqlMessage });
+        return;
+    }
+
+    res.status(201).json(result);
+})
+
 /* GET request get employee list */
 router.get("/employee-list", async (req, res) => {
   const employee_list = await employeeModel.getEmployeeList;
-  console.log(employee_list)
   res.status(200).json(employee_list);
 })
 
