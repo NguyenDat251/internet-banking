@@ -302,6 +302,20 @@ BODY
 
 - Hệ thống sẽ tự động tạo 1 bank_secret trả về
 
+#### Liệt kê danh sách employee
+
+```json
+GET /api/admin/employee-list
+```
+
+- Hệ thống sẽ trả về danh sách tất cả employee dưới dạng JSON
+
+#### Lấy thông tin employee dựa trên username
+
+```json
+GET /api/admin/employee-info
+```
+
 ## Một số thông tin mặc định được khởi tạo cùng với project, dùng để test api
 
 - Thông tin khách hàng linh
