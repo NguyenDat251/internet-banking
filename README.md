@@ -1,5 +1,7 @@
 # Internet Banking
 
+![Badge](https://gitlab.com/khuedoan/internet-banking/badges/master/pipeline.svg)
+
 - [Internet Banking](#internet-banking)
   - [Thuật toán bảo mật API](#thuật-toán-bảo-mật-api)
   - [Hướng dẫn sử dụng api](#hướng-dẫn-sử-dụng-api)
