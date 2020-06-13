@@ -19,4 +19,5 @@ module.exports = {
 
   searchByUserName: userName => db.load(`select * from employee where username = '${userName}'`),
   getEmployeeList: db.load(`select * from employee`),
+  deleteEmployeeByID: employee_id => db.load(`delete from employee where employee_id = '${employee_id}'`)
 };
