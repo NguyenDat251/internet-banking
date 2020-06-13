@@ -38,4 +38,11 @@ router.post('/add-employee', async (req, res) => {
   res.status(201).json(ret);
 })
 
+/* GET request get employee list */
+router.get("/employee-list", async (req, res) => {
+  const employee_list = await employeeModel.getEmployeeList;
+  console.log(employee_list)
+  res.status(200).json(employee_list);
+})
+
 module.exports = router;
