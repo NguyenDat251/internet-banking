@@ -6,13 +6,13 @@ metadata:
     kompose.version: 1.21.0 (992df58d8)
   creationTimestamp: null
   labels:
-    io.kompose.service: nodejs
-  name: nodejs
+    io.kompose.service: frontend
+  name: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: nodejs
+      io.kompose.service: frontend
   strategy: {}
   template:
     metadata:
@@ -21,20 +21,16 @@ spec:
         kompose.version: 1.21.0 (992df58d8)
       creationTimestamp: null
       labels:
-        io.kompose.service: nodejs
+        io.kompose.service: frontend
     spec:
       containers:
-      - env:
-        - name: PORT
-          value: "80"
-        image: khuedoan/node-kubernetes:latest
+      - image: khuedoan/bank-frontend-kubernetes:latest
         imagePullPolicy: Always
-        name: nodejs
+        name: frontend
         ports:
-        - containerPort: 80
-        - containerPort: 443
+        - containerPort: 3000
         resources: {}
-        workingDir: /usr/src/backend-banking
+        stdin: true
       restartPolicy: Always
       serviceAccountName: ""
       volumes: null
