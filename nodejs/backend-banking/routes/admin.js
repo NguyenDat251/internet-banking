@@ -66,6 +66,20 @@ router.post('/update-employee-username', async (req,res) => {
     res.status(201).json(result);
 })
 
+/* POST update employee password */
+router.post('/update-employee-password', async (req,res) => {
+    let result;
+
+    try {
+        result = await employeeModel.updatePassword(req.body);
+    } catch (err) {
+        res.status(422).json({ "err": err.sqlMessage });
+        return;
+    }
+
+    res.status(201).json(result);
+})
+
 /* GET request get employee list */
 router.get("/employee-list", async (req, res) => {
   const employee_list = await employeeModel.getEmployeeList;
