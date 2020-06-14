@@ -330,6 +330,20 @@ BODY
 
 Với affectedRows là 1, tức là đã xóa.
 
+#### Cập nhật username của employee
+
+```json
+POST /api/admin/update-employee-username
+
+BODY
+{
+    "employee_id": "3"
+    "username": "newname"
+}
+```
+
+Hệ thống sẽ trả về kết quả từ database tương tự như trên.
+
 #### Liệt kê danh sách employee
 
 ```json
