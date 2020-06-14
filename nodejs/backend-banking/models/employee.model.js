@@ -19,5 +19,13 @@ module.exports = {
 
   searchByUserName: userName => db.load(`select * from employee where username = '${userName}'`),
   getEmployeeList: db.load(`select * from employee`),
+  updateUsername: entity => {
+    // entity = {
+    //   "employee_id": "1",
+    //   "username": "admin",
+    // }
+
+    return db.load(`update employee set username = '${entity["username"]}' where employee_id = '${employee_id}'`);
+  },
   deleteEmployeeByID: employee_id => db.load(`delete from employee where employee_id = '${employee_id}'`)
 };
