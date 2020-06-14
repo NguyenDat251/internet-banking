@@ -25,7 +25,7 @@ module.exports = {
     //   "username": "admin",
     // }
 
-    return db.load(`update employee set username = '${entity["username"]}' where employee_id = '${employee_id}'`);
+    return db.load(`update employee set username = '${entity["username"]}' where employee_id = '${entity["employee_id"]}'`);
   },
   deleteEmployeeByID: employee_id => db.load(`delete from employee where employee_id = '${employee_id}'`)
 };
