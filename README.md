@@ -366,10 +366,23 @@ GET /api/admin/employee-list
 
 - Hệ thống sẽ trả về danh sách tất cả employee dưới dạng JSON
 
-#### Lấy thông tin employee dựa trên username
+#### Lấy thông tin employee thông qua ID
 
 ```json
-GET /api/admin/employee-info
+GET /api/admin/get-employee-info?employee_id=<ID của employee>
+```
+
+Hệ thống sẽ trả về thông tin của employee duới dạng JSON, ví dụ:
+
+```json
+[
+  {
+    "username": "obama",
+    "employee_id": 5,
+    "hashed_password": "$2a$08$nLoMEK84g.U4JPuvjLKisu3Nl6Pt/tEVpX6VerU0kiEW6yDggD51a",
+    "refresh_secret": "rQFn3MSsYZN2UzK8idJv"
+  }
+]
 ```
 
 ## Một số thông tin mặc định được khởi tạo cùng với project, dùng để test api
