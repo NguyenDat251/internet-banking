@@ -18,6 +18,7 @@ module.exports = {
   },
 
   searchByUserName: userName => db.load(`select * from employee where username = '${userName}'`),
+  getEmployeeInfo: employee_id => db.load(`select * from employee where employee_id = '${employee_id}'`),
   getEmployeeList: db.load(`select * from employee`),
   updateUsername: entity => {
     // entity = {
