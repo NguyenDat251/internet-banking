@@ -302,6 +302,34 @@ BODY
 
 - Hệ thống sẽ tự động tạo 1 bank_secret trả về
 
+#### Xóa tài khoản employee
+
+```json
+POST /api/admin/delete-employee
+
+BODY
+{
+    "employee_id": "3"
+}
+```
+
+- Hệ thống sẽ trả về kết quả của database, ví dụ:
+
+```json
+{
+  "fieldCount": 0,
+  "affectedRows": 1,
+  "insertId": 0,
+  "serverStatus": 2,
+  "warningCount": 0,
+  "message": "",
+  "protocol41": true,
+  "changedRows": 0
+}
+```
+
+Với affectedRows là 1, tức là đã xóa.
+
 #### Liệt kê danh sách employee
 
 ```json
