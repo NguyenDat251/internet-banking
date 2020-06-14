@@ -86,4 +86,25 @@ router.get("/employee-list", async (req, res) => {
   res.status(200).json(employee_list);
 })
 
+/* GET request get employee info */
+router.get("/get-employee-info", async (req, res) => {
+    let employee_info
+
+    try {
+        employee_info = await employeeModel.getEmployeeInfo(req.query.employee_id);
+    } catch (err) {
+        res.status(422).json({ "err": err.sqlMessage });
+        return;
+    }
+
+    console.log(employee_info.length);
+
+    if (employee_info.length > 0) {
+        res.status(200).json(employee_info);
+    }
+    else {
+        res.status(204).send();
+    }
+})
+
 module.exports = router;
