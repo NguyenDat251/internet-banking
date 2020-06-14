@@ -344,6 +344,20 @@ BODY
 
 Hệ thống sẽ trả về kết quả từ database tương tự như trên.
 
+#### Cập nhật password của employee
+
+```json
+POST /api/admin/update-employee-password
+
+BODY
+{
+    "employee_id": "3"
+    "password": "newpassword"
+}
+```
+
+Hệ thống sẽ trả về kết quả từ database tương tự như trên.
+
 #### Liệt kê danh sách employee
 
 ```json
