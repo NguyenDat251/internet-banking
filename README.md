@@ -337,7 +337,7 @@ POST /api/admin/update-employee-username
 
 BODY
 {
-    "employee_id": "3"
+    "employee_id": "3",
     "username": "newname"
 }
 ```
@@ -351,7 +351,7 @@ POST /api/admin/update-employee-password
 
 BODY
 {
-    "employee_id": "3"
+    "employee_id": "3",
     "password": "newpassword"
 }
 ```
