@@ -1,9 +1,8 @@
 #!/bin/sh
 
 curl -X POST \
-  'http://localhost/api/employee/login' \
+  'http://localhost/api/admin/delete-employee' \
   -H 'Content-Type: application/json; charset=utf-8' \
   -d '{
-  "username": "trump",
-  "password": "idiot"
+  "employee_id": "3"
 }'

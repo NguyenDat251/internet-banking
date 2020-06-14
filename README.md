@@ -340,6 +340,89 @@ BODY
 
 - Hệ thống sẽ tự động tạo 1 bank_secret trả về
 
+#### Xóa tài khoản employee
+
+```json
+POST /api/admin/delete-employee
+
+BODY
+{
+    "employee_id": "3"
+}
+```
+
+- Hệ thống sẽ trả về kết quả của database, ví dụ:
+
+```json
+{
+  "fieldCount": 0,
+  "affectedRows": 1,
+  "insertId": 0,
+  "serverStatus": 2,
+  "warningCount": 0,
+  "message": "",
+  "protocol41": true,
+  "changedRows": 0
+}
+```
+
+Với affectedRows là 1, tức là đã xóa.
+
+#### Cập nhật username của employee
+
+```json
+POST /api/admin/update-employee-username
+
+BODY
+{
+    "employee_id": "3",
+    "username": "newname"
+}
+```
+
+Hệ thống sẽ trả về kết quả từ database tương tự như trên.
+
+#### Cập nhật password của employee
+
+```json
+POST /api/admin/update-employee-password
+
+BODY
+{
+    "employee_id": "3",
+    "password": "newpassword"
+}
+```
+
+Hệ thống sẽ trả về kết quả từ database tương tự như trên.
+
+#### Liệt kê danh sách employee
+
+```json
+GET /api/admin/employee-list
+```
+
+- Hệ thống sẽ trả về danh sách tất cả employee dưới dạng JSON
+
+#### Lấy thông tin employee thông qua ID
+
+```json
+GET /api/admin/get-employee-info?employee_id=<ID của employee>
+```
+
+Hệ thống sẽ trả về thông tin của employee duới dạng JSON, ví dụ:
+
+```json
+[
+  {
+    "username": "obama",
+    "employee_id": 5,
+    "hashed_password": "$2a$08$nLoMEK84g.U4JPuvjLKisu3Nl6Pt/tEVpX6VerU0kiEW6yDggD51a",
+    "refresh_secret": "rQFn3MSsYZN2UzK8idJv"
+  }
+]
+```
+
 ## Một số thông tin mặc định được khởi tạo cùng với project, dùng để test api
 
 - Thông tin khách hàng linh
