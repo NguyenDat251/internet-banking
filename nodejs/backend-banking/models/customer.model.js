@@ -41,5 +41,9 @@ module.exports = {
   changePassword: (customerId, password) => {
     const hash = bcrypt.hashSync(password, 8);
     return db.load(`update customer set hashed_password = '${hash}' where customer_id = ${customerId}`)
-  }
+  },
+  getDepositTransactionHistory: credit_number => db.load(`select * from deposit_transaction_history where credit_number = '${credit_number}'`),
+  getWithdrawTransactionHistory: credit_number => db.load(`select * from withdraw_transaction_history where credit_number = '${credit_number}'`),
+  getSentToTransactionHistory: credit_number => db.load(`select * from sent_to_transaction_history where credit_number = '${credit_number}'`),
+  getReceiveFromTransactionHistory: credit_number => db.load(`select * from receive_from_transaction_history where credit_number = '${credit_number}'`),
 };
