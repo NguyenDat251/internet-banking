@@ -7,6 +7,7 @@ import { transferActions } from '../../../../../../../../../actions/customer/tra
 import './transferForm.scss';
 import CheckBox from '../../../../component/checkBox/checkBox';
 import { connect } from 'react-redux';
+import {NotificationManager, NotificationContainer} from 'react-notifications'
 
 const TransferForm = (props) => {
   const credit_account = props.bankAccount.credit_account[0];
@@ -22,16 +23,16 @@ const TransferForm = (props) => {
   ];
   const [value, setValue] = useState();
 
+  useEffect(() => {
+    if(props.transfer.findReceiverError !== null && props.soTaiKhoan){
+      NotificationManager.error('Không tìm thấy tài khoản thẻ')
+    }
+  }, [props.transfer])
+
   const handleForSubmit = (e) => {
     e.preventDefault();
     props.setStep(2);
   };
-
-  // useEffect(() => {
-  //   if(props.transfer.findReceiverSuccess === true){
-  //     setReceiverName(props.transfer.full_name)
-  //   }
-  // }, [props.transfer])
 
   return (
     <div className="transferForm">
@@ -82,6 +83,7 @@ const TransferForm = (props) => {
           Chuyển tiền
         </button>
       </div>
+      <NotificationContainer/>
     </div>
   );
 };
