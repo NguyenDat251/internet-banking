@@ -19,5 +19,5 @@ module.exports = {
     return db.load(`update remind_list set credit_number = '${entity["credit_number"]}', remind_name='${entity["remind_name"]}', partner_code='${entity["partner_code"]}' where remind_id = ${remind_id}`);
   },
   get: customer_id => db.load(`select * from remind_list where customer_id = ${customer_id}`),
-  delete: remind_id => db.load(`delete from table remind_list where remind_id = ${remind_id}`)
+  delete: remind_id => db.load(`delete from remind_list where remind_id = ${remind_id}`)
 }
