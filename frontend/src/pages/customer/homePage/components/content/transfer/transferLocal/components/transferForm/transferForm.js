@@ -13,6 +13,7 @@ const TransferForm = (props) => {
   const SoTK = [credit_account.credit_number];
   const phiChuyenTien = ['Người chuyển trả', 'Người nhận trả'];
   const money = credit_account.balance;
+  const [receiverName, setReceiverName] = useState();
   const receiver = [
     { id: 12345, name: 'Lam' },
     { id: 12313, name: 'Jindo' },
@@ -25,6 +26,13 @@ const TransferForm = (props) => {
     e.preventDefault();
     props.setStep(2);
   };
+
+  // useEffect(() => {
+  //   if(props.transfer.findReceiverSuccess === true){
+  //     setReceiverName(props.transfer.full_name)
+  //   }
+  // }, [props.transfer])
+
   return (
     <div className="transferForm">
       <div className="mt-4">
@@ -49,6 +57,7 @@ const TransferForm = (props) => {
         <TextInput
           title="Tên người hưởng"
           placeholder="Tên người huởng"
+          value = {props.transfer.full_name || ""}
           disabled={true}
         />
         <CheckBox
