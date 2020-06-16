@@ -13,13 +13,29 @@
       - [Đăng Nhập](#đăng-nhập)
       - [Lấy tên khách hàng bằng số  tài khoản tín dụng](#lấy-tên-khách-hàng-bằng-số-tài-khoản-tín-dụng)
       - [Lấy toàn bộ danh sách tài khoản (credit + saving)](#lấy-toàn-bộ-danh-sách-tài-khoản-credit--saving)
+      - [Xem lịch sử giao dịch](#xem-lịch-sử-giao-dịch)
       - [Chuyển khoản](#chuyển-khoản)
       - [Xác thực mã otp](#xác-thực-mã-otp)
+      - [Reset mật khẩu](#reset-mật-khẩu)
+      - [Xác thực otp đổi mật khẩu](#xác-thực-otp-đổi-mật-khẩu)
+      - [Đổi mật khẩu](#đổi-mật-khẩu)
+      - [CRUD thông tin gợi nhớ](#crud-thông-tin-gợi-nhớ)
+        - [Xem thông tin gợi nhớ](#xem-thông-tin-gợi-nhớ)
+        - [Tạo thông tin gợi nhớ](#tạo-thông-tin-gợi-nhớ)
+        - [Xóa thông tin gợi nhớ](#xóa-thông-tin-gợi-nhớ)
+        - [Chỉnh sửa thông tin gợi nhớ](#chỉnh-sửa-thông-tin-gợi-nhớ)
     - [API dành cho employee](#api-dành-cho-employee)
+      - [Đăng Nhập](#đăng-nhập-1)
       - [Thêm thông tin khách hàng vào hệ thống](#thêm-thông-tin-khách-hàng-vào-hệ-thống)
       - [Thêm tài khoản tiết kiệm](#thêm-tài-khoản-tiết-kiệm)
     - [API dành cho admin](#api-dành-cho-admin)
       - [Thêm thông tin partner vào hệ thống](#thêm-thông-tin-partner-vào-hệ-thống)
+      - [Tạo tài khoản employee](#tạo-tài-khoản-employee)
+      - [Xóa tài khoản employee](#xóa-tài-khoản-employee)
+      - [Cập nhật username của employee](#cập-nhật-username-của-employee)
+      - [Cập nhật password của employee](#cập-nhật-password-của-employee)
+      - [Liệt kê danh sách employee](#liệt-kê-danh-sách-employee)
+      - [Lấy thông tin employee thông qua ID](#lấy-thông-tin-employee-thông-qua-id)
   - [Một số thông tin mặc định được khởi tạo cùng với project, dùng để test api](#một-số-thông-tin-mặc-định-được-khởi-tạo-cùng-với-project-dùng-để-test-api)
   - [Danh sách các ngân hàng  liên  kết](#danh-sách-các-ngân-hàng-liên-kết)
     - [Ngân hàng đại diện nhóm chẵn (PGP)](#ngân-hàng-đại-diện-nhóm-chẵn-pgp)
@@ -166,7 +182,7 @@ BODY
 #### Lấy tên khách hàng bằng số  tài khoản tín dụng
 
 ```json
-GET /api/customer/get-credit-info?credit_number=565572661049o
+GET /api/customer/get-credit-info?credit_number=565572661049
 
 HEADER
 "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcl9pZCI6MSwiaWF0IjoxNTkwODQ4NTQ3LCJleHAiOjE1OTA4NTQ1NDd9.F_IHlYq9QbpbJ5YmOVFrseZyqQaWzwBSYniZg8Ykdts"
@@ -269,6 +285,71 @@ BODY
     "confirm_new_password": "linh"
 }
 
+```
+
+#### CRUD thông tin gợi nhớ
+
+```json
+POST /api/customer/remind-list
+
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcl9pZCI6MSwiaWF0IjoxNTkxOTQ1OTE0LCJleHAiOjE1OTE5NTE5MTR9.JRYklbQtj-jCvEXWj1109RfdZtHrecZYBBjrTHJuH8Y"
+```
+
+##### Xem thông tin gợi nhớ
+
+```json
+GET /api/customer/remind-list
+
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcl9pZCI6MSwiaWF0IjoxNTkxOTQ1OTE0LCJleHAiOjE1OTE5NTE5MTR9.JRYklbQtj-jCvEXWj1109RfdZtHrecZYBBjrTHJuH8Y"
+```
+
+##### Tạo thông tin gợi nhớ
+
+```json
+POST /api/customer/remind-list
+
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcl9pZCI6MSwiaWF0IjoxNTkxOTQ1OTE0LCJleHAiOjE1OTE5NTE5MTR9.JRYklbQtj-jCvEXWj1109RfdZtHrecZYBBjrTHJuH8Y"
+
+BODY
+{
+    "credit_number": "27893492732",
+    "remind_name": "dmdcs",
+    "partner_code": "hcmbank"
+}
+```
+
+##### Xóa thông tin gợi nhớ
+
+```json
+DELETE /api/customer/remind-list
+
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcl9pZCI6MSwiaWF0IjoxNTkxOTQ1OTE0LCJleHAiOjE1OTE5NTE5MTR9.JRYklbQtj-jCvEXWj1109RfdZtHrecZYBBjrTHJuH8Y"
+
+BODY
+{
+    "remind_id": 1
+}
+```
+
+##### Chỉnh sửa thông tin gợi nhớ
+
+```json
+POST /api/customer/remind-list
+
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcl9pZCI6MSwiaWF0IjoxNTkxOTQ1OTE0LCJleHAiOjE1OTE5NTE5MTR9.JRYklbQtj-jCvEXWj1109RfdZtHrecZYBBjrTHJuH8Y"
+
+BODY
+{
+    "remind_id": 1,
+    "credit_number": "1111111111",
+    "remind_name": "idkwtfigo",
+    "partner_code": "changed"
+}
 ```
 
 ### API dành cho employee
