@@ -206,7 +206,7 @@ CREATE TABLE `remind_list` (
   `customer_id` int(11) NOT NULL,
   `credit_number` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `remind_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `type` bigint(20) NOT NULL,
+  `partner_code` varchar(100) NOT NULL,
   PRIMARY KEY (`remind_id`),
   UNIQUE KEY `remind_list_UN` (`customer_id`,`credit_number`),
   KEY `remind_list_FK` (`customer_id`),
