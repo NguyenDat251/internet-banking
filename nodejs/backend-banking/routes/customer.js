@@ -453,6 +453,13 @@ router.get("/transaction-history", authenJWT, async (req, res) => {
 })
 
 /* GET remind list */
+router.get("/remind-list", authenJWT, async (req, res) => {
+  const customer_id = req.body["customer_id"];
+  let result = await remindListModel.get(customer_id);
+
+  return res.status(201).json({ "remind-list": result });
+})
+
 /* POST remind list */
 router.post("/remind-list", authenJWT, async (req, res) => {
   let result
@@ -467,6 +474,17 @@ router.post("/remind-list", authenJWT, async (req, res) => {
 })
 
 /* DELETE remind list */
+router.delete("/remind-list", authenJWT, async (req, res) => {
+  remind_id = req.body["remind_id"];
+  remindListModel.delete(remind_id);
+  return res.status(201).json({"message": "success"});
+})
+
 /* UPDATE remind list */
+router.put("/remind-list", authenJWT, async (req, res) => {
+  remind_id = req.body["remind_id"];
+  remindListModel.update(remind_id, req.body);
+  return res.status(201).json({"message": "success"});
+})
 
 module.exports = router;
