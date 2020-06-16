@@ -208,6 +208,7 @@ CREATE TABLE `remind_list` (
   `remind_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `type` bigint(20) NOT NULL,
   PRIMARY KEY (`remind_id`),
+  UNIQUE KEY `remind_list_UN` (`customer_id`,`credit_number`),
   KEY `remind_list_FK` (`customer_id`),
   CONSTRAINT `remind_list_FK` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -447,4 +448,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-16  2:58:36
+-- Dump completed on 2020-06-16  3:03:40
