@@ -133,31 +133,6 @@ INSERT INTO `employee` VALUES ('trump',1,'$2a$08$z/eROGEhVaw2HNino1zm/.IOsrV6VZA
 UNLOCK TABLES;
 
 --
--- Table structure for table `list_localtransfer`
---
-
-DROP TABLE IF EXISTS `list_localtransfer`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `list_localtransfer` (
-  `customer_id` int(11) NOT NULL,
-  `credit_number` char(15) COLLATE utf8_unicode_ci NOT NULL,
-  `remind_name` char(40) COLLATE utf8_unicode_ci NOT NULL,
-  KEY `fk_listtransfer_customer` (`customer_id`),
-  CONSTRAINT `list_localtransfer_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `list_localtransfer`
---
-
-LOCK TABLES `list_localtransfer` WRITE;
-/*!40000 ALTER TABLE `list_localtransfer` DISABLE KEYS */;
-/*!40000 ALTER TABLE `list_localtransfer` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `partner_api`
 --
 
@@ -217,6 +192,34 @@ CREATE TABLE `receive_from_transaction_history` (
 LOCK TABLES `receive_from_transaction_history` WRITE;
 /*!40000 ALTER TABLE `receive_from_transaction_history` DISABLE KEYS */;
 /*!40000 ALTER TABLE `receive_from_transaction_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `remind_list`
+--
+
+DROP TABLE IF EXISTS `remind_list`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `remind_list` (
+  `remind_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
+  `credit_number` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `remind_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `type` bigint(20) NOT NULL,
+  PRIMARY KEY (`remind_id`),
+  KEY `remind_list_FK` (`customer_id`),
+  CONSTRAINT `remind_list_FK` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `remind_list`
+--
+
+LOCK TABLES `remind_list` WRITE;
+/*!40000 ALTER TABLE `remind_list` DISABLE KEYS */;
+/*!40000 ALTER TABLE `remind_list` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -444,4 +447,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-12  7:01:13
+-- Dump completed on 2020-06-16  2:58:36
