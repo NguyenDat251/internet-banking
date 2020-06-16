@@ -5,6 +5,7 @@ const savingAccountModel = require('../models/saving_account.model');
 const otpModel = require('../models/transaction_otp.model');
 const resetPassOtpModel = require('../models/reset_password_otp.model');
 const transactionModel = require('../models/transaction.models');
+const remindListModel = require('../models/remind.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const randomstring = require('randomstring');
@@ -450,5 +451,22 @@ router.get("/transaction-history", authenJWT, async (req, res) => {
 
   res.status(200).json({ "deposit_history": depositHis, "withdraw_history": withdrawHis, "sendto_history": sendtoHis, "receivefrom_history": receivefromHis });
 })
+
+/* GET remind list */
+/* POST remind list */
+router.post("/remind-list", authenJWT, async (req, res) => {
+  let result
+
+  try {
+    result = await remindListModel.add(req.body);
+  } catch (err) {
+    res.status(401).json({ "err": err })
+  }
+
+  return res.status(201).json({ "remind_id": result.insertId })
+})
+
+/* DELETE remind list */
+/* UPDATE remind list */
 
 module.exports = router;
