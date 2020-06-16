@@ -5,6 +5,7 @@ const savingAccountModel = require('../models/saving_account.model');
 const otpModel = require('../models/transaction_otp.model');
 const resetPassOtpModel = require('../models/reset_password_otp.model');
 const transactionModel = require('../models/transaction.models');
+const remindListModel = require('../models/remind.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const randomstring = require('randomstring');
@@ -433,6 +434,57 @@ router.post("/change-password", authenJWT, async (req, res) => {
   customerModel.changePassword(customer_id, newpass);
 
   res.status(200).json({ "message": "change password success" });
+})
+
+/* GET transaction history */
+router.get("/transaction-history", authenJWT, async (req, res) => {
+  const customer_id = req.body["customer_id"];
+  let result;
+
+  result = await creditAccountModel.searchByCustomerId(customer_id);
+  const creditInfo = result[0];
+
+  const depositHis = await customerModel.getDepositTransactionHistory(creditInfo["credit_number"]);
+  const withdrawHis = await customerModel.getWithdrawTransactionHistory(creditInfo["credit_number"]);
+  const sendtoHis = await customerModel.getSentToTransactionHistory(creditInfo["credit_number"]);
+  const receivefromHis = await customerModel.getReceiveFromTransactionHistory(creditInfo["credit_number"]);
+
+  res.status(200).json({ "deposit_history": depositHis, "withdraw_history": withdrawHis, "sendto_history": sendtoHis, "receivefrom_history": receivefromHis });
+})
+
+/* GET remind list */
+router.get("/remind-list", authenJWT, async (req, res) => {
+  const customer_id = req.body["customer_id"];
+  let result = await remindListModel.get(customer_id);
+
+  return res.status(201).json({ "remind-list": result });
+})
+
+/* POST remind list */
+router.post("/remind-list", authenJWT, async (req, res) => {
+  let result
+
+  try {
+    result = await remindListModel.add(req.body);
+  } catch (err) {
+    res.status(401).json({ "err": err })
+  }
+
+  return res.status(201).json({ "remind_id": result.insertId })
+})
+
+/* DELETE remind list */
+router.delete("/remind-list", authenJWT, async (req, res) => {
+  remind_id = req.body["remind_id"];
+  remindListModel.delete(remind_id);
+  return res.status(201).json({"message": "success"});
+})
+
+/* UPDATE remind list */
+router.put("/remind-list", authenJWT, async (req, res) => {
+  remind_id = req.body["remind_id"];
+  remindListModel.update(remind_id, req.body);
+  return res.status(201).json({"message": "success"});
 })
 
 module.exports = router;

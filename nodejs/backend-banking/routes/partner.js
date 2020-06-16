@@ -9,7 +9,7 @@ const verifySecretMiddleware = require('../middlewares/verify-secret');
 const router = express.Router();
 
 /* GET request query account info using credit account number */
-router.get('/get-account-info', verifySecretMiddleware, verifyCreditMiddleware, async (req, res) => {
+router.get('/get-account-info', verifySecretMiddleware, async (req, res) => {
   const customer_id = req.headers["customer_id"];
   const customerInfo = await customerModel.searchByCustomerId(customer_id);
 
@@ -22,7 +22,7 @@ router.get('/get-account-info', verifySecretMiddleware, verifyCreditMiddleware, 
 })
 
 /* POST request deposit account balance */
-router.post('/deposit', verifySecretMiddleware, verifySignatureMiddleware, verifyCreditMiddleware, async (req, res) => {
+router.post('/deposit', verifySecretMiddleware, verifySignatureMiddleware, async (req, res) => {
   const creditNumber = req.body["credit_number"];
   const amount = req.body["amount"];
   const partnerCode = req.headers["partner-code"];
@@ -38,7 +38,7 @@ router.post('/deposit', verifySecretMiddleware, verifySignatureMiddleware, verif
 })
 
 /* POST request withdraw account balance */
-router.post('/withdraw', verifySecretMiddleware, verifySignatureMiddleware, verifyCreditMiddleware, async (req, res) => {
+router.post('/withdraw', verifySecretMiddleware, verifySignatureMiddleware, async (req, res) => {
   const creditNumber = req.body["credit_number"];
   const amount = req.body["amount"];
   const partnerCode = req.headers["partner-code"];
