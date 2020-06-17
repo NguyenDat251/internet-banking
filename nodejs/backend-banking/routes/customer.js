@@ -310,6 +310,10 @@ router.post("/reset-password", async (req, res) => {
   const template = fs.readFileSync('./template/email/reset-pass-otp.html', 'utf8');
   const html = mustache.render(template, { otp: otp });
   const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    ignoreTLS: false,
+    secure: false,
     service: 'gmail',
     auth: {
       user: config["bankmail_address"],
@@ -378,6 +382,10 @@ router.post("/verify-otp-resetpass", async (req, res) => {
   const template = fs.readFileSync('./template/email/reset-pass-success.html', 'utf8');
   const html = mustache.render(template, { newpass: newpass });
   const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    ignoreTLS: false,
+    secure: false,
     service: 'gmail',
     auth: {
       user: config["bankmail_address"],
