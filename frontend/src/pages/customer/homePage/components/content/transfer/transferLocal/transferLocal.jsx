@@ -5,11 +5,12 @@ import TransferForm from './components/transferForm/transferForm';
 import ConfirmTransfer from './components/confirmTransfer/confirmTransfer'
 import { connect } from 'react-redux';
 import { bankAccountActions } from '../../../../../../../actions/customer/bankAccount';
+import { transferActions } from '../../../../../../../actions/customer/transfer';
 
 const sender = 'Người chuyển trả';
 const receiver = 'Người nhận trả';
 
-const TransferLocal = ({ bankAccount, getBankAccount }) => {
+const TransferLocal = ({ bankAccount, getBankAccount, transfer, getRemindList }) => {
   const hinhThuc = ['Qua email'];
   const [soTaiKhoan, setSoTaiKhoan] = useState();
   const [tenNguoiHuong, setTenNguoiHuong] = useState();

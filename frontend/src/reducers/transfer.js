@@ -4,6 +4,10 @@ const initialState = {
   findReceiverPending: false,
   findReceiverSuccess: false,
   findReceiverError: null,
+
+  getRemindListPending: false,
+  getRemindListSuccess: false,
+  getRemindListError: null,
 };
 
 const transfer = (state = initialState, action) => {
@@ -27,6 +31,26 @@ const transfer = (state = initialState, action) => {
         findReceiverSuccess: false,
         findReceiverError: action.payload,
       };
+
+    case TransferConstants.GET_REMIND_LIST_PENDING:
+      return{
+        getRemindListPending:  true,
+        getRemindListSuccess: false,
+        getRemindListError: null,
+      }
+    case TransferConstants.GET_REMIND_LIST_SUCCESS:
+      return{
+        getRemindListPending:  false,
+        getRemindListSuccess: true,
+        getRemindListError: null,
+        remindList: action.payload["remind-list"]
+      }
+    case TransferConstants.GET_REMIND_LIST_ERROR:
+      return{
+        getRemindListPending:  false,
+        getRemindListSuccess: false,
+        getRemindListError: action.payload,
+      }
     default:
       return state;
   }

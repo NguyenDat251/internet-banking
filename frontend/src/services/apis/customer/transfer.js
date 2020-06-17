@@ -70,8 +70,20 @@ const findReceiver = (credit_number) => {
   });
 };
 
+const getRemindList = () => {
+  const token = sessionStorage.getItem(NameItem.ACCESS_TOKEN);
+  let config = {
+    headers: {access_token: token},
+  }
+  return axios.get(
+    `${baseURL}/api/customer/remind-list`, config).then((res) => {
+      return res.data
+    })
+}
+
 export const TransferServices = {
   transferLocal,
   verifyOtp,
   findReceiver,
+  getRemindList
 };

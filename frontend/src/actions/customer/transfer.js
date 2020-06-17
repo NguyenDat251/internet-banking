@@ -53,10 +53,28 @@ function findReceiver(credit_number){
     function failure(error){return{type: TransferConstants.FIND_RECEIVER_ERROR, payload: error}};
 };
 
+function getRemindList(){
+  return (dispatch) => {
+    dispatch(request());
+    TransferServices.getRemindList()
+    .then(
+      res =>{
+        dispatch(success(res))
+      }
+      ).catch(error => {
+        dispatch(failure(error))
+      }) 
+    };
+    function request(){ return{type: TransferConstants.GET_REMIND_LIST_PENDING}};
+    function success(res){return{type: TransferConstants.GET_REMIND_LIST_SUCCESS, payload: res}};
+    function failure(error){return{type: TransferConstants.GET_REMIND_LIST_ERROR, payload: error}};
+}
+
 
 
 export const transferActions = {
   transferLocal,
   verifyOtp,
-  findReceiver
+  findReceiver,
+  getRemindList
 }

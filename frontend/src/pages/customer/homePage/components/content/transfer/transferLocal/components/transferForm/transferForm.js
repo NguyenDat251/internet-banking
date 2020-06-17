@@ -14,20 +14,28 @@ const TransferForm = (props) => {
   const SoTK = [credit_account.credit_number];
   const phiChuyenTien = ['Người chuyển trả', 'Người nhận trả'];
   const money = credit_account.balance;
-  const [receiverName, setReceiverName] = useState();
-  const receiver = [
-    { id: 12345, name: 'Lam' },
-    { id: 12313, name: 'Jindo' },
-    { id: 56456, name: 'asdasd' },
-    { id: 1235, name: 'Khue' },
-  ];
+  const [remindList, setRemindList] = useState([]);
+
   const [value, setValue] = useState();
 
   useEffect(() => {
     if(props.transfer.findReceiverError !== null && props.soTaiKhoan){
       NotificationManager.error('Không tìm thấy tài khoản thẻ')
     }
+    if(!props.soTaiKhoan || props.transfer.findReceiverError !== null){
+      props.setTenNguoiHuong();
+    }
+    if(props.transfer.findReceiverSuccess === true){
+      props.setTenNguoiHuong(props.transfer.full_name);
+    }
+    if(props.transfer.getRemindListSuccess === true){
+      setRemindList(props.transfer.remindList)
+    }
   }, [props.transfer])
+
+  useEffect( () => {
+    props.getRemindList();
+  }, [])
 
   const handleForSubmit = (e) => {
     e.preventDefault();
@@ -46,7 +54,7 @@ const TransferForm = (props) => {
         <hr />
         <InputWithSearch
           title="Tìm kiếm"
-          items={receiver}
+          items={remindList}
           onChange={(e) => setValue(e.target.value)}
         />
         <TextInput
@@ -58,7 +66,7 @@ const TransferForm = (props) => {
         <TextInput
           title="Tên người hưởng"
           placeholder="Tên người huởng"
-          value = {props.transfer.full_name || ""}
+          value = {props.tenNguoiHuong || ""}
           disabled={true}
         />
         <CheckBox
@@ -93,8 +101,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  findReceiver: (credit_number) =>
-    dispatch(transferActions.findReceiver(credit_number)),
+  findReceiver: (credit_number) => dispatch(transferActions.findReceiver(credit_number)),
+  getRemindList: () => dispatch(transferActions.getRemindList())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TransferForm);
