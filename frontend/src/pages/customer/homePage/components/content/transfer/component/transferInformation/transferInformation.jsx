@@ -5,8 +5,8 @@ import TextAreaInput from '../textAreaInput/textAreaInput'
 import { useState, useEffect } from 'react'
 
 const TransferInformation = (props) => {
-
-    const [value, setValue] = useState('');
+    const soTien = props.soTien && props.soTien.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+    const [value, setValue] = useState(soTien);
     const handleMoneyOnChange = (e) => {
         const re = /^[0-9\b]+$/;
         var money = e.target.value

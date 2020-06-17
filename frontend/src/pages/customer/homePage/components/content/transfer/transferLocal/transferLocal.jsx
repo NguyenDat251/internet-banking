@@ -23,6 +23,7 @@ const TransferLocal = ({ bankAccount, getBankAccount, transfer, getRemindList })
 
   useEffect(() => {
     getBankAccount();
+    getRemindList();
   }, []);
 
   return (
@@ -30,6 +31,7 @@ const TransferLocal = ({ bankAccount, getBankAccount, transfer, getRemindList })
       <Title title="CHUYỂN TIỀN CHO NGƯỜI HƯỞNG Ở CÙNG NGÂN HÀNG" />
       {step === 1 && bankAccount.credit_account && (
         <TransferForm
+          transfer = {transfer}
           bankAccount={bankAccount}
           soTaiKhoan={soTaiKhoan}
           setSoTaiKhoan={setSoTaiKhoan}
@@ -64,9 +66,11 @@ const TransferLocal = ({ bankAccount, getBankAccount, transfer, getRemindList })
 
 const mapStateToProps = (state) => ({
   bankAccount: state.bankAccount,
+  transfer: state.transfer
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getBankAccount: () => dispatch(bankAccountActions.getBankAccount()),
+  getRemindList: () => dispatch(transferActions.getRemindList())
 });
 export default connect(mapStateToProps, mapDispatchToProps)(TransferLocal);

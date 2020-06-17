@@ -33,12 +33,34 @@ const TransferForm = (props) => {
     }
   }, [props.transfer])
 
-  useEffect( () => {
-    props.getRemindList();
-  }, [])
+  const handleOnRemindListChange = (e) => {
+    props.setSoTaiKhoan(e.target.value)
+    props.findReceiver(e.target.value)
+  }
 
   const handleForSubmit = (e) => {
-    e.preventDefault();
+    if(props.transfer.findReceiverPending === true){
+      return
+    }
+    if(!props.tenNguoiHuong){
+      NotificationManager.warning('Vui lòng nhập số tài khoản chính xác')
+      return;
+    }
+    if(props.soTaiKhoan == SoTK){
+      NotificationManager.warning('Số tài khoản trùng với số thẻ')
+      return;
+    }
+    if(!props.soTien){
+      NotificationManager.warning('Vui lòng nhập số tiền chuyển')
+      return
+    }
+    if(props.soTien < 10000){
+      NotificationManager.warning('Số tiền chuyển phải >=10,000 VND')
+      return
+    }
+    if(props.luuThongTin === true && !props.tenGoiNho){
+      props.setTenGoiNho(props.tenNguoiHuong)
+    }
     props.setStep(2);
   };
 
@@ -55,11 +77,12 @@ const TransferForm = (props) => {
         <InputWithSearch
           title="Tìm kiếm"
           items={remindList}
-          onChange={(e) => setValue(e.target.value)}
+          onBlur={(e) => handleOnRemindListChange(e)}
         />
         <TextInput
           title="Số tài khoản"
           placeholder="Nhập số tài khoản"
+          value = {props.soTaiKhoan || ""}
           onBlur={() => props.findReceiver(props.soTaiKhoan)}
           onChange={(e) => props.setSoTaiKhoan(e.target.value)}
         />
@@ -74,7 +97,7 @@ const TransferForm = (props) => {
           onChange={() => props.setLuuThongTin(!props.luuThongTin)}
         />
         {props.luuThongTin && (
-          <TextInput title="Tên gợi nhớ" placeholder="Nhập tên gợi nhớ" />
+          <TextInput title="Tên gợi nhớ" placeholder="Nhập tên gợi nhớ" onBlur={e => props.setTenGoiNho(e.target.value)}/>
         )}
       </div>
 
@@ -87,7 +110,7 @@ const TransferForm = (props) => {
         <button
           className="btn btn-success float-center"
           type="button"
-          onClick={() => handleForSubmit}>
+          onClick= {() => handleForSubmit()}>
           Chuyển tiền
         </button>
       </div>
@@ -102,7 +125,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   findReceiver: (credit_number) => dispatch(transferActions.findReceiver(credit_number)),
-  getRemindList: () => dispatch(transferActions.getRemindList())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TransferForm);
