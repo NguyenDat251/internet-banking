@@ -7,7 +7,7 @@ config["refreshtoken_exp"] = "30d";
 config["otp_exp"] = 600;
 
 config["bankmail_address"] = "linh55909167@gmail.com";
-config["bankmail_password"] = "Linh0903611";
+config["bankmail_password"] = "Linh@0903611";
 
 config["local_transfer_fee"] = 2000;
 config["interbank_transfer_fee"] = 5000;
