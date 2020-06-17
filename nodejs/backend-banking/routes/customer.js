@@ -205,7 +205,7 @@ router.post("/transfer-fund", authenJWT, async (req, res) => {
   try {
     await transporter.sendMail(mailOptions);
   } catch (err) {
-    res.status(401).json({ "err": "send email otp failed" });
+    res.status(401).json({ "err": err });
     return;
   }
 
@@ -327,7 +327,7 @@ router.post("/reset-password", async (req, res) => {
   try {
     await transporter.sendMail(mailOptions);
   } catch (err) {
-    res.status(401).json({ "err": "send email otp failed" });
+    res.status(401).json({ "err": err });
     return;
   }
 
