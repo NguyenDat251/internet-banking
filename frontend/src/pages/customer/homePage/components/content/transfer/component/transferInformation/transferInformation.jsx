@@ -23,7 +23,7 @@ const TransferInformation = (props) => {
 
     return (
         <div>
-            <TextMoneyInput title="Số tiền chuyển" value={value} onChange={e => handleMoneyOnChange(e)} onBlur={(e) => setMoney(e)}/>
+            <TextMoneyInput title="Số tiền chuyển" value={value || ""} onChange={e => handleMoneyOnChange(e)} onBlur={(e) => setMoney(e)}/>
             <TextAreaInput title="Nội dung chuyển" value={props.noiDung} placeholder="Nhập nội dung chuyển tiền" onChange={e => props.setNoiDung(e.target.value)}/>
             <SelectInput title="Phí chuyển tiền" value={props.nguoiTraPhi} items={props.items} onChange={(e=>props.setNguoiTraPhi(e.target.value))}/>
         </div>
