@@ -31,6 +31,8 @@ const TransferLocal = ({ bankAccount, getBankAccount, transfer, getRemindList })
       <Title title="CHUYỂN TIỀN CHO NGƯỜI HƯỞNG Ở CÙNG NGÂN HÀNG" />
       {step === 1 && bankAccount.credit_account && (
         <TransferForm
+          sender = {sender}
+          receiver = {receiver}
           transfer = {transfer}
           bankAccount={bankAccount}
           soTaiKhoan={soTaiKhoan}
@@ -55,6 +57,7 @@ const TransferLocal = ({ bankAccount, getBankAccount, transfer, getRemindList })
           bankAccount={bankAccount}
           soTaiKhoan={soTaiKhoan}
           tenNguoiHuong={tenNguoiHuong}
+          tenGoiNho={tenGoiNho}
           soTien={soTien}
           noiDung={noiDung}
           nguoiTraPhi={nguoiTraPhi}

@@ -32,7 +32,7 @@ const TransferForm = (props) => {
           <TextMoneyOutput title="Số tiền chuyển" money={props.soTien} />
           <TextOutput title="Nội dung chuyển" text={props.noiDung} />
           <TextOutput title="Phí chuyển tiền" text={props.nguoiTraPhi} />
-          <TextMoneyOutput title="Số tiền phí" money={2200} />
+          <TextMoneyOutput title="Số tiền phí" money={2000} />
         </div>
         <TextOutput title="Hình thức nhận mã OTP" text="Qua Email" />
         <TextInput

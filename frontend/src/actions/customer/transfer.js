@@ -14,9 +14,9 @@ function transferLocal(name, from_credit_number, to_credit_number, amount, fee_p
         dispatch(failure(error))
       }) 
     };
-    function request(){ return{type: TransferConstants.TRANSFER_PENDING}};
-    function success(res){return{type: TransferConstants.TRANSFER_SUCCESS, payload: res}};
-    function failure(error){return{type: TransferConstants.TRANSFER_ERROR, payload: error}};
+    function request(){ return{type: TransferConstants.TRANSFER_LOCAL_PENDING}};
+    function success(res){return{type: TransferConstants.TRANSFER_LOCAL_SUCCESS, payload: res}};
+    function failure(error){return{type: TransferConstants.TRANSFER_LOCAL_ERROR, payload: error}};
 };
 
 function verifyOtp(id, otp){
