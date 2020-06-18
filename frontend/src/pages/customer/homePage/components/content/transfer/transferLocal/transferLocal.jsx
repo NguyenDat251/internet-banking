@@ -11,7 +11,6 @@ const sender = 'Người chuyển trả';
 const receiver = 'Người nhận trả';
 
 const TransferLocal = ({ bankAccount, getBankAccount, transfer, getRemindList }) => {
-  const hinhThuc = ['Qua email'];
   const [soTaiKhoan, setSoTaiKhoan] = useState();
   const [tenNguoiHuong, setTenNguoiHuong] = useState();
   const [tenGoiNho, setTenGoiNho] = useState();
@@ -54,6 +53,7 @@ const TransferLocal = ({ bankAccount, getBankAccount, transfer, getRemindList })
       )}
       {step === 2 && (
         <ConfirmTransfer
+          transactionId = {transfer.transactionId}
           bankAccount={bankAccount}
           soTaiKhoan={soTaiKhoan}
           tenNguoiHuong={tenNguoiHuong}

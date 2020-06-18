@@ -13,6 +13,10 @@ const initialState = {
   transferLocalSuccess: false,
   transferLocalError: null,
   onChangedState: false,
+
+  verifyOtpPending: false,
+  verifyOtpSuccess: false,
+  verifyOtpError: null,
 };
 
 const transfer = (state = initialState, action) => {
@@ -77,6 +81,25 @@ const transfer = (state = initialState, action) => {
         transferLocalSuccess: false,
         transferLocalError: action.payload,
       };
+    
+    case TransferConstants.OTP_PENDING:
+      return {
+        verifyOtpPending: true,
+        verifyOtpSuccess: false,
+        verifyOtpError: null,
+      }
+    case TransferConstants.OTP_SUCCESS:
+      return {
+        verifyOtpPending: false,
+        verifyOtpSuccess: true,
+        verifyOtpError: null,
+      }
+    case TransferConstants.OTP_ERROR:
+      return {
+        verifyOtpPending: false,
+        verifyOtpSuccess: false,
+        verifyOtpError: action.payload,
+      }
     default:
       return state;
   }

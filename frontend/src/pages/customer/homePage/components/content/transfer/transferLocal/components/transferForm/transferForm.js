@@ -134,7 +134,7 @@ const TransferForm = (props) => {
           className="btn btn-success float-center"
           type="button"
           onClick={() => handleForSubmit()}>
-            {props.transfer.transferLocalPending === true && <i className="fa fa-refresh fa-spin"/>}
+            {props.transfer.transferLocalPending === true && <i className="fa fa-refresh fa-spin mr-3"/>}
           Chuyển tiền
         </button>
       </div>
