@@ -7,24 +7,82 @@ import { transferActions } from '../../../../../../../../../actions/customer/tra
 import './transferForm.scss';
 import CheckBox from '../../../../component/checkBox/checkBox';
 import { connect } from 'react-redux';
+import {
+  NotificationManager,
+  NotificationContainer,
+} from 'react-notifications';
 
 const TransferForm = (props) => {
   const credit_account = props.bankAccount.credit_account[0];
   const SoTK = [credit_account.credit_number];
-  const phiChuyenTien = ['Người chuyển trả', 'Người nhận trả'];
+  const phiChuyenTien = [props.sender, props.receiver];
   const money = credit_account.balance;
-  const receiver = [
-    { id: 12345, name: 'Lam' },
-    { id: 12313, name: 'Jindo' },
-    { id: 56456, name: 'asdasd' },
-    { id: 1235, name: 'Khue' },
-  ];
-  const [value, setValue] = useState();
+  const [remindList, setRemindList] = useState([]);
+
+  useEffect(() => {
+    if (props.transfer.findReceiverError && props.soTaiKhoan) {
+      NotificationManager.error('Không tìm thấy tài khoản thẻ');
+    }
+    if (!props.soTaiKhoan || props.transfer.findReceiverError) {
+      props.setTenNguoiHuong();
+    }
+    if (props.transfer.findReceiverSuccess === true) {
+      props.setTenNguoiHuong(props.transfer.full_name);
+    }
+    if (props.transfer.getRemindListSuccess === true) {
+      setRemindList(props.transfer.remindList);
+    }
+    if(props.transfer.transferLocalSuccess === true && props.transfer.onChangedState === true){
+      props.transfer.onChangedState = false
+      props.setStep(2);
+    }
+    if(props.transfer.transferLocalError){
+      NotificationManager.error('Đã có lỗi xảy ra, vui lòng thử lại sau ít phút');
+    }
+  }, [props.transfer]);
+
+  const handleOnRemindListChange = (e) => {
+    props.setSoTaiKhoan(e.target.value);
+    props.findReceiver(e.target.value);
+  };
 
   const handleForSubmit = (e) => {
-    e.preventDefault();
-    props.setStep(2);
+    if (props.transfer.findReceiverPending === true) {
+      return;
+    }
+    if (!props.tenNguoiHuong) {
+      NotificationManager.warning('Vui lòng nhập số tài khoản chính xác');
+      return;
+    }
+    if (props.soTaiKhoan == SoTK) {
+      NotificationManager.warning('Số tài khoản trùng với số thẻ');
+      return;
+    }
+    if (!props.soTien) {
+      NotificationManager.warning('Vui lòng nhập số tiền chuyển');
+      return;
+    }
+    if (props.soTien < 10000) {
+      NotificationManager.warning('Vui lòng nhập tối thiểu 10,000 VND');
+      return;
+    }
+    if (props.luuThongTin === true && !props.tenGoiNho) {
+      props.setTenGoiNho(props.tenNguoiHuong);
+    }
+    if (props.luuThongTin && !props.tenGoiNho) {
+      props.setTenGoiNho(props.tenNguoiHuong);
+    }
+    const tenNguoiHuong = props.tenNguoiHuong;
+    props.transferLocal(
+      tenNguoiHuong,
+      SoTK,
+      props.soTaiKhoan,
+      props.soTien,
+      props.nguoiTraPhi === props.sender ? 'sender' : 'receiver',
+      props.noiDung
+    );
   };
+
   return (
     <div className="transferForm">
       <div className="mt-4">
@@ -37,18 +95,20 @@ const TransferForm = (props) => {
         <hr />
         <InputWithSearch
           title="Tìm kiếm"
-          items={receiver}
-          onChange={(e) => setValue(e.target.value)}
+          items={remindList}
+          onBlur={(e) => handleOnRemindListChange(e)}
         />
         <TextInput
           title="Số tài khoản"
           placeholder="Nhập số tài khoản"
+          value={props.soTaiKhoan || ''}
           onBlur={() => props.findReceiver(props.soTaiKhoan)}
           onChange={(e) => props.setSoTaiKhoan(e.target.value)}
         />
         <TextInput
           title="Tên người hưởng"
           placeholder="Tên người huởng"
+          value={props.tenNguoiHuong || ''}
           disabled={true}
         />
         <CheckBox
@@ -56,7 +116,11 @@ const TransferForm = (props) => {
           onChange={() => props.setLuuThongTin(!props.luuThongTin)}
         />
         {props.luuThongTin && (
-          <TextInput title="Tên gợi nhớ" placeholder="Nhập tên gợi nhớ" />
+          <TextInput
+            title="Tên gợi nhớ"
+            placeholder="Nhập tên gợi nhớ"
+            onBlur={(e) => props.setTenGoiNho(e.target.value)}
+          />
         )}
       </div>
 
@@ -69,10 +133,12 @@ const TransferForm = (props) => {
         <button
           className="btn btn-success float-center"
           type="button"
-          onClick={() => handleForSubmit}>
+          onClick={() => handleForSubmit()}>
+            {props.transfer.transferLocalPending === true && <i className="fa fa-refresh fa-spin mr-3"/>}
           Chuyển tiền
         </button>
       </div>
+      <NotificationContainer />
     </div>
   );
 };
@@ -84,6 +150,24 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   findReceiver: (credit_number) =>
     dispatch(transferActions.findReceiver(credit_number)),
+  transferLocal: (
+    name,
+    from_credit_number,
+    to_credit_number,
+    amount,
+    fee_payer,
+    message
+  ) =>
+    dispatch(
+      transferActions.transferLocal(
+        name,
+        from_credit_number,
+        to_credit_number,
+        amount,
+        fee_payer,
+        message
+      )
+    ),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TransferForm);

@@ -58,25 +58,32 @@ const verifyOtp = (id, otp) => {
 
 const findReceiver = (credit_number) => {
   const token = sessionStorage.getItem(NameItem.ACCESS_TOKEN);
-  var data = JSON.stringify({ credit_number: '565572661049' });
-
-  var config = {
-    method: 'get',
-    url: 'http://bank-backend.khuedoan.com/api/customer/get-credit-info',
-    headers: {
-      access_token:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcl9pZCI6MywiaWF0IjoxNTkxODQyODA1LCJleHAiOjE1OTE4NDg4MDV9.KJreg-WciGtn3L24IzRX7YgpMhUp5SJcQOwoku1xt4M',
-      'Content-Type': 'application/json',
+  let config ={
+    headers: {access_token: token},
+    params: {
+      credit_number: credit_number
     },
-    data: data,
-  };
-  return axios(config).then((res) => {
+  }
+  return axios.get(
+    `${baseURL}/api/customer/get-credit-info`,config).then((res) => {
     return res.data;
   });
 };
+
+const getRemindList = () => {
+  const token = sessionStorage.getItem(NameItem.ACCESS_TOKEN);
+  let config = {
+    headers: {access_token: token},
+  }
+  return axios.get(
+    `${baseURL}/api/customer/remind-list`, config).then((res) => {
+      return res.data
+    })
+}
 
 export const TransferServices = {
   transferLocal,
   verifyOtp,
   findReceiver,
+  getRemindList
 };

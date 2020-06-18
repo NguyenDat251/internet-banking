@@ -38,7 +38,7 @@ router.post('/add-customer', async (req, res, next) => {
   try {
     result = await customerModel.add(req.body);
   } catch (err) {
-    res.status(422).json({ "err": err.sqlMessage });
+    res.status(422).json({ "err": err });
     return;
   }
 
@@ -69,7 +69,7 @@ router.post("/add-saving-account", async (req, res) => {
   try {
     result = await savingAccountModel.add(req.body);
   } catch (err) {
-    res.status(401).json({ "err": err.sqlMessage });
+    res.status(401).json({ "err": err });
     return;
   }
 
