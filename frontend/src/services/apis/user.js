@@ -12,6 +12,26 @@ const login = (username, password) => {
     })
 }
 
+const forgotPassword = (username, idNumber) => {
+    return axios.post(`${baseURL}/api/customer/reset-password`, {
+        username: username,
+        identity_number: idNumber
+    }).then(res => {
+        return res.data
+    })
+}
+
+const verifyOtp = (reset_id, otp) => {
+    return axios.post(`${baseURL}/api/customer/verify-otp-resetpass`, {
+        reset_id: reset_id,
+        otp: otp
+    }).then(res => {
+        return res.data
+    })
+}
+
 export const UserService = {
-    login
+    login,
+    forgotPassword,
+    verifyOtp
 }

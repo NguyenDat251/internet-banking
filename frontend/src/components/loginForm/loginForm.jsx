@@ -67,6 +67,7 @@ function LoginForm(props) {
         <input
           type="text"
           name="username"
+          autoFocus
           className="form-control form-control-sm mt-5 col-10 mx-auto"
           onChange = {e => setUsername(e.target.value)}
           placeholder="Tên đăng nhập"
@@ -91,7 +92,7 @@ function LoginForm(props) {
       <hr />
       {props.customer && (
         <div className="ml-4">
-        <a href="/" className="text-secondary">
+        <a href="/forgotPassword" className="text-secondary">
           Quên mật khẩu?
         </a>
       </div>

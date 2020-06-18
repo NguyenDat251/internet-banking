@@ -5,6 +5,7 @@ import TextInput from '../../../../component/textInput/textInput';
 import { transferActions } from '../../../../../../../../../actions/customer/transfer';
 import {NotificationManager, NotificationContainer} from 'react-notifications';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 
 const TransferForm = (props) => {
@@ -30,6 +31,10 @@ const TransferForm = (props) => {
     }
     props.verifyOtp(props.transactionId, otp)
   };
+
+  if(props.transfer.verifyOtpSuccess === true){
+    return <Redirect to="/dashboard"/>
+  }
   return (
     <div className="transferForm">
       <div className="mt-4">
