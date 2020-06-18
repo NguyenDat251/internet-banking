@@ -5,12 +5,12 @@ import TransferForm from './components/transferForm/transferForm';
 import ConfirmTransfer from './components/confirmTransfer/confirmTransfer'
 import { connect } from 'react-redux';
 import { bankAccountActions } from '../../../../../../../actions/customer/bankAccount';
+import { transferActions } from '../../../../../../../actions/customer/transfer';
 
 const sender = 'Người chuyển trả';
 const receiver = 'Người nhận trả';
 
-const TransferLocal = ({ bankAccount, getBankAccount }) => {
-  const hinhThuc = ['Qua email'];
+const TransferLocal = ({ bankAccount, getBankAccount, transfer, getRemindList }) => {
   const [soTaiKhoan, setSoTaiKhoan] = useState();
   const [tenNguoiHuong, setTenNguoiHuong] = useState();
   const [tenGoiNho, setTenGoiNho] = useState();
@@ -22,6 +22,7 @@ const TransferLocal = ({ bankAccount, getBankAccount }) => {
 
   useEffect(() => {
     getBankAccount();
+    getRemindList();
   }, []);
 
   return (
@@ -29,6 +30,9 @@ const TransferLocal = ({ bankAccount, getBankAccount }) => {
       <Title title="CHUYỂN TIỀN CHO NGƯỜI HƯỞNG Ở CÙNG NGÂN HÀNG" />
       {step === 1 && bankAccount.credit_account && (
         <TransferForm
+          sender = {sender}
+          receiver = {receiver}
+          transfer = {transfer}
           bankAccount={bankAccount}
           soTaiKhoan={soTaiKhoan}
           setSoTaiKhoan={setSoTaiKhoan}
@@ -49,9 +53,11 @@ const TransferLocal = ({ bankAccount, getBankAccount }) => {
       )}
       {step === 2 && (
         <ConfirmTransfer
+          transactionId = {transfer.transactionId}
           bankAccount={bankAccount}
           soTaiKhoan={soTaiKhoan}
           tenNguoiHuong={tenNguoiHuong}
+          tenGoiNho={tenGoiNho}
           soTien={soTien}
           noiDung={noiDung}
           nguoiTraPhi={nguoiTraPhi}
@@ -63,9 +69,11 @@ const TransferLocal = ({ bankAccount, getBankAccount }) => {
 
 const mapStateToProps = (state) => ({
   bankAccount: state.bankAccount,
+  transfer: state.transfer
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getBankAccount: () => dispatch(bankAccountActions.getBankAccount()),
+  getRemindList: () => dispatch(transferActions.getRemindList())
 });
 export default connect(mapStateToProps, mapDispatchToProps)(TransferLocal);

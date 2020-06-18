@@ -8,10 +8,10 @@ const InputWithSearch = (props) => {
         <h6>{props.title}</h6>
       </div>
       <div className="col-8">
-        <input list="somethingelse" className="form-control input-sm" placeholder="Nhập tên người hưởng, tên gợi nhớ, họ tên" onChange={props.onChange}/>
-        <datalist id="somethingelse">
+        <input list="somethingelse" className="form-control input-sm" placeholder="Nhập tên người hưởng, tên gợi nhớ, họ tên" {...props}/>
+        <datalist id="somethingelse" >
           {props.items
-            ? props.items.map((item, index) =><option key={index} value={item.id}>{`Tên gợi nhớ: ${item.name}, Họ tên: ${item.name}`}</option>)
+            ? props.items.map((item) =><option key={item.remind_id} value={item.credit_number}>{`Tên gợi nhớ: ${item.remind_name} - \nNgân hàng: ${item.partner_code}`}</option>)
             : null}
         </datalist>
       </div>
