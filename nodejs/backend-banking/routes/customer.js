@@ -64,7 +64,7 @@ const verifyOTP = async (req, res, next) => {
   try {
     result = await otpModel.searchTransaction(transaction_id);
   } catch (err) {
-    res.status(401).json({ "err": "invalid transaction_id" });
+    res.status(401).json({ "err": err });
     return;
   }
 
@@ -103,7 +103,7 @@ router.get("/get-credit-info", authenJWT, async (req, res) => {
   try {
     result = await customerModel.searchByCreditNumber(credit_number);
   } catch (err) {
-    res.status(401).json({ "err": "invalid credit_number" });
+    res.status(401).json({ "err": err });
     return;
   }
   const creditInfo = result[0];
@@ -141,7 +141,7 @@ router.post("/transfer-fund", authenJWT, async (req, res) => {
   try {
     result = await customerModel.searchByCreditNumber(from_credit_number);
   } catch (err) {
-    res.status(401).json({ "err": "invalid from_credit_number" });
+    res.status(401).json({ "err": err });
     return;
   }
   const from_customer_info = result[0];
@@ -150,7 +150,7 @@ router.post("/transfer-fund", authenJWT, async (req, res) => {
     try {
       result = await customerModel.searchByCreditNumber(to_credit_number);
     } catch (err) {
-      res.status(401).json({ "err": "invalid to_credit_number" });
+      res.status(401).json({ "err": err });
       return;
     }
     const to_customer_info = result[0];
@@ -177,7 +177,7 @@ router.post("/transfer-fund", authenJWT, async (req, res) => {
   try {
     result = await otpModel.add(req.body);
   } catch (err) {
-    res.status(401).json({ "err": "can not create otp" });
+    res.status(401).json({ "err": err });
     return;
   }
 
@@ -347,7 +347,7 @@ router.post("/verify-otp-resetpass", async (req, res) => {
   try {
     result = await resetPassOtpModel.searchResetPasswordRequest(reset_id);
   } catch (err) {
-    res.status(401).json({ "err": "invalid reset_id" });
+    res.status(401).json({ "err": err });
     return;
   }
 
@@ -403,7 +403,7 @@ router.post("/verify-otp-resetpass", async (req, res) => {
   try {
     await transporter.sendMail(mailOptions);
   } catch (err) {
-    res.status(401).json({ "err": "send email failed" });
+    res.status(401).json({ "err": err });
     return;
   }
 
