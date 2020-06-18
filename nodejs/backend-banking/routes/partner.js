@@ -30,7 +30,7 @@ router.post('/deposit', verifySecretMiddleware, verifySignatureMiddleware, async
   try {
     await creditAccountModel.deposit(creditNumber, amount);
   } catch (err) {
-    res.status(422).json({ "err": err.sqlMessage });
+    res.status(422).json({ "err": err });
     return;
   }
   transactionModel.add_deposit_history({ credit_number: creditNumber, amount: amount, partner_code: partnerCode })
@@ -48,7 +48,7 @@ router.post('/withdraw', verifySecretMiddleware, verifySignatureMiddleware, asyn
   try {
     result = await creditAccountModel.withdraw(creditNumber, amount);
   } catch (err) {
-    res.status(422).json({ "err": err.sqlMessage });
+    res.status(422).json({ "err": err });
     return;
   }
 

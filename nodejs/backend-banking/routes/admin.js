@@ -10,7 +10,7 @@ router.post('/add-partner', async (req, res) => {
   try {
     result = await partnerModel.add(req.body);
   } catch (err) { 
-    res.status(422).json({ "err": err.sqlMessage });
+    res.status(422).json({ "err": err});
     return;
   }
 
@@ -27,7 +27,7 @@ router.post('/add-employee', async (req, res) => {
   try {
     result = await employeeModel.add(req.body);
   } catch (err) {
-    res.status(422).json({ "err": err.sqlMessage });
+    res.status(422).json({ "err": err });
     return;
   }
 
@@ -45,7 +45,7 @@ router.post('/delete-employee', async (req,res) => {
     try {
         result = await employeeModel.deleteEmployeeByID(req.body["employee_id"]);
     } catch (err) {
-        res.status(422).json({ "err": err.sqlMessage });
+        res.status(422).json({ "err": err });
         return;
     }
 
@@ -59,7 +59,7 @@ router.post('/update-employee-username', async (req,res) => {
     try {
         result = await employeeModel.updateUsername(req.body);
     } catch (err) {
-        res.status(422).json({ "err": err.sqlMessage });
+        res.status(422).json({ "err": err });
         return;
     }
 
@@ -73,7 +73,7 @@ router.post('/update-employee-password', async (req,res) => {
     try {
         result = await employeeModel.updatePassword(req.body);
     } catch (err) {
-        res.status(422).json({ "err": err.sqlMessage });
+        res.status(422).json({ "err": err });
         return;
     }
 
@@ -93,7 +93,7 @@ router.get("/get-employee-info", async (req, res) => {
     try {
         employee_info = await employeeModel.getEmployeeInfo(req.query.employee_id);
     } catch (err) {
-        res.status(422).json({ "err": err.sqlMessage });
+        res.status(422).json({ "err": err });
         return;
     }
 
