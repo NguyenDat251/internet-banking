@@ -19,6 +19,39 @@ function login(username, password){
     function failure(error){return{type: UserConstants.LOGIN_ERROR, payload: error}};
 };
 
+function forgotPassword(username, idNumber){
+  return (dispatch) => {
+    dispatch(request());
+    UserService.forgotPassword(username, idNumber)
+    .then(
+      res =>{
+        dispatch(success(res))
+      }
+    ).catch(error => {
+      dispatch(failure(error))
+    }) 
+  }
+  function request(){return{type: UserConstants.FORGOT_PASSWORD_PENDING}};
+  function success(res){return{type: UserConstants.FORGOT_PASSWORD_SUCCESS, payload: res}};
+  function failure(error){return{type: UserConstants.FORGOT_PASSWORD_ERROR, payload: error}};
+}
+
+function verifyOtp(reset_id, otp){
+  return (dispatch) => {
+    dispatch(request());
+    UserService.verifyOtp(reset_id, otp)
+    .then(
+      res =>{
+        dispatch(success(res))
+      }
+    ).catch(error => {
+      dispatch(failure(error))
+    }) 
+  }
+  function request(){return{type: UserConstants.VERIFY_OTP_PENDING}};
+  function success(res){return{type: UserConstants.VERIFY_OTP_SUCCESS, payload: res}};
+  function failure(error){return{type: UserConstants.VERIFY_OTP_ERROR, payload: error}};
+}
 
 function logout(){
   return dispatch => dispatch({type: UserConstants.LOGOUT})
@@ -26,5 +59,7 @@ function logout(){
 
 export const userActions = {
   login, 
-  logout
+  logout,
+  forgotPassword,
+  verifyOtp
 }
