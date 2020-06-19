@@ -5,8 +5,7 @@ import TextInput from '../../../../component/textInput/textInput';
 import { transferActions } from '../../../../../../../../../actions/customer/transfer';
 import {NotificationManager, NotificationContainer} from 'react-notifications';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-
+import {bankConfig} from '../../../../../../../../../config/bank'
 
 const TransferForm = (props) => {
   console.log(typeof(props.transactionId) + " " + props.transactionId)
@@ -18,6 +17,9 @@ const TransferForm = (props) => {
   useEffect(() => {
     if(props.transfer.verifyOtpSuccess === true){
       NotificationManager.success('Chuyển tiền thành công');
+      if(props.luuThongTin === true){
+        props.saveRemindList(props.soTaiKhoan, props.tenGoiNho, "Kiantobank")
+      }
       setTimeout(function(){
         window.location.reload();
       }, 2000)
@@ -57,7 +59,7 @@ const TransferForm = (props) => {
           <TextMoneyOutput title="Số tiền chuyển" money={props.soTien} />
           <TextOutput title="Nội dung chuyển" text={props.noiDung} />
           <TextOutput title="Phí chuyển tiền" text={props.nguoiTraPhi} />
-          <TextMoneyOutput title="Số tiền phí" money={2000} />
+          <TextMoneyOutput title="Số tiền phí" money={bankConfig.local_transfer_fee} />
         </div>
         <TextOutput title="Hình thức nhận mã OTP" text="Qua Email" />
         <TextInput
@@ -89,7 +91,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  verifyOtp: (id, otp) => dispatch(transferActions.verifyOtp(id, otp))
+  verifyOtp: (id, otp) => dispatch(transferActions.verifyOtp(id, otp)),
+  saveRemindList: (credit_number, remind_name, bank_name) => dispatch(transferActions.saveRemindList(credit_number, remind_name, bank_name))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TransferForm);

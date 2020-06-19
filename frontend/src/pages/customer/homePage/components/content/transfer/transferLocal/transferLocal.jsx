@@ -55,6 +55,7 @@ const TransferLocal = ({ bankAccount, getBankAccount, transfer, getRemindList })
         <ConfirmTransfer
           transactionId = {transfer.transactionId}
           bankAccount={bankAccount}
+          luuThongTin = {luuThongTin}
           soTaiKhoan={soTaiKhoan}
           tenNguoiHuong={tenNguoiHuong}
           tenGoiNho={tenGoiNho}

@@ -70,11 +70,29 @@ function getRemindList(){
     function failure(error){return{type: TransferConstants.GET_REMIND_LIST_ERROR, payload: error}};
 }
 
+function saveRemindList(credit_number, remind_name, bank_name){
+  return (dispatch) => {
+    dispatch(request());
+    TransferServices.saveRemindList(credit_number, remind_name, bank_name)
+    .then(
+      res =>{
+        dispatch(success(res))
+      }
+      ).catch(error => {
+        dispatch(failure(error))
+      }) 
+    };
+    function request(){ return{type: TransferConstants.SAVE_REMIND_LIST_PENDING}};
+    function success(res){return{type: TransferConstants.SAVE_REMIND_LIST_SUCCESS, payload: res}};
+    function failure(error){return{type: TransferConstants.SAVE_REMIND_LIST_ERROR, payload: error}};
+}
+
 
 
 export const transferActions = {
   transferLocal,
   verifyOtp,
   findReceiver,
-  getRemindList
+  getRemindList,
+  saveRemindList
 }
