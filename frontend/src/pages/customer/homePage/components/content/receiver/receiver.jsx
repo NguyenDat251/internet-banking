@@ -3,10 +3,11 @@ import Title from '../component/title/title';
 import { bankAccountActions } from '../../../../../../actions/customer/bankAccount';
 import { connect } from 'react-redux';
 import RemindListModal from './components/remindListModal'
+import {NotificationManager, NotificationContainer} from 'react-notifications';
 import './receiver.scss';
 
 
-const Receiver = ({ bankAccount, getRemindList }) => {
+const Receiver = ({ bankAccount, getRemindList, createRemindList }) => {
   const [show, setShow] = useState(false);
   const [remindList, setRemindList] = useState([]);
   const [isModalEdit, setIsModalEdit] = useState(false)
@@ -28,6 +29,14 @@ const Receiver = ({ bankAccount, getRemindList }) => {
     if (bankAccount.getRemindListSuccess === true) {
       setRemindList(bankAccount.remindList);
     }
+    if (bankAccount.createRemindListSuccess === true){
+      NotificationManager.success('Khởi tạo thành công')
+      getRemindList();
+      setShow(false)
+    }
+    if(bankAccount.createRemindListError){
+      NotificationManager.error('Số tài khoản đã tồn tại', "Khởi tạo thất bại")
+    }
   }, [bankAccount]);
   return (
     <div className="receiver">
@@ -40,7 +49,7 @@ const Receiver = ({ bankAccount, getRemindList }) => {
           />
           <button className="btn btn-success">Tìm kiếm</button>
           <button className="btn btn-success ml-4" onClick={handleCreate}>Tạo mới</button>
-          <RemindListModal show={show} setShow = {setShow} isModalEdit={isModalEdit}/>
+          <RemindListModal show={show} setShow = {setShow} isModalEdit={isModalEdit} createRemindList={createRemindList}/>
         </div>
         <div>
           <table className="table table-hover mt-5">
@@ -90,6 +99,7 @@ const Receiver = ({ bankAccount, getRemindList }) => {
           </table>
         </div>
       </div>
+      <NotificationContainer/>
     </div>
   );
 };
@@ -100,6 +110,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getRemindList: () => dispatch(bankAccountActions.getRemindList()),
+  createRemindList: (credit_number, remind_name, partner_code) => dispatch(bankAccountActions.createRemindList(credit_number, remind_name, partner_code))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Receiver);

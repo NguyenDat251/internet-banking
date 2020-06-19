@@ -8,6 +8,10 @@ const initialState = {
   remindListPending: false,
   remindListSuccess: false,
   remindListError: null,
+
+  createRemindListPending: false,
+  createRemindListSuccess: false,
+  createRemindListError: null,
 };
 
 const bankAccount = (state = initialState, action) => {
@@ -51,6 +55,25 @@ const bankAccount = (state = initialState, action) => {
         remindListPending: false,
         remindListSuccess: false,
         remindListError: action.payload,
+      };
+
+    case BankAccountConstants.CREATE_REMIND_LIST_PENDING:
+      return {
+        createRemindListPending: true,
+        createRemindListSuccess: false,
+        createRemindListError: null,
+      };
+    case BankAccountConstants.CREATE_REMIND_LIST_SUCCESS:
+      return {
+        createRemindListPending: false,
+        createRemindListSuccess: true,
+        createRemindListError: null,
+      };
+    case BankAccountConstants.CREATE_REMIND_LIST_ERROR:
+      return {
+        createRemindListPending: false,
+        createRemindListSuccess: false,
+        createRemindListError: action.payload,
       };
     default:
       return state;

@@ -26,8 +26,30 @@ const getRemindList = () => {
     })
 }
 
+const createRemindList = (credit_number, remind_name, partner_code) => {
+    const token = sessionStorage.getItem(NameItem.ACCESS_TOKEN);
+    return axios
+      .post(
+        `${baseURL}/api/customer/remind-list`,
+        {
+          credit_number: credit_number,
+          remind_name: remind_name,
+          partner_code: partner_code
+        },
+        {
+          headers: {
+            access_token: token,
+          },
+        }
+      )
+      .then((res) => {
+        return res.data;
+      });
+  }
+
 
 export const BankAccountServices = {
     getListAccount,
-    getRemindList
+    getRemindList,
+    createRemindList
 }
