@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import {bankConfig} from '../../../../../../../../../config/bank'
 
 const TransferForm = (props) => {
+  console.log(typeof(props.transactionId) + " " + props.transactionId)
   const credit_account = props.bankAccount.credit_account[0];
   const SoTK = [credit_account.credit_number];
   const money = credit_account.balance;
@@ -58,7 +59,7 @@ const TransferForm = (props) => {
           <TextMoneyOutput title="Số tiền chuyển" money={props.soTien} />
           <TextOutput title="Nội dung chuyển" text={props.noiDung} />
           <TextOutput title="Phí chuyển tiền" text={props.nguoiTraPhi} />
-          <TextMoneyOutput title="Số tiền phí" money={bankConfig.local_transfer_fee} />
+          <TextMoneyOutput title="Số tiền phí" money={bankConfig.inter_transfer_fee} />
         </div>
         <TextOutput title="Hình thức nhận mã OTP" text="Qua Email" />
         <TextInput
