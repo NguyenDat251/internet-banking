@@ -15,6 +15,19 @@ const getListAccount = () => {
     })
 }
 
+const getRemindList = () => {
+    const token = sessionStorage.getItem(NameItem.ACCESS_TOKEN)
+    return axios.get(`${baseURL}/api/customer/remind-list`, {
+        headers: {
+            access_token: token
+        }
+    }).then(res => {
+        return res.data
+    })
+}
+
+
 export const BankAccountServices = {
-    getListAccount
+    getListAccount,
+    getRemindList
 }

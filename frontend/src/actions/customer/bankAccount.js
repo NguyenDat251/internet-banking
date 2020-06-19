@@ -14,12 +14,30 @@ function getBankAccount(){
         dispatch(failure(error))
       }) 
     };
+    function request(){ return{type: BankAccountConstants.BANK_ACCOUNT_PENDING}};
+    function success(res){return{type: BankAccountConstants.BANK_ACCOUNT_REQUEST_SUCCESS, payload: res}};
+    function failure(error){return{type: BankAccountConstants.BANK_ACCOUNT_REQUEST_FAIL, payload: error}};
 };
 
-const request = () => ({type: BankAccountConstants.BANK_ACCOUNT_PENDING});
-const success = (res) => ({type: BankAccountConstants.BANK_ACCOUNT_REQUEST_SUCCESS, payload: res});
-const failure = (error) => ({type: BankAccountConstants.BANK_ACCOUNT_REQUEST_FAIL, payload: error});
+function getRemindList(){
+  return (dispatch) => {
+    dispatch(request());
+    BankAccountServices.getRemindList()
+    .then(
+      res =>{
+        dispatch(success(res))
+      }
+    ).catch(error => {
+      dispatch(failure(error))
+    }) 
+  };
+  function request(){ return{type: BankAccountConstants.GET_REMIND_LIST_PENDING}};
+  function success(res){return{type: BankAccountConstants.GET_REMIND_LIST_SUCCESS, payload: res}};
+  function failure(error){return{type: BankAccountConstants.GET_REMIND_LIST_ERROR, payload: error}};
+};
+
 
 export const bankAccountActions = {
-  getBankAccount
+  getBankAccount,
+  getRemindList
 }

@@ -1,8 +1,21 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Title from '../component/title/title'
+import { bankAccountActions } from '../../../../../../actions/customer/bankAccount'
+import { connect } from 'react-redux'
 import "./receiver.scss"
 
-const Receiver = () => {
+
+const Receiver = ({bankAccount, getRemindList}) => {
+    const [remindList, setRemindList] = useState([])
+    useEffect(() => {
+        getRemindList();
+    }, [])
+
+    useEffect(() => {
+       if(bankAccount.getRemindListSuccess === true){
+           setRemindList(bankAccount.remindList)
+        }
+    }, [bankAccount])
     return (
         <div className="receiver">
             <Title title="DANH SÁCH NGƯỜI NHẬN"/>
@@ -16,7 +29,6 @@ const Receiver = () => {
                     <table className="table table-hover mt-5">
                         <thead className="thead-light">
                             <tr>
-                                <th scope="col">Tên người hưởng</th>
                                 <th scope="col">Tên gợi nhớ</th>
                                 <th scope="col">Số tài khoản</th>
                                 <th scope="col">Ngân hàng</th>
@@ -25,7 +37,6 @@ const Receiver = () => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Nguyễn Thanh Lâm</td>
                                 <td>Jindo</td>
                                 <td>0123456789123</td>
                                 <td>@KiantoBank</td>
@@ -49,4 +60,12 @@ const Receiver = () => {
     )
 }
 
-export default Receiver
+const mapStateToProps = (state) => ({
+    bankAccount: state.bankAccount
+})
+
+const mapDispatchToProps = dispatch => ({
+    getRemindList: () => dispatch(bankAccountActions.getRemindList())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Receiver)
