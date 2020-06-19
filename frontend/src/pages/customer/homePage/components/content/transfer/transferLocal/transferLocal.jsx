@@ -28,7 +28,7 @@ const TransferLocal = ({ bankAccount, getBankAccount, transfer, getRemindList })
   return (
     <div className="transferLocal">
       <Title title="CHUYỂN TIỀN CHO NGƯỜI HƯỞNG Ở CÙNG NGÂN HÀNG" />
-      {step === 1 && bankAccount.credit_account && (
+      {step === 1 && (
         <TransferForm
           sender = {sender}
           receiver = {receiver}

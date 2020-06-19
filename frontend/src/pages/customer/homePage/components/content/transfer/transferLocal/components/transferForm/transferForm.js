@@ -15,10 +15,12 @@ import {
 } from 'react-notifications';
 
 const TransferForm = (props) => {
-  const credit_account = props.bankAccount.credit_account[0];
-  const SoTK = [credit_account.credit_number];
+  if(props.bankAccount.credit_account){
+    var credit_account = props.bankAccount.credit_account[0];
+    var SoTK = [credit_account.credit_number];
+    var money = credit_account.balance;
+  }
   const phiChuyenTien = [props.sender, props.receiver];
-  const money = credit_account.balance;
   const [remindList, setRemindList] = useState([]);
 
   useEffect(() => {

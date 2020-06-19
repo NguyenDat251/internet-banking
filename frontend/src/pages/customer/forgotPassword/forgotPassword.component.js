@@ -12,6 +12,7 @@ const ForgotPassword = ({ customer, forgotPassword, verifyOtp }) => {
   const [idNumber, setIdNumber] = useState();
   const [resetId, setResetId] = useState();
   const [otp, setOtp] = useState();
+  const [message, setMessage] = useState("Mã OTP đã được gửi qua email của quý khách");
   const [step, setStep] = useState(1);
 
   useEffect(() => {
@@ -24,6 +25,7 @@ const ForgotPassword = ({ customer, forgotPassword, verifyOtp }) => {
     }
     if(customer.verifyOtpSuccess === true){
         NotificationManager.success('Xác nhận thành công');
+        setMessage("Mật khẩu mới đã được gửi qua email của quý khách")
     }
     if(customer.verifyOtpError){
         NotificationManager.error('Mã OTP không hợp lệ');
@@ -88,7 +90,7 @@ const ForgotPassword = ({ customer, forgotPassword, verifyOtp }) => {
               />
               <div className="mt-3 center-align">
                 <span className="text-danger">
-                  Mã OTP đã được gửi qua email của quý khách
+                  {message}
                 </span>
               </div>
             </div>
