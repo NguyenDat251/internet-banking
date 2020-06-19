@@ -295,18 +295,19 @@ router.post("/reset-password", async (req, res) => {
     return;
   }
 
+  const otp = randomstring.generate({
+    length: 6,
+    charset: 'numeric'
+  });
+
   try {
-    result = await resetPassOtpModel.add({ "customer_id": customerInfo["customer_id"] });
+    result = await resetPassOtpModel.add({ "customer_id": customerInfo["customer_id"], "otp": otp });
   } catch{
     res.status(401).json({ "err": "can not complete reset password action" });
     return;
   }
   const reset_id = result["insertId"];
 
-  const otp = randomstring.generate({
-    length: 6,
-    charset: 'numeric'
-  });
   const template = fs.readFileSync('./template/email/reset-pass-otp.html', 'utf8');
   const html = mustache.render(template, { otp: otp });
   const transporter = nodemailer.createTransport({
@@ -485,14 +486,14 @@ router.post("/remind-list", authenJWT, async (req, res) => {
 router.delete("/remind-list", authenJWT, async (req, res) => {
   remind_id = req.body["remind_id"];
   remindListModel.delete(remind_id);
-  return res.status(201).json({"message": "success"});
+  return res.status(201).json({ "message": "success" });
 })
 
 /* UPDATE remind list */
 router.put("/remind-list", authenJWT, async (req, res) => {
   remind_id = req.body["remind_id"];
   remindListModel.update(remind_id, req.body);
-  return res.status(201).json({"message": "success"});
+  return res.status(201).json({ "message": "success" });
 })
 
 module.exports = router;
