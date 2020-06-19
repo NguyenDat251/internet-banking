@@ -8,11 +8,23 @@ const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState();
   const [newPassword, setNewPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
+  const [error, setError] = useState();
 
   const [isVerified, setIsVerified] = useState(false);
 
   const onHandleSubmit = () => {
-    
+    if(!currentPassword || !newPassword || !confirmPassword){
+      setError("Vui lòng điền đầy đủ các mục")
+      return
+    }
+    if(newPassword !== confirmPassword){
+      setError("Mật khẩu xác nhận không trùng khớp")
+      return
+    }
+    if(isVerified === false){
+      setError("Vui lòng xác nhận captcha")
+      return
+    }
   };
 
   const verifyCallback = (res) => {
@@ -29,6 +41,7 @@ const ChangePassword = () => {
           title="Mật khẩu hiện tại"
           placeholder="Nhập mật khẩu hiện tại"
           type="password"
+          autoFocus
           value={currentPassword}
           onChange={(e) => setCurrentPassword(e.target.value)}
         />
@@ -46,6 +59,11 @@ const ChangePassword = () => {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
+        {error && (
+          <div className="mt-3 center-align">
+            <span className="text-danger">{error}</span>
+          </div>
+        )}
         <div className="mt-4 row">
           <div className="col-4"></div>
           <ReCAPTCHA
