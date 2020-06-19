@@ -11,7 +11,7 @@ function getBankAccount(){
           dispatch(success(res))
         }
       ).catch(error => {
-        dispatch(failure(error))
+        dispatch(failure(error.response.data))
       }) 
     };
     function request(){ return{type: BankAccountConstants.BANK_ACCOUNT_PENDING}};
@@ -28,7 +28,7 @@ function getRemindList(){
         dispatch(success(res))
       }
     ).catch(error => {
-      dispatch(failure(error))
+      dispatch(failure(error.response.data))
     }) 
   };
   function request(){ return{type: BankAccountConstants.GET_REMIND_LIST_PENDING}};
@@ -45,7 +45,7 @@ function createRemindList(credit_number, remind_name, partner_code){
         dispatch(success(res))
       }
     ).catch(error => {
-      dispatch(failure(error))
+      dispatch(failure(error.response.data))
     }) 
   };
   function request(){ return{type: BankAccountConstants.CREATE_REMIND_LIST_PENDING}};
@@ -53,9 +53,27 @@ function createRemindList(credit_number, remind_name, partner_code){
   function failure(error){return{type: BankAccountConstants.CREATE_REMIND_LIST_ERROR, payload: error}};
 };
 
+function deleteRemindList(remind_id){
+  return (dispatch) => {
+    dispatch(request());
+    BankAccountServices.deleteRemindList(remind_id)
+    .then(
+      res =>{
+        dispatch(success(res))
+      }
+    ).catch(error => {
+      dispatch(failure(error.response.data))
+    }) 
+  };
+  function request(){ return{type: BankAccountConstants.DELETE_REMIND_LIST_PENDING}};
+  function success(res){return{type: BankAccountConstants.DELETE_REMIND_LIST_SUCCESS, payload: res}};
+  function failure(error){return{type: BankAccountConstants.DELETE_REMIND_LIST_ERROR, payload: error}};
+};
+
 
 export const bankAccountActions = {
   getBankAccount,
   getRemindList, 
-  createRemindList
+  createRemindList,
+  deleteRemindList
 }

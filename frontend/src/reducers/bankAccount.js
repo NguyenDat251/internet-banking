@@ -12,6 +12,10 @@ const initialState = {
   createRemindListPending: false,
   createRemindListSuccess: false,
   createRemindListError: null,
+
+  deleteRemindListPending: false,
+  deleteRemindListSuccess: false,
+  deleteRemindListError: null,
 };
 
 const bankAccount = (state = initialState, action) => {
@@ -74,6 +78,25 @@ const bankAccount = (state = initialState, action) => {
         createRemindListPending: false,
         createRemindListSuccess: false,
         createRemindListError: action.payload,
+      };
+
+    case BankAccountConstants.DELETE_REMIND_LIST_PENDING:
+      return {
+        deleteRemindListPending: true,
+        deleteRemindListSuccess: false,
+        deleteRemindListError: null,
+      };
+    case BankAccountConstants.DELETE_REMIND_LIST_SUCCESS:
+      return {
+        deleteRemindListPending: false,
+        deleteRemindListSuccess: true,
+        deleteRemindListError: null,
+      };
+    case BankAccountConstants.DELETE_REMIND_LIST_ERROR:
+      return {
+        deleteRemindListPending: false,
+        deleteRemindListSuccess: false,
+        deleteRemindListError: action.payload,
       };
     default:
       return state;

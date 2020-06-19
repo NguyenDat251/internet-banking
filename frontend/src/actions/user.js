@@ -11,7 +11,7 @@ function login(username, password){
           dispatch(success(res))
         }
       ).catch(error => {
-        dispatch(failure(error))
+        dispatch(failure(error.response.data))
       }) 
     };
     function request(){return{type: UserConstants.LOGIN_REQUEST}};
@@ -28,7 +28,7 @@ function forgotPassword(username, idNumber){
         dispatch(success(res))
       }
     ).catch(error => {
-      dispatch(failure(error))
+      dispatch(failure(error.response.data))
     }) 
   }
   function request(){return{type: UserConstants.FORGOT_PASSWORD_PENDING}};
@@ -45,7 +45,7 @@ function verifyOtp(reset_id, otp){
         dispatch(success(res))
       }
     ).catch(error => {
-      dispatch(failure(error))
+      dispatch(failure(error.response.data))
     }) 
   }
   function request(){return{type: UserConstants.VERIFY_OTP_PENDING}};
@@ -62,7 +62,7 @@ function changePassword(old_password, new_password, confirm_new_password){
         dispatch(success(res))
       }
     ).catch(error => {
-      dispatch(failure(error))
+      dispatch(failure(error.response.data))
     }) 
   }
   function request(){return{type: UserConstants.CHANGE_PASSWORD_PENDING}};

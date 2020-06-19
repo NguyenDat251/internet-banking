@@ -7,7 +7,7 @@ import {NotificationManager, NotificationContainer} from 'react-notifications';
 import './receiver.scss';
 
 
-const Receiver = ({ bankAccount, getRemindList, createRemindList }) => {
+const Receiver = ({ bankAccount, getRemindList, createRemindList, deleteRemindList }) => {
   const [show, setShow] = useState(false);
   const [remindList, setRemindList] = useState([]);
   const [isModalEdit, setIsModalEdit] = useState(false)
@@ -20,6 +20,10 @@ const Receiver = ({ bankAccount, getRemindList, createRemindList }) => {
   const handleEdit = () =>  {
     setShow(true)
     setIsModalEdit(true)
+  }
+
+  const handleDelete = (remind_id) => {
+    deleteRemindList(remind_id)
   }
   useEffect(() => {
     getRemindList();
@@ -36,6 +40,9 @@ const Receiver = ({ bankAccount, getRemindList, createRemindList }) => {
     }
     if(bankAccount.createRemindListError){
       NotificationManager.error('Số tài khoản đã tồn tại', "Khởi tạo thất bại")
+    }
+    if(bankAccount.deleteRemindListSuccess === true){
+      getRemindList()
     }
   }, [bankAccount]);
   return (
@@ -83,6 +90,7 @@ const Receiver = ({ bankAccount, getRemindList, createRemindList }) => {
                         </li>
                         <li className="list-inline-item">
                           <button
+                            onClick={item => handleDelete(item.remind_id)}
                             className="btn btn-danger btn-sm rounded-0"
                             type="button"
                             data-toggle="tooltip"
@@ -110,7 +118,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getRemindList: () => dispatch(bankAccountActions.getRemindList()),
-  createRemindList: (credit_number, remind_name, partner_code) => dispatch(bankAccountActions.createRemindList(credit_number, remind_name, partner_code))
+  createRemindList: (credit_number, remind_name, partner_code) => dispatch(bankAccountActions.createRemindList(credit_number, remind_name, partner_code)),
+  deleteRemindList: (remind_id) =>  dispatch(bankAccountActions.deleteRemindList(remind_id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Receiver);

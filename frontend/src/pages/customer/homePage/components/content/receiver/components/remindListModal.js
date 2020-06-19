@@ -33,6 +33,9 @@ const RemindListModal = (props) => {
         {props.isModalEdit === false && (
           <Modal.Title>Tạo người nhận</Modal.Title>
         )}
+        {props.isModalEdit === true && (
+          <Modal.Title>Cập nhật</Modal.Title>
+        )}
       </Modal.Header>
       <Modal.Body>
         <div>
