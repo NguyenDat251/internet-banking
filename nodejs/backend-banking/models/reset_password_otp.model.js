@@ -5,12 +5,9 @@ module.exports = {
   add: entity => {
     // entity = {
     //   "customer_id": 1
+    //   "otp": "123456"
     // }
 
-    entity["otp"] = randomstring.generate({
-      length: 6,
-      charset: 'numeric'
-    });
     entity["status"] = "pending";
     entity["ts"] = Math.floor(Date.now() / 1000);
     return db.add(entity, 'reset_password_otp');
