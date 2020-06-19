@@ -18,7 +18,9 @@ const ChangePassword = ({customer, changePassword}) => {
   useEffect(() => {
     if(customer.changePasswordSuccess === true){
       NotificationManager.success('Đổi mật khẩu thành công')
-      window.location.reload()
+      setTimeout(function(){
+        window.location.reload()
+      }, 2000)
     }
     if(customer.changePasswordError){
       NotificationManager.error('Mật khẩu hiện tại không đúng, vui lòng thử lại sau');

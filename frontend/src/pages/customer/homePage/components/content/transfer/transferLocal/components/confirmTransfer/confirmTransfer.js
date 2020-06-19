@@ -18,6 +18,9 @@ const TransferForm = (props) => {
   useEffect(() => {
     if(props.transfer.verifyOtpSuccess === true){
       NotificationManager.success('Chuyển tiền thành công');
+      setTimeout(function(){
+        window.location.reload();
+      }, 2000)
     } 
     if(props.transfer.verifyOtpError){
       NotificationManager.error("Mã OTP không hợp lệ")
@@ -32,9 +35,6 @@ const TransferForm = (props) => {
     props.verifyOtp(props.transactionId, otp)
   };
 
-  if(props.transfer.verifyOtpSuccess === true){
-    return <Redirect to="/dashboard"/>
-  }
   return (
     <div className="transferForm">
       <div className="mt-4">
