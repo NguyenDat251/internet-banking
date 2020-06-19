@@ -13,6 +13,10 @@ const initialState = {
   verifyOtpPending: false,
   verifyOtpSuccess: false,
   verifyOtpError: null,
+
+  changePasswordPending: false,
+  changePasswordSuccess: false,
+  changePasswordError: null,
 };
 
 const user = (state = initialState, action) => {
@@ -84,6 +88,25 @@ const user = (state = initialState, action) => {
         verifyOtpPending: false,
         verifyOtpSuccess: false,
         verifyOtpError: action.payload,
+      };
+
+      case UserConstants.CHANGE_PASSWORD_PENDING:
+      return {
+        changePasswordPending: true,
+        changePasswordSuccess: false,
+        changePasswordError: null,
+      };
+    case UserConstants.CHANGE_PASSWORD_SUCCESS:
+      return {
+        changePasswordPending: false,
+        changePasswordSuccess: true,
+        changePasswordError: null,
+      };
+    case UserConstants.CHANGE_PASSWORD_ERROR:
+      return {
+        changePasswordPending: false,
+        changePasswordSuccess: false,
+        changePasswordError: action.payload,
       };
     default:
       return state;

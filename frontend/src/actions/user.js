@@ -53,6 +53,25 @@ function verifyOtp(reset_id, otp){
   function failure(error){return{type: UserConstants.VERIFY_OTP_ERROR, payload: error}};
 }
 
+function changePassword(old_password, new_password, confirm_new_password){
+  return (dispatch) => {
+    dispatch(request());
+    UserService.changePassword(old_password, new_password, confirm_new_password)
+    .then(
+      res =>{
+        dispatch(success(res))
+      }
+    ).catch(error => {
+      dispatch(failure(error))
+    }) 
+  }
+  function request(){return{type: UserConstants.CHANGE_PASSWORD_PENDING}};
+  function success(res){return{type: UserConstants.CHANGE_PASSWORD_SUCCESS, payload: res}};
+  function failure(error){return{type: UserConstants.CHANGE_PASSWORD_ERROR, payload: error}};
+}
+
+
+
 function logout(){
   return dispatch => dispatch({type: UserConstants.LOGOUT})
 }
@@ -61,5 +80,6 @@ export const userActions = {
   login, 
   logout,
   forgotPassword,
-  verifyOtp
+  verifyOtp,
+  changePassword
 }
