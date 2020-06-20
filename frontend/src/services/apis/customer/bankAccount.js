@@ -88,10 +88,26 @@ const deleteRemindList = (remind_id) => {
       });
   }
 
+  const getTransactionHistory = () => {
+    const token = sessionStorage.getItem(NameItem.ACCESS_TOKEN);
+    return axios
+      .get(
+        `${baseURL}/api/customer/transaction-history`,
+        {
+          headers: {
+            access_token: token,
+          },
+        }
+      )
+      .then((res) => {
+        return res.data;
+      });
+  }
 export const BankAccountServices = {
     getListAccount,
     getRemindList,
     createRemindList,
     deleteRemindList,
-    updateRemindList
+    updateRemindList,
+    getTransactionHistory
 }

@@ -87,11 +87,31 @@ function updateRemindList(remind_id, credit_number, remind_name, partner_code){
   function failure(error){return{type: BankAccountConstants.UPDATE_REMIND_LIST_ERROR, payload: error}};
 };
 
+function getTransactionHistory(){
+  return (dispatch) => {
+    dispatch(request());
+    BankAccountServices.getTransactionHistory()
+    .then(
+      res =>{
+        dispatch(success(res))
+      }
+    ).catch(error => {
+      dispatch(failure(error.response.data))
+    }) 
+  };
+  function request(){ return{type: BankAccountConstants.GET_TRANSACTION_HISTORY_PENDING}};
+  function success(res){return{type: BankAccountConstants.GET_TRANSACTION_HISTORY_SUCCESS, payload: res}};
+  function failure(error){return{type: BankAccountConstants.GET_TRANSACTION_HISTORY_ERROR, payload: error}};
+};
+
+
+
 
 export const bankAccountActions = {
   getBankAccount,
   getRemindList, 
   createRemindList,
   deleteRemindList,
-  updateRemindList
+  updateRemindList,
+  getTransactionHistory
 }

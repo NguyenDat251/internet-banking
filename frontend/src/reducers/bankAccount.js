@@ -21,10 +21,14 @@ const initialState = {
   updateRemindListSuccess: false,
   updateRemindListError: null,
 
+  getTransactionHistoryPending: false,
+  getTransactionHistorySuccess: false,
+  getTransactionHistoryError: null,
 };
 
 const bankAccount = (state = initialState, action) => {
   switch (action.type) {
+    /* ---------------------------- get bank account ---------------------------- */
     case BankAccountConstants.BANK_ACCOUNT_PENDING:
       return {
         bankAccountPending: true,
@@ -46,6 +50,7 @@ const bankAccount = (state = initialState, action) => {
         loginError: action.payload,
       };
 
+    /* ----------------------------- get reming list ---------------------------- */
     case BankAccountConstants.GET_REMIND_LIST_PENDING:
       return {
         remindListPending: true,
@@ -66,6 +71,7 @@ const bankAccount = (state = initialState, action) => {
         remindListError: action.payload,
       };
 
+    /* --------------------------- create remind list --------------------------- */
     case BankAccountConstants.CREATE_REMIND_LIST_PENDING:
       return {
         createRemindListPending: true,
@@ -85,6 +91,7 @@ const bankAccount = (state = initialState, action) => {
         createRemindListError: action.payload,
       };
 
+    /* --------------------------- delete remind list --------------------------- */
     case BankAccountConstants.DELETE_REMIND_LIST_PENDING:
       return {
         deleteRemindListPending: true,
@@ -104,24 +111,46 @@ const bankAccount = (state = initialState, action) => {
         deleteRemindListError: action.payload,
       };
 
-      case BankAccountConstants.UPDATE_REMIND_LIST_PENDING:
-        return {
-          updateRemindListPending: true,
-          updateRemindListSuccess: false,
-          updateRemindListError: null,
-        };
-      case BankAccountConstants.UPDATE_REMIND_LIST_SUCCESS:
-        return {
-          updateRemindListPending: false,
-          updateRemindListSuccess: true,
-          updateRemindListError: null,
-        };
-      case BankAccountConstants.UPDATE_REMIND_LIST_ERROR:
-        return {
-          updateRemindListPending: false,
-          updateRemindListSuccess: false,
-          updateRemindListError: action.payload,
-        };
+    /* --------------------------- update remind list --------------------------- */
+    case BankAccountConstants.UPDATE_REMIND_LIST_PENDING:
+      return {
+        updateRemindListPending: true,
+        updateRemindListSuccess: false,
+        updateRemindListError: null,
+      };
+    case BankAccountConstants.UPDATE_REMIND_LIST_SUCCESS:
+      return {
+        updateRemindListPending: false,
+        updateRemindListSuccess: true,
+        updateRemindListError: null,
+      };
+    case BankAccountConstants.UPDATE_REMIND_LIST_ERROR:
+      return {
+        updateRemindListPending: false,
+        updateRemindListSuccess: false,
+        updateRemindListError: action.payload,
+      };
+
+    /* ------------------------- get transaction history ------------------------ */
+    case BankAccountConstants.GET_TRANSACTION_HISTORY_PENDING:
+      return {
+        getTransactionHistoryPending: true,
+        getTransactionHistorySuccess: false,
+        getTransactionHistoryError: null,
+      };
+    case BankAccountConstants.GET_TRANSACTION_HISTORY_SUCCESS:
+      return {
+        getTransactionHistoryPending: false,
+        getTransactionHistorySuccess: true,
+        getTransactionHistoryError: null,
+        transactionHistory: action.payload
+      };
+    case BankAccountConstants.GET_TRANSACTION_HISTORY_ERROR:
+      return {
+        getTransactionHistoryPending: false,
+        getTransactionHistorySuccess: false,
+        getTransactionHistoryError: action.payload,
+      };
     default:
       return state;
   }
