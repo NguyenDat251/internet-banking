@@ -11,6 +11,7 @@ const Receiver = ({ bankAccount, getRemindList, createRemindList, deleteRemindLi
   const [show, setShow] = useState(false);
   const [remindList, setRemindList] = useState([]);
   const [isModalEdit, setIsModalEdit] = useState(false)
+  const [editItem, setEditItem] = useState();
 
   const handleCreate = () =>  {
     setShow(true)
@@ -23,6 +24,7 @@ const Receiver = ({ bankAccount, getRemindList, createRemindList, deleteRemindLi
   }
 
   const handleDelete = (remind_id) => {
+    console.log(remind_id)
     deleteRemindList(remind_id)
   }
   useEffect(() => {
@@ -79,7 +81,7 @@ const Receiver = ({ bankAccount, getRemindList, createRemindList, deleteRemindLi
                       <ul className="list-inline m-0">
                         <li className="list-inline-item">
                           <button
-                            onClick = {() => handleEdit()}
+                            onClick = {() => handleEdit(item)}
                             className="btn btn-success btn-sm rounded-0"
                             type="button"
                             data-toggle="tooltip"
@@ -90,7 +92,7 @@ const Receiver = ({ bankAccount, getRemindList, createRemindList, deleteRemindLi
                         </li>
                         <li className="list-inline-item">
                           <button
-                            onClick={item => handleDelete(item.remind_id)}
+                            onClick={() => handleDelete(item.remind_id)}
                             className="btn btn-danger btn-sm rounded-0"
                             type="button"
                             data-toggle="tooltip"
