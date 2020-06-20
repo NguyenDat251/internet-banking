@@ -32,8 +32,29 @@ const authenLoginEmployee = async (req, res, next) => {
   next();
 }
 
+const authenJWT = async (req, res, next) => { // xác thực jwt của employee
+  const accesstoken = req.headers["access_token"];  // lấy chuỗi jwt từ request header
+  const secret_text = config["secret_text"];  // lấy secret từ config
+
+  let decoded;
+  try {
+    decoded = await jwt.verify(accesstoken, secret_text);
+    /* decoded là cái jwt payload, một chuỗi jwt có 3 phần
+    (header, payload, signature) chỉ quan tâm cái payload thôi 
+    vì nó chứa thông tin mình cần, chẳng hạn như employee_id */
+  } catch (err) {
+    res.status(401).json({ "err": err }); // verify jwt fail, trả về lỗi (jwt expire chẳng hạn)
+    return;
+  }
+
+  // thêm employee_id vào request body, chuyển cho middleware tiếp theo nếu có cần xài
+  req.body["employee_id"] = decoded["employee_id"];
+
+  next();
+}
+
 /* POST add customer */
-router.post('/add-customer', async (req, res, next) => {
+router.post('/add-customer', authenJWT, async (req, res, next) => {
   let result;
   try {
     result = await customerModel.add(req.body);
@@ -64,7 +85,7 @@ router.post('/add-customer', async (req, res, next) => {
 });
 
 /* POST create saving account */
-router.post("/add-saving-account", async (req, res) => {
+router.post("/add-saving-account", authenJWT, async (req, res) => {
   let result;
   try {
     result = await savingAccountModel.add(req.body);
