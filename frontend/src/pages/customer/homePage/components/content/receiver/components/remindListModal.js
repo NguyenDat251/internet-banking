@@ -82,7 +82,7 @@ const RemindListModal = (props) => {
       </Modal.Body>
       <Modal.Footer>
         {props.isModalEdit === false && (
-          <button className="btn btn-success" onClick={handleCreate}>
+          <button type="submit" className="btn btn-success" onClick={handleCreate}>
             Tạo
           </button>
         )}

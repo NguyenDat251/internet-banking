@@ -48,6 +48,12 @@ const Receiver = ({
   };
 
   useEffect(() => {
+    if(search){
+      handleSearch()
+    }
+  }, [backupRemindList])
+
+  useEffect(() => {
     getRemindList();
   }, []);
 
