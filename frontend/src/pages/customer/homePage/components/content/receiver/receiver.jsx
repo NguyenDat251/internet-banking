@@ -2,31 +2,39 @@ import React, { useEffect, useState } from 'react';
 import Title from '../component/title/title';
 import { bankAccountActions } from '../../../../../../actions/customer/bankAccount';
 import { connect } from 'react-redux';
-import RemindListModal from './components/remindListModal'
-import {NotificationManager, NotificationContainer} from 'react-notifications';
+import RemindListModal from './components/remindListModal';
+import {
+  NotificationManager,
+  NotificationContainer,
+} from 'react-notifications';
 import './receiver.scss';
 
-
-const Receiver = ({ bankAccount, getRemindList, createRemindList, deleteRemindList }) => {
+const Receiver = ({
+  bankAccount,
+  getRemindList,
+  createRemindList,
+  deleteRemindList,
+  updateRemindList
+}) => {
   const [show, setShow] = useState(false);
   const [remindList, setRemindList] = useState([]);
-  const [isModalEdit, setIsModalEdit] = useState(false)
-  const [editItem, setEditItem] = useState();
+  const [isModalEdit, setIsModalEdit] = useState(false);
+  const [item, setItem] = useState();
 
-  const handleCreate = () =>  {
-    setShow(true)
-    setIsModalEdit(false)
-  }
+  const handleCreate = () => {
+    setShow(true);
+    setIsModalEdit(false);
+  };
 
-  const handleEdit = () =>  {
-    setShow(true)
-    setIsModalEdit(true)
-  }
+  const handleEdit = (item) => {
+    setShow(true);
+    setIsModalEdit(true);
+    setItem(item);
+  };
 
   const handleDelete = (remind_id) => {
-    console.log(remind_id)
-    deleteRemindList(remind_id)
-  }
+    deleteRemindList(remind_id);
+  };
   useEffect(() => {
     getRemindList();
   }, []);
@@ -35,16 +43,20 @@ const Receiver = ({ bankAccount, getRemindList, createRemindList, deleteRemindLi
     if (bankAccount.getRemindListSuccess === true) {
       setRemindList(bankAccount.remindList);
     }
-    if (bankAccount.createRemindListSuccess === true){
-      NotificationManager.success('Khởi tạo thành công')
+    if (bankAccount.createRemindListSuccess === true) {
+      NotificationManager.success('Khởi tạo thành công');
       getRemindList();
-      setShow(false)
+      setShow(false);
     }
-    if(bankAccount.createRemindListError){
-      NotificationManager.error('Số tài khoản đã tồn tại', "Khởi tạo thất bại")
+    if (bankAccount.createRemindListError) {
+      NotificationManager.error('Số tài khoản đã tồn tại', 'Khởi tạo thất bại');
     }
-    if(bankAccount.deleteRemindListSuccess === true){
-      getRemindList()
+    if (bankAccount.deleteRemindListSuccess === true) {
+      getRemindList();
+    }
+    if(bankAccount.updateRemindListSuccess === true){
+      NotificationManager.success('Cập nhật thành công');
+      getRemindList();
     }
   }, [bankAccount]);
   return (
@@ -57,8 +69,17 @@ const Receiver = ({ bankAccount, getRemindList, createRemindList, deleteRemindLi
             placeholder="Nhập tên gợi nhớ/ số tài khoản"
           />
           <button className="btn btn-success">Tìm kiếm</button>
-          <button className="btn btn-success ml-4" onClick={handleCreate}>Tạo mới</button>
-          <RemindListModal show={show} setShow = {setShow} isModalEdit={isModalEdit} createRemindList={createRemindList}/>
+          <button className="btn btn-success ml-4" onClick={handleCreate}>
+            Tạo mới
+          </button>
+          <RemindListModal
+            show={show}
+            setShow={setShow}
+            isModalEdit={isModalEdit}
+            createRemindList={createRemindList}
+            updateRemindList={updateRemindList}
+            item={item}
+          />
         </div>
         <div>
           <table className="table table-hover mt-5">
@@ -81,7 +102,7 @@ const Receiver = ({ bankAccount, getRemindList, createRemindList, deleteRemindLi
                       <ul className="list-inline m-0">
                         <li className="list-inline-item">
                           <button
-                            onClick = {() => handleEdit(item)}
+                            onClick={() => handleEdit(item)}
                             className="btn btn-success btn-sm rounded-0"
                             type="button"
                             data-toggle="tooltip"
@@ -109,7 +130,7 @@ const Receiver = ({ bankAccount, getRemindList, createRemindList, deleteRemindLi
           </table>
         </div>
       </div>
-      <NotificationContainer/>
+      <NotificationContainer />
     </div>
   );
 };
@@ -120,8 +141,25 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getRemindList: () => dispatch(bankAccountActions.getRemindList()),
-  createRemindList: (credit_number, remind_name, partner_code) => dispatch(bankAccountActions.createRemindList(credit_number, remind_name, partner_code)),
-  deleteRemindList: (remind_id) =>  dispatch(bankAccountActions.deleteRemindList(remind_id))
+  createRemindList: (credit_number, remind_name, partner_code) =>
+    dispatch(
+      bankAccountActions.createRemindList(
+        credit_number,
+        remind_name,
+        partner_code
+      )
+    ),
+  deleteRemindList: (remind_id) =>
+    dispatch(bankAccountActions.deleteRemindList(remind_id)),
+  updateRemindList: (remind_id, credit_number, remind_name, partner_code) =>
+    dispatch(
+      bankAccountActions.updateRemindList(
+        remind_id,
+        credit_number,
+        remind_name,
+        partner_code
+      )
+    ),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Receiver);
