@@ -14,10 +14,12 @@ const Receiver = ({
   getRemindList,
   createRemindList,
   deleteRemindList,
-  updateRemindList
+  updateRemindList,
 }) => {
   const [show, setShow] = useState(false);
   const [remindList, setRemindList] = useState([]);
+  const [backupRemindList, setBackupRemindList] = useState([]);
+  const [search, setSearch] = useState('');
   const [isModalEdit, setIsModalEdit] = useState(false);
   const [item, setItem] = useState();
 
@@ -35,6 +37,16 @@ const Receiver = ({
   const handleDelete = (remind_id) => {
     deleteRemindList(remind_id);
   };
+
+  const handleSearch = () => {
+    const searchValue = backupRemindList.filter(
+      (item) =>
+        item.remind_name.toLowerCase().includes(search.toLowerCase()) ||
+        item.credit_number.includes(search)
+    );
+    setRemindList(searchValue);
+  };
+
   useEffect(() => {
     getRemindList();
   }, []);
@@ -42,6 +54,7 @@ const Receiver = ({
   useEffect(() => {
     if (bankAccount.getRemindListSuccess === true) {
       setRemindList(bankAccount.remindList);
+      setBackupRemindList(bankAccount.remindList);
     }
     if (bankAccount.createRemindListSuccess === true) {
       NotificationManager.success('Khởi tạo thành công');
@@ -54,7 +67,7 @@ const Receiver = ({
     if (bankAccount.deleteRemindListSuccess === true) {
       getRemindList();
     }
-    if(bankAccount.updateRemindListSuccess === true){
+    if (bankAccount.updateRemindListSuccess === true) {
       NotificationManager.success('Cập nhật thành công');
       getRemindList();
     }
@@ -67,8 +80,11 @@ const Receiver = ({
           <input
             className="col-5 font-weight-lighter"
             placeholder="Nhập tên gợi nhớ/ số tài khoản"
+            onChange={(e) => setSearch(e.target.value)}
           />
-          <button className="btn btn-success">Tìm kiếm</button>
+          <button className="btn btn-success" onClick={handleSearch}>
+            Tìm kiếm
+          </button>
           <button className="btn btn-success ml-4" onClick={handleCreate}>
             Tạo mới
           </button>
