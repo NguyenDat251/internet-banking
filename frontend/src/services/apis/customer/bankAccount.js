@@ -69,7 +69,7 @@ const deleteRemindList = (remind_id) => {
   const updateRemindList = (remind_id, credit_number, remind_name, partner_code) => {
     const token = sessionStorage.getItem(NameItem.ACCESS_TOKEN);
     return axios
-      .post(
+      .put(
         `${baseURL}/api/customer/remind-list`,
         {
           remind_id: remind_id,
