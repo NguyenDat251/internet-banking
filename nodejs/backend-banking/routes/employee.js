@@ -117,6 +117,22 @@ router.post("/deposit-customer-credit", authenJWT, async (req, res) => {
   res.status(201).json({ "msg": "deposit success" });
 })
 
+/* GET transaction history of a customer */
+router.get("/get-customer-transactions", authenJWT, async (req, res) => {
+  const customer_id = req.query.customer_id;
+  let result;
+
+  result = await creditAccountModel.searchByCustomerId(customer_id);
+  const creditInfo = result[0];
+
+  const depositHis = await customerModel.getDepositTransactionHistory(creditInfo["credit_number"]);
+  const withdrawHis = await customerModel.getWithdrawTransactionHistory(creditInfo["credit_number"]);
+  const sendtoHis = await customerModel.getSentToTransactionHistory(creditInfo["credit_number"]);
+  const receivefromHis = await customerModel.getReceiveFromTransactionHistory(creditInfo["credit_number"]);
+
+  res.status(200).json({ "deposit_history": depositHis, "withdraw_history": withdrawHis, "sendto_history": sendtoHis, "receivefrom_history": receivefromHis });
+})
+
 router.post("/login", authenLoginEmployee, async (req, res) => {
   const secret_text = config["secret_text"];
   const accesstoken_exp = config["accesstoken_exp"];
