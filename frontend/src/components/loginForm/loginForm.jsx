@@ -12,27 +12,28 @@ function LoginForm(props) {
   const [error, setError] = useState();
 
   useEffect(() => {
-    if(props.customer){
-      if(props.customer.loginError !== null && props.customer.loginSuccess === false){
-        setError("Sai tên tài khoản hoặc mật khẩu!")
-      } 
+    if (
+      props.user.loginError !== null &&
+      props.user.loginSuccess === false
+    ) {
+      setError('Sai tên tài khoản hoặc mật khẩu!');
     }
-    }, [props.customer])
+  }, [props.user]);
 
   const handleForSubmit = (e) => {
     e.preventDefault();
-    if(!username){
-      setError("Quý khách vui lòng nhập tên đăng nhập!")
+    if (!username) {
+      setError('Quý khách vui lòng nhập tên đăng nhập!');
       return;
-    } else if(!password) {
-      setError("Quý khách vui lòng nhập mật khẩu!")
-      return
-    } 
+    } else if (!password) {
+      setError('Quý khách vui lòng nhập mật khẩu!');
+      return;
+    }
     // else if(!isVerified){
     //   setError("Vui lòng xác minh!")
     //   return
     // }
-    props.login(username, password)
+    props.login(username, password);
   };
 
   // const verifyCallback = (res) => {
@@ -41,11 +42,13 @@ function LoginForm(props) {
   //   }
   // };
 
-  if( sessionStorage.getItem("ACCESS_TOKEN") !== null && props.user){
-    return <Redirect to={`${location.pathname}/dashboard`}/>
+  if (
+    sessionStorage.getItem('ACCESS_TOKEN') !== null && !(location.pathname === "/login" && props.user.loginSuccess === true)
+  ) {
+    return <Redirect to={`${location.pathname}/dashboard`} />;
   }
-  if( sessionStorage.getItem("ACCESS_TOKEN") !== null && props.customer){
-    return <Redirect to="/dashboard"/>
+  if (sessionStorage.getItem('ACCESS_TOKEN') !== null && props.user.loginSuccess === true) {
+    return <Redirect to="/dashboard" />;
   }
   return (
     <div className="custom-shadow-rounded card p-3 mb-5 bg-white">
@@ -69,14 +72,14 @@ function LoginForm(props) {
           name="username"
           autoFocus
           className="form-control form-control-sm mt-5 col-10 mx-auto"
-          onChange = {e => setUsername(e.target.value)}
+          onChange={(e) => setUsername(e.target.value)}
           placeholder="Tên đăng nhập"
         />
         <input
           type="password"
           name="password"
           className="form-control form-control-sm mt-2 col-10 mx-auto"
-          onChange = {e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           placeholder="Mật khẩu"
         />
         {/* <div className="mt-4 col-md-auto center-vertical">
@@ -89,15 +92,16 @@ function LoginForm(props) {
           Đăng nhập
         </button>
       </form>
-      <hr />
-      {props.customer && (
-        <div className="ml-4">
-        <a href="/forgotPassword" className="text-secondary">
-          Quên mật khẩu?
-        </a>
-      </div>
+      {location.pathname === "/login" && (
+        <div>
+          <hr />
+          <div className="ml-4">
+            <a href="/forgotPassword" className="text-secondary">
+              Quên mật khẩu?
+            </a>
+          </div>
+        </div>
       )}
-      
     </div>
   );
 }

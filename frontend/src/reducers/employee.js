@@ -7,7 +7,7 @@ const initialState = {
   loginError: null,
 };
 
-const user = (state = initialState, action) => {
+const employee = (state = initialState, action) => {
   switch (action.type) {
     case EmpConstants.LOGIN_REQUEST:
       return {
@@ -47,4 +47,4 @@ const user = (state = initialState, action) => {
   }
 };
 
-export default user;
+export default employee;

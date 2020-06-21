@@ -3,6 +3,7 @@ import { Route} from 'react-router-dom'
 import {isAuthen} from './services/authService/authService'
 
 const PrivateRoute = ({component: Component, ...rest}) => { 
+    console.log(rest)
     return(
     <Route {...rest} render={(props) => (
         isAuthen() === true

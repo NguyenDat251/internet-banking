@@ -16,7 +16,7 @@ const CustomerLoginPage = ({customer, login, logout}) => {
                 <div className="row justify-content-md-center">
                     <div className="col-6"></div>
                     <div className="col-md-auto mt-5">
-                        <LoginForm login = {login} customer = {customer}/>
+                        <LoginForm login = {login} user = {customer}/>
                     </div>
                 </div>
             </div>
