@@ -373,6 +373,9 @@ BODY
 ```json
 POST /api/employee/add-customer
 
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZV9pZCI6MSwiaWF0IjoxNTkyNzI2NTcyLCJleHAiOjE1OTI3MzI1NzJ9.AKHVQtvtqhPqWqfuOV6HjSBRkNDn7RDOBnLm9gyT9P0"
+
 BODY
 {
     "username": "linh",
@@ -391,6 +394,9 @@ BODY
 ```json
 POST /api/employee/add-saving-account
 
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZV9pZCI6MSwiaWF0IjoxNTkyNzI2NTcyLCJleHAiOjE1OTI3MzI1NzJ9.AKHVQtvtqhPqWqfuOV6HjSBRkNDn7RDOBnLm9gyT9P0"
+
 BODY
 {
     "customer_id": 1,
@@ -400,10 +406,27 @@ BODY
 
 ### API dành cho admin
 
+#### Đăng Nhập
+
+```json
+POST /api/admin/login
+
+BODY
+{
+    "username": "admin",
+    "password": "admin"
+}
+```
+
+- Hệ thống sẽ trả lại access token, dùng access_token để xác thực danh tính admin
+
 #### Thêm thông tin partner vào hệ thống
 
 ```json
 POST /api/admin/add-partner
+
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiaWF0IjoxNTkyNzI0OTYyLCJleHAiOjE1OTI3MzA5NjJ9.TQKAStKk_XbFc3kNmGFP4kkXaXYzNl1LjkrGpuWn9co"
 
 BODY
 {
@@ -421,6 +444,9 @@ BODY
 ```json
 POST /api/admin/add-employee
 
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiaWF0IjoxNTkyNzI0OTYyLCJleHAiOjE1OTI3MzA5NjJ9.TQKAStKk_XbFc3kNmGFP4kkXaXYzNl1LjkrGpuWn9co"
+
 BODY
 {
     "username": "trump",
@@ -434,6 +460,9 @@ BODY
 
 ```json
 POST /api/admin/delete-employee
+
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiaWF0IjoxNTkyNzI0OTYyLCJleHAiOjE1OTI3MzA5NjJ9.TQKAStKk_XbFc3kNmGFP4kkXaXYzNl1LjkrGpuWn9co"
 
 BODY
 {
@@ -463,6 +492,9 @@ Với affectedRows là 1, tức là đã xóa.
 ```json
 POST /api/admin/update-employee-username
 
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiaWF0IjoxNTkyNzI0OTYyLCJleHAiOjE1OTI3MzA5NjJ9.TQKAStKk_XbFc3kNmGFP4kkXaXYzNl1LjkrGpuWn9co"
+
 BODY
 {
     "employee_id": "3",
@@ -477,6 +509,9 @@ Hệ thống sẽ trả về kết quả từ database tương tự như trên.
 ```json
 POST /api/admin/update-employee-password
 
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiaWF0IjoxNTkyNzI0OTYyLCJleHAiOjE1OTI3MzA5NjJ9.TQKAStKk_XbFc3kNmGFP4kkXaXYzNl1LjkrGpuWn9co"
+
 BODY
 {
     "employee_id": "3",
@@ -490,6 +525,9 @@ Hệ thống sẽ trả về kết quả từ database tương tự như trên.
 
 ```json
 GET /api/admin/employee-list
+
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiaWF0IjoxNTkyNzI0OTYyLCJleHAiOjE1OTI3MzA5NjJ9.TQKAStKk_XbFc3kNmGFP4kkXaXYzNl1LjkrGpuWn9co"
 ```
 
 - Hệ thống sẽ trả về danh sách tất cả employee dưới dạng JSON
@@ -498,6 +536,9 @@ GET /api/admin/employee-list
 
 ```json
 GET /api/admin/get-employee-info?employee_id=<ID của employee>
+
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiaWF0IjoxNTkyNzI0OTYyLCJleHAiOjE1OTI3MzA5NjJ9.TQKAStKk_XbFc3kNmGFP4kkXaXYzNl1LjkrGpuWn9co"
 ```
 
 Hệ thống sẽ trả về thông tin của employee duới dạng JSON, ví dụ:
@@ -838,7 +879,7 @@ cd mariadb
 
 ### CI/CD
 
-TODO
+Tự động deploy lên Kubernetes khi merge vào `master`
 
 ## Trang web hữu ích
 
