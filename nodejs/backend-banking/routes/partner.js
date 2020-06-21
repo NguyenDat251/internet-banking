@@ -9,14 +9,26 @@ const verifySecretMiddleware = require('../middlewares/verify-secret');
 const router = express.Router();
 
 /* GET request query account info using credit account number */
-router.get('/get-account-info', verifySecretMiddleware, async (req, res) => {
+router.get('/get-account-info', verifyCreditMiddleware, verifySecretMiddleware, async (req, res) => {
+  let result
   const customer_id = req.headers["customer_id"];
-  const customerInfo = await customerModel.searchByCustomerId(customer_id);
+  try {
+    result = await customerModel.searchByCustomerId(customer_id);
+  } catch (err) {
+    res.status(401).json({ "err": err })
+    return
+  }
+
+  if (result.length === 0) {
+    res.status(401).json({ "err": "invalid credit number" })
+    return
+  }
+  const customerInfo = result[0]
 
   const jsonRes = {
-    "credit_number": req.body["credit_number"],
-    "lastname": customerInfo[0]["lastname"],
-    "firstname": customerInfo[0]["firstname"]
+    "credit_number": req.query["credit_number"],
+    "lastname": customerInfo["lastname"],
+    "firstname": customerInfo["firstname"]
   };
   res.status(200).json(jsonRes);
 })
