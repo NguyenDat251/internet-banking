@@ -879,7 +879,7 @@ cd mariadb
 
 ### CI/CD
 
-TODO
+Tự động deploy lên Kubernetes khi merge vào `master`
 
 ## Trang web hữu ích
 
