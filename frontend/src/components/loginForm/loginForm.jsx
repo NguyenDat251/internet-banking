@@ -43,13 +43,12 @@ function LoginForm(props) {
   // };
 
   if (
-    sessionStorage.getItem('ACCESS_TOKEN') !== null && !(location.pathname === "/login" && props.user.loginSuccess === true)
-  ) {
-    return <Redirect to={`${location.pathname}/dashboard`} />;
+    sessionStorage.getItem('ACCESS_TOKEN') !== null) {
+    return <Redirect to={`/dashboard`} />;
   }
-  if (sessionStorage.getItem('ACCESS_TOKEN') !== null && props.user.loginSuccess === true) {
-    return <Redirect to="/dashboard" />;
-  }
+  // if (sessionStorage.getItem('ACCESS_TOKEN') !== null) { 
+  //   return <Redirect to="/dashboard" />;
+  // }
   return (
     <div className="custom-shadow-rounded card p-3 mb-5 bg-white">
       <div className="row vertical-center-row">

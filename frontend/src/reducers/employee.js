@@ -39,6 +39,7 @@ const employee = (state = initialState, action) => {
       };
     case EmpConstants.LOGOUT:
       sessionStorage.removeItem(NameItem.ACCESS_TOKEN);
+      sessionStorage.removeItem(NameItem.REFRESH_TOKEN)
       return {
         logout: true,
       };

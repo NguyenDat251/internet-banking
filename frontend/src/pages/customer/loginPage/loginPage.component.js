@@ -5,10 +5,7 @@ import './loginPage.component.scss'
 import {userActions} from '../../../actions/customer/user'
 import { connect } from 'react-redux'
 
-const CustomerLoginPage = ({customer, login, logout}) => {
-    useEffect(() => {
-        logout()
-    }, [])
+const CustomerLoginPage = ({customer, login}) => {
     return (
         <div className="login-page">
             <HeaderHomePage/>

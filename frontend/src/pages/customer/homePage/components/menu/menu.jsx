@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import { NavDropdown } from 'react-bootstrap';
+import { userActions } from '../../../../../actions/customer/user'
 
 import './menu.scss';
+import { connect } from 'react-redux';
 
-const Menu = ({ match }) => {
+const Menu = ({logout}) => {
+    const match = useRouteMatch();
     const [isBankDropdown, setIsBankDropDown] = useState(false);
     const [isTransferDropdown, setIsTransferDropDown] = useState(false);
     const [isReminderDropdown, setIsReminderDropDown] = useState(false);
@@ -61,11 +64,15 @@ const Menu = ({ match }) => {
                 id="basic-nav-dropdown"
                 show={isAccountDropdown}>
                 <NavDropdown.Item href={`${match.url}/change-password`}>Đổi mật khẩu</NavDropdown.Item>
-                <NavDropdown.Item href={`${match.url}/logout`}>Đăng xuất</NavDropdown.Item>
+                <NavDropdown.Item href={`${match.url}/logout`} onClick={() => logout()}>Đăng xuất</NavDropdown.Item>
             </NavDropdown>
         </div>
     </nav>
   );
 }
 
-export default withRouter(Menu);
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(userActions.logout())
+})
+
+export default connect(null, mapDispatchToProps)(Menu);

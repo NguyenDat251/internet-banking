@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import {bankConfig} from '../../../../../../../../../config/bank'
 
 const TransferForm = (props) => {
-  console.log(typeof(props.transactionId) + " " + props.transactionId)
   const credit_account = props.bankAccount.credit_account[0];
   const SoTK = [credit_account.credit_number];
   const money = credit_account.balance;

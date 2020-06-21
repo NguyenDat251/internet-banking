@@ -10,7 +10,7 @@ const Sidebar = () => {
     {name: 'Tạo tài khoản', url: `${match.path}/createAccount`},
     {name: 'Nạp tiền', url: `${match.path}/addMoney`},
     {name: 'Xem lịch sử giao dịch', url: `${match.path}/history`},
-    {name: 'Thoát', url: `${match.path}/logout`},
+    {name: 'Thoát', url: `${window.location.origin}/employee`},
   ]
 
   let SideBarComponent = SideBarList.map((item, index) => {
