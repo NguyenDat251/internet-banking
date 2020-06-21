@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import HeaderHomePage from './components/header/header' 
 import LoginForm from '../../../components/loginForm/loginForm' 
 import './loginPage.component.scss'
-import {userActions} from '../../../actions/user'
+import {userActions} from '../../../actions/customer/user'
 import { connect } from 'react-redux'
 
 const CustomerLoginPage = ({customer, login, logout}) => {

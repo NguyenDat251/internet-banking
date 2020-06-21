@@ -1,4 +1,4 @@
-import { UserConstants } from '../actions/constants/user_constants';
+import { UserConstants } from '../actions/constants/customer/user_constants';
 import NameItem from '../config/sessionStorage';
 
 const initialState = {

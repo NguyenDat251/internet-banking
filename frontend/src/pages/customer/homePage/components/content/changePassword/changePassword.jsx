@@ -3,7 +3,7 @@ import Title from '../component/title/title';
 import TextInput from '../component/textInput/textInput';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { environment } from '../../../../../../environment';
-import { userActions } from '../../../../../../actions/user';
+import { userActions } from '../../../../../../actions/customer/user';
 import { connect } from 'react-redux';
 import {NotificationManager, NotificationContainer} from 'react-notifications';
 

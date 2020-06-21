@@ -1,5 +1,5 @@
-import { environment } from '../../environment';
-import { NameItem } from '../../config/sessionStorage';
+import { environment } from '../../../environment';
+import { NameItem } from '../../../config/sessionStorage';
 import axios from 'axios';
 
 const baseURL = environment.host;

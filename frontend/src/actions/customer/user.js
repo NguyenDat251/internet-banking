@@ -1,5 +1,5 @@
-import { UserConstants } from './constants/user_constants';
-import {UserService} from '../services/apis/user'
+import { UserConstants } from '../constants/customer/user_constants';
+import {UserService} from '../../services/apis/customer/user'
 
 
 function login(username, password){

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import HeaderHomePage from '../loginPage/components/header/header';
 import './forgotPassword.component.scss';
 import TextInput from '../../customer/homePage/components/content/component/textInput/textInput';
-import { userActions } from '../../../actions/user';
+import { userActions } from '../../../actions/customer/user';
 import { connect } from 'react-redux';
 import {NotificationManager, NotificationContainer} from 'react-notifications';
 

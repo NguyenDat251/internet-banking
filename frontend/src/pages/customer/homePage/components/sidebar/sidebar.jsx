@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink, useRouteMatch } from 'react-router-dom'
 import './sidebar.scss'
-import { userActions } from '../../../../../actions/user'
+import { userActions } from '../../../../../actions/customer/user'
 import { connect } from 'react-redux'
 
 const SideBar = ({logout}) => {
