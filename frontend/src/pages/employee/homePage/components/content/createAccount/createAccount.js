@@ -1,6 +1,8 @@
 import React from 'react';
 import Title from '../components/title/title';
 import TextInput from '../components/textInput/textInput';
+import DateInput from '../components/dateInput/dateInput';
+
 
 const CreateAccount = () => {
   return (
@@ -25,12 +27,12 @@ const CreateAccount = () => {
           <h5 className="text-success">Thông tin cá nhân</h5>
           <hr />
           <TextInput
-            title="Họ"
+            title="Họ khách hàng"
             placeholder="Nhập họ và tên lót khách hàng"
             type="text"
           />
           <TextInput
-            title="Tên"
+            title="Tên khách hàng"
             placeholder="Nhập tên khách hàng"
             type="text"
           />
@@ -39,7 +41,7 @@ const CreateAccount = () => {
             placeholder="Nhập chứng minh nhân dân"
             type="number"
           />
-          <TextInput title="Ngày sinh" type="number" />
+          <DateInput title="Ngày sinh"/>
           <TextInput title="Email" placeholder="Nhập email" type="email" />
         </div>
         <div className="mt-5 center-align">
