@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 const Sidebar = ({logout}) => {
   const match = useRouteMatch()
   const SideBarList = [
-    {name: 'Tạo tài khoản', url: `${match.path}`},
+    {name: 'Tạo tài khoản', url: `${match.path}/addCustomer`},
     {name: 'Nạp tiền', url: `${match.path}/addMoney`},
     {name: 'Xem lịch sử giao dịch', url: `${match.path}/history`},
     {name: 'Thoát', url: `${match.path}/logout`, onClick: () => logout()},
