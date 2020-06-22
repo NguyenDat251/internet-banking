@@ -6,7 +6,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
     const page = rest.page ? rest.page : ''
     return(
     <Route {...rest} render={(props) => (
-        isAuthen() === true
+        isAuthen(page) === true
         ? <Component {...props}/>
         : window.location = window.location.origin + page
     )}/>

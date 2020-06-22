@@ -3,6 +3,10 @@ import './loginForm.scss';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { environment } from '../../environment';
 import { Redirect, useLocation } from 'react-router-dom';
+import JwtDecode from 'jwt-decode';
+import NameItem from '../../config/sessionStorage'
+
+
 
 function LoginForm(props) {
   const location = useLocation();
@@ -41,14 +45,23 @@ function LoginForm(props) {
   //     setIsVerified(true);
   //   }
   // };
-
-  if (
-    sessionStorage.getItem('ACCESS_TOKEN') !== null) {
-    return <Redirect to={`/dashboard`} />;
-  }
-  // if (sessionStorage.getItem('ACCESS_TOKEN') !== null) { 
+  
+  // if (sessionStorage.getItem('ACCESS_TOKEN') !== null && sessionStorage.getItem('REFRESH_TOKEN') !== null) { 
   //   return <Redirect to="/dashboard" />;
   // }
+  if (
+    sessionStorage.getItem('ACCESS_TOKEN') !== null) {
+    const jwt = JwtDecode(sessionStorage.getItem(NameItem.ACCESS_TOKEN))
+    if(jwt.customer_id){
+      return <Redirect to={`/dashboard`} />;
+    }
+    if(jwt.employee_id){
+      return <Redirect to={`/employee/dashboard`} />;
+    }
+    if(jwt.admin_id){
+      return <Redirect to={`/admin/dashboard`} />;
+    }
+  }
   return (
     <div className="custom-shadow-rounded card p-3 mb-5 bg-white">
       <div className="row vertical-center-row">
