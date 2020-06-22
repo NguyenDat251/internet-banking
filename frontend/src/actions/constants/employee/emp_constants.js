@@ -1,0 +1,8 @@
+export const EmpConstants = {
+
+    LOGIN_REQUEST : 'LOGIN_EMP_REQUEST',
+    LOGIN_SUCCESS : 'LOGIN_EMP_SUCCESS',
+    LOGIN_ERROR : 'LOGIN_EMP_ERROR',
+    
+    LOGOUT : "LOGOUT_EMP"
+}

@@ -11,7 +11,7 @@ function transferLocal(name, from_credit_number, to_credit_number, amount, fee_p
         dispatch(success(res))
       }
       ).catch(error => {
-        dispatch(failure(error))
+        dispatch(failure(error.response.data))
       }) 
     };
     function request(){ return{type: TransferConstants.TRANSFER_LOCAL_PENDING}};
@@ -28,7 +28,7 @@ function verifyOtp(id, otp){
         dispatch(success(res))
       }
       ).catch(error => {
-        dispatch(failure(error))
+        dispatch(failure(error.response.data))
       }) 
     };
     function request(){ return{type: TransferConstants.OTP_PENDING}};
@@ -45,7 +45,7 @@ function findReceiver(credit_number){
         dispatch(success(res))
       }
       ).catch(error => {
-        dispatch(failure(error))
+        dispatch(failure(error.response.data))
       }) 
     };
     function request(){ return{type: TransferConstants.FIND_RECEIVER_PENDING}};
@@ -62,12 +62,29 @@ function getRemindList(){
         dispatch(success(res))
       }
       ).catch(error => {
-        dispatch(failure(error))
+        dispatch(failure(error.response.data))
       }) 
     };
     function request(){ return{type: TransferConstants.GET_REMIND_LIST_PENDING}};
     function success(res){return{type: TransferConstants.GET_REMIND_LIST_SUCCESS, payload: res}};
     function failure(error){return{type: TransferConstants.GET_REMIND_LIST_ERROR, payload: error}};
+}
+
+function saveRemindList(credit_number, remind_name, bank_name){
+  return (dispatch) => {
+    dispatch(request());
+    TransferServices.saveRemindList(credit_number, remind_name, bank_name)
+    .then(
+      res =>{
+        dispatch(success(res))
+      }
+      ).catch(error => {
+        dispatch(failure(error.response.data))
+      }) 
+    };
+    function request(){ return{type: TransferConstants.SAVE_REMIND_LIST_PENDING}};
+    function success(res){return{type: TransferConstants.SAVE_REMIND_LIST_SUCCESS, payload: res}};
+    function failure(error){return{type: TransferConstants.SAVE_REMIND_LIST_ERROR, payload: error}};
 }
 
 
@@ -76,5 +93,6 @@ export const transferActions = {
   transferLocal,
   verifyOtp,
   findReceiver,
-  getRemindList
+  getRemindList,
+  saveRemindList
 }

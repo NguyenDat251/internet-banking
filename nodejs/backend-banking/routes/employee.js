@@ -3,6 +3,7 @@ const customerModel = require('../models/customer.model');
 const employeeModel = require('../models/employee.model');
 const creditAccountModel = require('../models/credit_account.model');
 const savingAccountModel = require('../models/saving_account.model');
+const transactionModel = require('../models/transaction.models');
 const randomString = require('randomstring');
 const config = require('../utils/config');
 const bcrypt = require('bcryptjs');
@@ -98,6 +99,38 @@ router.post("/add-saving-account", authenJWT, async (req, res) => {
   result = await savingAccountModel.searchByAccountId(account_id);
   const saveAcc = result[0];
   res.status(201).json(saveAcc);
+})
+
+/* POST deposit to credit account */
+router.post("/deposit-customer-credit", authenJWT, async (req, res) => {
+  const creditNumber = req.body["credit_number"];
+  const amount = req.body["amount"];
+
+  try {
+    await creditAccountModel.deposit(creditNumber, amount);
+  } catch (err) {
+    res.status(422).json({ "err": err });
+    return;
+  }
+
+  transactionModel.add_deposit_history({ credit_number: creditNumber, amount: amount, partner_code: "local" });
+  res.status(201).json({ "msg": "deposit success" });
+})
+
+/* GET transaction history of a customer */
+router.get("/get-customer-transactions", authenJWT, async (req, res) => {
+  const customer_id = req.query.customer_id;
+  let result;
+
+  result = await creditAccountModel.searchByCustomerId(customer_id);
+  const creditInfo = result[0];
+
+  const depositHis = await customerModel.getDepositTransactionHistory(creditInfo["credit_number"]);
+  const withdrawHis = await customerModel.getWithdrawTransactionHistory(creditInfo["credit_number"]);
+  const sendtoHis = await customerModel.getSentToTransactionHistory(creditInfo["credit_number"]);
+  const receivefromHis = await customerModel.getReceiveFromTransactionHistory(creditInfo["credit_number"]);
+
+  res.status(200).json({ "deposit_history": depositHis, "withdraw_history": withdrawHis, "sendto_history": sendtoHis, "receivefrom_history": receivefromHis });
 })
 
 router.post("/login", authenLoginEmployee, async (req, res) => {

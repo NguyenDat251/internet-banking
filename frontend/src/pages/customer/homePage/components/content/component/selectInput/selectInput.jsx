@@ -8,7 +8,7 @@ const SelectInput = (props) => {
         <h6>{props.title}</h6>
       </div>
       <div className="col-8">
-        <select className="form-control input-sm" value={props.value} onChange={props.onChange}>
+        <select className="form-control input-sm" value={props.value} onChange={props.onChange} {...props}>
             {props.items ? props.items.map((item,key) =>
                 <option key={key}>{item}</option>
             ) : null}

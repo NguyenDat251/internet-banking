@@ -4,6 +4,8 @@ import TransferInformation from '../../../component/transferInformation/transfer
 import InputWithSearch from '../../../component/inputWithSearch/inputWithSearch';
 import TextInput from '../../../../component/textInput/textInput';
 import { transferActions } from '../../../../../../../../../actions/customer/transfer';
+import {bankConfig} from '../../../../../../../../../config/bank'
+
 import './transferForm.scss';
 import CheckBox from '../../../../component/checkBox/checkBox';
 import { connect } from 'react-redux';
@@ -13,10 +15,12 @@ import {
 } from 'react-notifications';
 
 const TransferForm = (props) => {
-  const credit_account = props.bankAccount.credit_account[0];
-  const SoTK = [credit_account.credit_number];
+  if(props.bankAccount.credit_account){
+    var credit_account = props.bankAccount.credit_account[0];
+    var SoTK = [credit_account.credit_number];
+    var money = credit_account.balance;
+  }
   const phiChuyenTien = [props.sender, props.receiver];
-  const money = credit_account.balance;
   const [remindList, setRemindList] = useState([]);
 
   useEffect(() => {
@@ -62,9 +66,20 @@ const TransferForm = (props) => {
       NotificationManager.warning('Vui lòng nhập số tiền chuyển');
       return;
     }
-    if (props.soTien < 10000) {
-      NotificationManager.warning('Vui lòng nhập tối thiểu 10,000 VND');
+    if (props.soTien < 6000) {
+      NotificationManager.warning('Vui lòng nhập tối thiểu 6,000 VND');
       return;
+    }
+    if(props.nguoiTraPhi === props.sender){
+      if(money - (props.soTien + bankConfig.local_transfer_fee) < bankConfig.min_balance){
+        NotificationManager.error('Số tiền của quý khách không đủ để thực hiện giao dịch');
+        return;
+      }
+    } else {
+      if(money - props.soTien < bankConfig.min_balance){
+        NotificationManager.error('Số tiền của quý khách không đủ để thực hiện giao dịch');
+        return;
+      }
     }
     if (props.luuThongTin === true && !props.tenGoiNho) {
       props.setTenGoiNho(props.tenNguoiHuong);

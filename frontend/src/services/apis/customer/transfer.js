@@ -81,9 +81,31 @@ const getRemindList = () => {
     })
 }
 
+const saveRemindList = (credit_number, remind_name, bank_name) => {
+  const token = sessionStorage.getItem(NameItem.ACCESS_TOKEN);
+  return axios
+    .post(
+      `${baseURL}/api/customer/remind-list`,
+      {
+        credit_number: credit_number,
+        remind_name: remind_name,
+        partner_code: bank_name
+      },
+      {
+        headers: {
+          access_token: token,
+        },
+      }
+    )
+    .then((res) => {
+      return res.data;
+    });
+}
+
 export const TransferServices = {
   transferLocal,
   verifyOtp,
   findReceiver,
-  getRemindList
+  getRemindList,
+  saveRemindList
 };
