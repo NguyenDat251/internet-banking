@@ -4,6 +4,8 @@ import ForgotPasswordPage from './pages/customer/forgotPassword/forgotPassword.c
 import EmployeeLoginPage from './pages/employee/loginPage/loginPage.component';
 import CustomerHomepage from './pages/customer/homePage/homepage.component';
 import EmployeeHomepage from './pages/employee/homePage/homePage.component';
+import AdminLoginPage from './pages/admin/loginPage/loginPage.component';
+import AdminHomePage from './pages/admin/homePage/homePage.component';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import NameItem from './config/sessionStorage';
 import JwtDecode from 'jwt-decode';
@@ -21,6 +23,10 @@ const Router = () => {
 
       <Route exact path="/employee" component={EmployeeLoginPage} />
       <Route path="/employee/dashboard" component={EmployeeHomepage} />
+
+      <Route exact path="/admin" component={AdminLoginPage} />
+      <Route path="/admin/dashboard" component={AdminHomePage} />
+
       {jwt && jwt.customer_id && <Route render={() => <Redirect to="/" />} />}
       {jwt && jwt.employee_id && <Route render={() => <Redirect to="/employee" />} />}
       {jwt && jwt.admin_id && <Route render={() => <Redirect to="/admin" />} />}
