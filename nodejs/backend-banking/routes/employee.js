@@ -57,6 +57,7 @@ const authenJWT = async (req, res, next) => { // xác thực jwt của employee
 /* POST add customer */
 router.post('/add-customer', authenJWT, async (req, res, next) => {
   let result;
+  delete req.body["employee_id"];
   try {
     result = await customerModel.add(req.body);
   } catch (err) {
