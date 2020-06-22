@@ -89,6 +89,7 @@ router.post('/add-customer', authenJWT, async (req, res, next) => {
 /* POST create saving account */
 router.post("/add-saving-account", authenJWT, async (req, res) => {
   let result;
+  delete req.body["employee_id"];
   try {
     result = await savingAccountModel.add(req.body);
   } catch (err) {
