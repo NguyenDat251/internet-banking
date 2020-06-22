@@ -2,13 +2,10 @@ import React, { useEffect } from 'react'
 import HeaderHomePage from './components/header/header' 
 import LoginForm from '../../../components/loginForm/loginForm' 
 import './loginPage.component.scss'
-import {userActions} from '../../../actions/user'
+import {userActions} from '../../../actions/customer/user'
 import { connect } from 'react-redux'
 
-const CustomerLoginPage = ({customer, login, logout}) => {
-    useEffect(() => {
-        logout()
-    }, [])
+const CustomerLoginPage = ({customer, login}) => {
     return (
         <div className="login-page">
             <HeaderHomePage/>
@@ -16,7 +13,7 @@ const CustomerLoginPage = ({customer, login, logout}) => {
                 <div className="row justify-content-md-center">
                     <div className="col-6"></div>
                     <div className="col-md-auto mt-5">
-                        <LoginForm login = {login} customer = {customer}/>
+                        <LoginForm login = {login} user = {customer}/>
                     </div>
                 </div>
             </div>

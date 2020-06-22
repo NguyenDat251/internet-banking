@@ -17,6 +17,10 @@ const initialState = {
   verifyOtpPending: false,
   verifyOtpSuccess: false,
   verifyOtpError: null,
+
+  saveRemindListPending: false,
+  saveRemindListSuccess: false,
+  saveRemindListError: null,
 };
 
 const transfer = (state = initialState, action) => {
@@ -81,25 +85,44 @@ const transfer = (state = initialState, action) => {
         transferLocalSuccess: false,
         transferLocalError: action.payload,
       };
-    
+
     case TransferConstants.OTP_PENDING:
       return {
         verifyOtpPending: true,
         verifyOtpSuccess: false,
         verifyOtpError: null,
-      }
+      };
     case TransferConstants.OTP_SUCCESS:
       return {
         verifyOtpPending: false,
         verifyOtpSuccess: true,
         verifyOtpError: null,
-      }
+      };
     case TransferConstants.OTP_ERROR:
       return {
         verifyOtpPending: false,
         verifyOtpSuccess: false,
         verifyOtpError: action.payload,
-      }
+      };
+
+    case TransferConstants.SAVE_REMIND_LIST_PENDING:
+      return {
+        saveRemindListPending: true,
+        saveRemindListSuccess: false,
+        saveRemindListError: null,
+      };
+    case TransferConstants.SAVE_REMIND_LIST_SUCCESS:
+      return {
+        saveRemindListPending: false,
+        saveRemindListSuccess: true,
+        saveRemindListError: null,
+      };
+    case TransferConstants.SAVE_REMIND_LIST_ERROR:
+      return {
+        saveRemindListPending: false,
+        saveRemindListSuccess: false,
+        saveRemindListError: action.payload,
+      };
     default:
       return state;
   }

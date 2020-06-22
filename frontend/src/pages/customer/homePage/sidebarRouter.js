@@ -11,7 +11,6 @@ import LoanReminder from './components/content/loanReminder/loanReminder'
 
 const Router = () => {
     let match = useRouteMatch();
-    let location = useLocation();
     return (
         <Switch>    
             <PrivateRoute exact path={`${match.url}`} component={BankAccount} />
