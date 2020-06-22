@@ -87,6 +87,9 @@ router.post('/add-partner', authenJWT, async (req, res) => {
 /* POST request create employee to db */
 router.post('/add-employee', authenJWT, async (req, res) => {
   let result;
+
+  delete req.body["admin_id"];
+
   try {
     result = await employeeModel.add(req.body);
   } catch (err) {
@@ -95,7 +98,7 @@ router.post('/add-employee', authenJWT, async (req, res) => {
   }
 
   const ret = {
-    partner_id: result["insertId"],
+    admin_id: result["insertId"],
     ...req.body
   }
   res.status(201).json(ret);
