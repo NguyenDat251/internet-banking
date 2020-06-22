@@ -404,6 +404,30 @@ BODY
 }
 ```
 
+#### Nạp tiền vào tài khoản khách hàng
+
+```json
+POST /api/employee/deposit-customer-credit
+
+HEADER
+"acess-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZV9pZCI6MSwiaWF0IjoxNTkyNzMzNzYxLCJleHAiOjE1OTI3Mzk3NjF9.T_ieKGILrdE7YhZVyb0qIRQAque7ktPzcTVZ7Qk-6Ew"
+
+BODY
+{
+  "credit_number": "025917154505",
+  "amount": 200000
+}
+```
+
+#### Liệt kê lịch sử giao dịch của một khách hàng nhất định
+
+```json
+GET /api/employee/get-customer-transactions?customer_id=3
+
+HEADER
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiaWF0IjoxNTkyNzI0OTYyLCJleHAiOjE1OTI3MzA5NjJ9.TQKAStKk_XbFc3kNmGFP4kkXaXYzNl1LjkrGpuWn9co"
+```
+
 ### API dành cho admin
 
 #### Đăng Nhập
