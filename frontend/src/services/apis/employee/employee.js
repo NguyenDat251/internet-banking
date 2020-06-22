@@ -15,6 +15,32 @@ const login = (username, password) => {
     });
 };
 
+const addCustomer = (username, password, idNumber, phone, firstname, lastname, date_of_birth, email) => {
+  const token = sessionStorage.getItem(NameItem.ACCESS_TOKEN);
+  return axios
+    .post(`${baseURL}/api/employee/add-customer`, {
+      username: username,
+      password: password,
+      identity_number: idNumber,
+      phone_number: phone,
+      firstname: firstname,
+      lastname: lastname,
+      date_of_birth: date_of_birth,
+      email_address: email
+    },
+    {
+      headers: {
+        access_token: token,
+      },
+    })
+    .then((res) => {
+      return res.data;
+    });
+};
+
+
+
 export const EmpServices = {
   login,
+  addCustomer
 };

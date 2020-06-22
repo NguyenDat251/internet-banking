@@ -4,15 +4,14 @@ import {NavLink, useRouteMatch} from 'react-router-dom'
 import {employeeActions} from '../../../../../actions/employee/employee'
 import './sidebar.scss'
 import { connect } from 'react-redux';
+import { AdminActions } from '../../../../../actions/admin/admin';
 
 const Sidebar = ({logout}) => {
   const match = useRouteMatch()
   const SideBarList = [
-    {name: 'Tra cứu tài khoản', url: `${match.path}/searchAccount`},
-    {name: 'Tạo tài khoản', url: `${match.path}/createAccount`},
-    {name: 'Nạp tiền', url: `${match.path}/addMoney`},
-    {name: 'Xem lịch sử giao dịch', url: `${match.path}/history`},
-    {name: 'Thoát', url: `${window.location.origin}/employee`, onClick: () => logout()},
+    {name: 'Danh sách nhân viên', url: `${match.path}`},
+    {name: 'Danh sách giao dịch', url: `${match.path}/transaction`},
+    {name: 'Thoát', url: `${match.path}/logout`, onClick: () => logout()},
   ]
 
   let SideBarComponent = SideBarList.map((item, index) => {
@@ -33,6 +32,6 @@ const Sidebar = ({logout}) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(employeeActions.logout())
+  logout: () => dispatch(AdminActions.logout())
 })
 export default connect(null, mapDispatchToProps)(Sidebar);

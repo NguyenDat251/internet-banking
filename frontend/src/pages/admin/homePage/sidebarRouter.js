@@ -8,9 +8,9 @@ const SidebarRouter = () => {
     const match = useRouteMatch();
     return (
         <Switch>
-            <PrivateRoute exact path={`${match.path}`} component={Content} page="/employee"/>
-            <PrivateRoute exact path={`${match.path}/createAccount`} component={CreateAccount} page="/employee"
-            />
+            <PrivateRoute exact path={`${match.path}`} component={Content} page="/admin"/>
+            {/* <PrivateRoute exact path={`${match.path}/createAccount`} component={CreateAccount} page="/admin"/> */}
+            <Route exact path={`${match.url}/logout`} render={() => {(window.location = window.location.origin + "/admin")}}/>
         </Switch>
     )
 }

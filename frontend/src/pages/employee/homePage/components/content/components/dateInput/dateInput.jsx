@@ -3,7 +3,6 @@ import DatePicker from 'react-datepicker';
 import './dateInput.scss';
 
 const DateInput = (props) => {
-  const [date, setDate] = useState(new Date())
   return (
     <div className="row mt-3 dateInput">
       <div className="col-3 align-self-center text-right padding-10">
@@ -13,8 +12,8 @@ const DateInput = (props) => {
       <DatePicker
             className="form-control"
             placeholderText="Ngày tháng năm sinh"
-            selected={date}
-            onChange={(date) => setDate(date)}
+            selected={props.date}
+            onChange={(date) => props.setDate(date)}
             dateFormat="dd-MM-yyyy"
           />
       </div>

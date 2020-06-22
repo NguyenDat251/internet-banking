@@ -5,6 +5,10 @@ const initialState = {
   loggingIn: false,
   loginSuccess: false,
   loginError: null,
+
+  addCustomerPending: false,
+  addCustomerSuccess: false,
+  addCustomerError: null,
 };
 
 const employee = (state = initialState, action) => {
@@ -43,6 +47,25 @@ const employee = (state = initialState, action) => {
       return {
         logout: true,
       };
+
+    case EmpConstants.ADD_CUSTOMER_PENDING:
+      return {
+        addCustomerPending: true,
+        addCustomerSuccess: false,
+        addCustomerError: null,
+      }
+    case EmpConstants.ADD_CUSTOMER_SUCCESS:
+      return {
+        addCustomerPending: false,
+        addCustomerSuccess: true,
+        addCustomerError: null,
+      }
+    case EmpConstants.ADD_CUSTOMER_ERROR:
+      return {
+        addCustomerPending: false,
+        addCustomerSuccess: false,
+        addCustomerError: action.payload,
+      }
     default:
       return state;
   }

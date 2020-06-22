@@ -6,7 +6,7 @@ import CustomerHomepage from './pages/customer/homePage/homepage.component';
 import EmployeeHomepage from './pages/employee/homePage/homePage.component';
 import AdminLoginPage from './pages/admin/loginPage/loginPage.component';
 import AdminHomePage from './pages/admin/homePage/homePage.component';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
 import NameItem from './config/sessionStorage';
 import JwtDecode from 'jwt-decode';
 
@@ -14,6 +14,7 @@ const Router = () => {
     if(sessionStorage.getItem(NameItem.ACCESS_TOKEN)){
         var jwt = JwtDecode(sessionStorage.getItem(NameItem.ACCESS_TOKEN));
     }
+    const match = useRouteMatch()
   return (
     <Switch>
       <Redirect exact from="/" to="/login"></Redirect>
@@ -26,10 +27,7 @@ const Router = () => {
 
       <Route exact path="/admin" component={AdminLoginPage} />
       <Route path="/admin/dashboard" component={AdminHomePage} />
-
-      {jwt && jwt.customer_id && <Route render={() => <Redirect to="/" />} />}
-      {jwt && jwt.employee_id && <Route render={() => <Redirect to="/employee" />} />}
-      {jwt && jwt.admin_id && <Route render={() => <Redirect to="/admin" />} />}
+      <Route render={() => <Redirect to={match.path} />}/>
     </Switch>
   );
 };
