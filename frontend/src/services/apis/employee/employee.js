@@ -38,9 +38,24 @@ const addCustomer = (username, password, idNumber, phone, firstname, lastname, d
     });
 };
 
+const findCustomer = (credit_number) => {
+  const token = sessionStorage.getItem(NameItem.ACCESS_TOKEN);
+  let config ={
+    headers: {access_token: token},
+    params: {
+      credit_number: credit_number
+    },
+  }
+  return axios.get(
+    `${baseURL}/api/customer/get-credit-info`,config).then((res) => {
+    return res.data;
+  });
+};
+
 
 
 export const EmpServices = {
   login,
-  addCustomer
+  addCustomer,
+  findCustomer
 };

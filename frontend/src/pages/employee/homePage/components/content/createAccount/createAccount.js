@@ -17,7 +17,6 @@ const CreateAccount = ({employee, addCustomer}) => {
   const [idNumber, setIdNumber] = useState();
   const [phone, setPhone] = useState();
   const [date, setDate] = useState(new Date())
-  const [stringDate, setStringDate] = useState()
   const [email, setEmail] = useState();
 
   const changeDateFormat = (date) => {
@@ -79,7 +78,7 @@ const CreateAccount = ({employee, addCustomer}) => {
       NotificationManager.warning('Khách hàng chưa đủ 18 tuổi');
       return;
     }
-    setStringDate(changeDateFormat(date))
+    const stringDate = changeDateFormat(date)
     if(!email){
       NotificationManager.warning('Vui lòng nhập email');
       return;
@@ -90,6 +89,9 @@ const CreateAccount = ({employee, addCustomer}) => {
   useEffect(() => {
     if(employee.addCustomerSuccess === true){
       NotificationManager.success('Thêm tài khoản thành công');
+    }
+    if(employee.addCustomerError){
+      NotificationManager.error('Có lỗi xảy ra, vui lòng thử lại');
     }
   }, [employee])
 
@@ -144,7 +146,7 @@ const CreateAccount = ({employee, addCustomer}) => {
             type="number"
           />
           <DateInput title="Ngày sinh" date = {date} setDate = {setDate}/>
-          <TextInput title="Email" placeholder="Nhập email" type="email" onChange={e => setEmail(e.target.value)}/>
+          <TextInput type="email" title="Email" placeholder="Nhập email" type="email" onChange={e => setEmail(e.target.value)}/>
         </div>
         <div className="mt-5 center-align">
           <button className="btn btn-success float-center" type="submit">

@@ -3,7 +3,7 @@ import './title.scss'
 
 const Title = (props) => {
     return (
-        <div className="contentTitle">
+        <div className="empContentTitle">
             <span className="text-white font-weight-bolder">{props.title}</span>
         </div>
     )

@@ -16,7 +16,7 @@ const Sidebar = ({logout}) => {
 
   let SideBarComponent = SideBarList.map((item, index) => {
     return(
-      <NavLink to={item.url} className="list-group-item list-group-item-action bg-light navLink" onClick={item.onClick} activeClassName='activeNavLink'>
+      <NavLink key={index} to={item.url} className="list-group-item list-group-item-action bg-light navLink" onClick={item.onClick} activeClassName='activeNavLink'>
         {item.name}
       </NavLink>
     )
